@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreignId('model_id')->constrained('models');
             $table->foreignId('engine_id')->constrained('engines');
             $table->foreignId('color_id')->constrained('colors');
-            $table->foreignId('drive_type_id')->constrained('drive_type');
+            $table->foreignId('drive_type_id')->constrained('drive_types');
             $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('car_features', function (Blueprint $table) {
             $table->id();
             $table->foreignId('safety_id')->constrained('safeties');
-            $table->foreignId('equipment_id')->constrained('equipments');
+            $table->foreignId('equipment_id')->constrained('equipment');
             $table->foreignId('car_id')->constrained('cars');
             $table->timestamps();
         });
