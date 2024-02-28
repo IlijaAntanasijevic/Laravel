@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('car', function (Blueprint $table) {
+        Schema::create('cars', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('kilometers');
@@ -21,11 +21,11 @@ return new class extends Migration
             $table->date('registration')->nullable();
             $table->boolean('is_sold')->default(false);
             $table->boolean('is_published')->default(false);
-            $table->foreignId('model_id')->constrained('model');
-            $table->foreignId('engine_id')->constrained('engine');
-            $table->foreignId('color_id')->constrained('color');
+            $table->foreignId('model_id')->constrained('models');
+            $table->foreignId('engine_id')->constrained('engines');
+            $table->foreignId('color_id')->constrained('colors');
             $table->foreignId('drive_type_id')->constrained('drive_type');
-            $table->foreignId('user_id')->constrained('user');
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
     }
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('car');
+        Schema::dropIfExists('cars');
     }
 };

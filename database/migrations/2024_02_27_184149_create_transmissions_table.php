@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('engine', function (Blueprint $table) {
+        Schema::create('transmissions', function (Blueprint $table) {
             $table->id();
-            $table->smallInteger('engine_value');
-            $table->smallInteger('horsepower');
-            $table->foreignId('fuel_id')->constrained('fuel');
-            $table->foreignId('transmission_id')->constrained('transmission');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('engine');
+        Schema::dropIfExists('transmissions');
     }
 };

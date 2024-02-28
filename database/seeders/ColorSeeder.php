@@ -18,7 +18,7 @@ class ColorSeeder extends Seeder
     public function run(): void
     {
         foreach ($this->colors as $color) {
-            DB::table('color')->insert([
+            DB::table('colors')->insert([
                 'name' => $color
             ]);
         }

@@ -14,7 +14,7 @@ class FuelSeeder extends Seeder
     public function run(): void
     {
         foreach ($this->fuel as $fuel) {
-            DB::table('fuel')->insert([
+            DB::table('fuels')->insert([
                 'name' => $fuel,
             ]);
         }
