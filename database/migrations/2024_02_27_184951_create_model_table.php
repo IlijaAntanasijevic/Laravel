@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('model', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->date('year');
+            $table->string('year');
             $table->foreignId('brand_id')->constrained('brand');
             $table->foreignId('body_id')->constrained('body');
             $table->foreignId('seat_id')->constrained('seats');

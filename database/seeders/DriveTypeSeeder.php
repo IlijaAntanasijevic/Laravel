@@ -11,7 +11,7 @@ class DriveTypeSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    private $type = ['Front-wheel','Rear-wheel','4x4'];
+    private $type = ['Front-wheel','Rear-wheel','Four-Wheel(AWD)'];
     public function run(): void
     {
         foreach ($this->type as $type) {

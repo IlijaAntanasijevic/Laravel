@@ -10,7 +10,7 @@ class FuelSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    private $fuel = ['Gasoline', 'Diesel', 'Electric', 'Hybrid'];
+    private array $fuel = ['Gasoline', 'Diesel', 'Electric', 'Hybrid'];
     public function run(): void
     {
         foreach ($this->fuel as $fuel) {
