@@ -20,15 +20,16 @@ class DatabaseSeeder extends Seeder
             EngineSeeder::class,
             ColorSeeder::class,
             DriveTypeSeeder::class,
-            ImagesSeeder::class,
-            CarSeeder::class,
-            CarFeaturesSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
             BrandSeeder::class,
             DoorsSeeder::class,
+            BodySeeder::class,
             SeatsSeeder::class,
             ModelSeeder::class,
+            CarSeeder::class,
+            CarFeaturesSeeder::class,
+            ImagesSeeder::class,
             MenuSeeder::class
         ]);
     }
