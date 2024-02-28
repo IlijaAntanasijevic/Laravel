@@ -11,6 +11,7 @@
             </div>
             <div class="row">
                 @foreach($cars as $car)
+
                     @include('pages.cars.homeCard',$car)
                 @endforeach
             </div>

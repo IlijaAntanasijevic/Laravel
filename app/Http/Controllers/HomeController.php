@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Car;
 use Illuminate\Http\Request;
 
 class HomeController extends PrimaryController
 {
     public function index()
     {
-        $this->data["homeCars"] = [
+       /* $this->data["homeCars"] = [
             [
                 "id" => 1,
                 "img" => 'car-1.jpg',
@@ -99,7 +100,8 @@ class HomeController extends PrimaryController
                 "name" => "Lexus",
                 "location" => "123 Cathal St. Tampa City"
             ]
-        ];
-        return view('pages.main.home',["cars" => $this->data["homeCars"]]);
+        ];*/
+        $data = Car::with('model','engine','user')->get();
+        return view('pages.main.home',["cars" => $data]);
     }
 }

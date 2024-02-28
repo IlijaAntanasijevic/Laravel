@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Menu;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 
@@ -21,18 +22,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->data["menu"] = [
-            [
-                "name" => "Home",
-                "route" => "home"
-            ],
-            [
-                "name" => "Contact",
-                "route" => "contact"
-            ]
+        $menu = Menu::all();
 
-        ];
-
-        View::share("menu",$this->data["menu"]);
+        View::share("menu",$menu);
     }
 }

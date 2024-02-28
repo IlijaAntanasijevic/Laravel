@@ -1,3 +1,4 @@
+
 <header class="top-header top-header-bg d-none d-xl-block d-lg-block d-md-block" id="top-header-2">
     <div class="container">
         <div class="row">
@@ -28,12 +29,18 @@
                     <li>
                         <a href="#">/</a>
                     </li>
-                    <li>
-                        <a href="login.html" class="sign-in"><i class="fa fa-sign-in"></i> Login </a>
-                    </li>
-                    <li>
-                        <a href="login.html" class="sign-in"><i class="fa fa-user"></i> Register</a>
-                    </li>
+                    @foreach($menu as $link)
+                        @if($link['name'] === 'Login')
+                            <li>
+                                <a href="login.html" class="sign-in"><i class="fa fa-sign-in"></i> Login </a>
+                            </li>
+                        @elseif($link['name'] === 'Register')
+                            <li>
+                                <a href="login.html" class="sign-in"><i class="fa fa-user"></i>Register</a>
+                            </li>
+                        @endif
+
+                    @endforeach
                 </ul>
             </div>
         </div>
