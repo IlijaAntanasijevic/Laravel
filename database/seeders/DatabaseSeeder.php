@@ -13,12 +13,23 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            SafetySeeder::class,
+            EquipmentSeeder::class,
+            FuelSeeder::class,
+            TransimissionSeeder::class,
+            EngineSeeder::class,
+            ColorSeeder::class,
+            DriveTypeSeeder::class,
+            ImagesSeeder::class,
+            CarSeeder::class,
+            CarFeaturesSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
-            CategorySeeder::class,
-            ProductSeeder::class,
-            CarFeaturesSeeder::class,
-            MenuSeeder::class,
+            BrandSeeder::class,
+            DoorsSeeder::class,
+            SeatsSeeder::class,
+            ModelSeeder::class,
+            MenuSeeder::class
         ]);
     }
 }
