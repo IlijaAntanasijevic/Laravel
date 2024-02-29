@@ -21,7 +21,7 @@ return new class extends Migration
             $table->date('registration')->nullable();
             $table->boolean('is_sold')->default(false);
             $table->boolean('is_published')->default(false);
-            $table->foreignId('model_id')->constrained('models');
+            $table->foreignId('model_id')->constrained('car_models');
             $table->foreignId('engine_id')->constrained('engines');
             $table->foreignId('color_id')->constrained('colors');
             $table->foreignId('drive_type_id')->constrained('drive_types');

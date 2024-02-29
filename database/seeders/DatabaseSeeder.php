@@ -26,9 +26,10 @@ class DatabaseSeeder extends Seeder
             DoorsSeeder::class,
             BodySeeder::class,
             SeatsSeeder::class,
-            ModelSeeder::class,
+            CarModelSeeder::class,
             CarSeeder::class,
-            CarFeaturesSeeder::class,
+            CarEqupmentSeeder::class,
+            CarSafetySeeder::class,
             ImagesSeeder::class,
             MenuSeeder::class
         ]);

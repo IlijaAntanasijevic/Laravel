@@ -15,7 +15,7 @@ class DriveTypeSeeder extends Seeder
     public function run(): void
     {
         foreach ($this->type as $type) {
-           DB::table('drive_type')->insert([
+           DB::table('drive_types')->insert([
                'name' => $type
            ]);
         }
