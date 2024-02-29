@@ -2,7 +2,6 @@
 <script src="{{asset('assets/js/jquery-2.2.0.min.js')}}"></script>
 <script src="{{asset('assets/js/popper.min.js')}}"></script>
 <script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
-<script src="{{asset('assets/js/jquery.selectBox.js')}}"></script>
 <script src="{{asset('assets/js/jquery.magnific-popup.min.js')}}"></script>
 <script src="{{asset('assets/js/jquery.filterizr.js')}}"></script>
 <script src="{{asset('assets/js/backstretch.js')}}"></script>

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Brand;
+use App\Models\CarModel;
 use App\Models\Menu;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
@@ -23,7 +25,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $menu = Menu::all();
-
+        $brands = Brand::all()->sortBy('name');
         View::share("menu",$menu);
+        View::share('brands',$brands);
+
     }
 }

@@ -39,7 +39,7 @@
         <div class="detail">
             <!-- title -->
             <h1 class="title">
-                <a href="car-details.html">{{$car["name"]}}</a>
+                <a href="{{route('cars.show', ['car' => $car['id']])}}">{{$car["name"]}}</a>
             </h1>
             <!-- Location -->
             <div class="location d-flex justify-content-between">

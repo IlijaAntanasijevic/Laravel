@@ -43,32 +43,6 @@ $(function () {
     });
 
 
-    // Range sliders activation
-
-    // Select picket activation
-    $('select').selectBox(
-        {
-            mobile: true,
-        }
-    );
-
-
-    // Dropdown activation
-    $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
-        if (!$(this).next().hasClass('show')) {
-            $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
-        }
-
-        var $subMenu = $(this).next(".dropdown-menu");
-        $subMenu.toggleClass('show');
-        $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
-            $('.dropdown-submenu .show').removeClass("show");
-        });
-
-        return false;
-    });
-
-
 
     // Google map activation
     function LoadMap(propertes) {
@@ -133,7 +107,17 @@ $(function () {
     if($('#map').length){
         LoadMap();
     }
-
+    $('#yearFromHome').on('change', function () {
+        let year = $(this).val();
+        let string = '<option value="0">Year To</option>';
+        //2020
+        console.log(year)
+        for(let i = 2024; i >= parseInt(year); i--){
+            string += '<option value="'+i+'">'+i+'</option>';
+        }
+        $('#yearToHome').html(string);
+    });
 
 
 });
+

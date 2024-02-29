@@ -8,44 +8,24 @@
                     <div class="row">
                         <div class="col-6 col-lg-3 col-md-3">
                             <div class="form-group">
-                                <select class="selectpicker search-fields" name="brand">
-                                    <option>Brand</option>
-                                    <option>Audi</option>
-                                    <option>BMW</option>
-                                    <option>Honda</option>
-                                    <option>Nissan</option>
-                                    <option>Lamborghini</option>
-                                    <option>Toyoto</option>
+                                <select class="selectpicker search-fields"  name="brandHome" id="brandHome">
+                                    <option value="0">Brand</option>
+                                    @foreach($brands as $brand)
+                                        <option value="{{$brand['id']}}" >{{$brand['name']}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="col-6 col-lg-3 col-md-3">
                             <div class="form-group">
-                                <select class="selectpicker search-fields" name="location">
-                                    <option>Model</option>
-                                    <option>United States</option>
-                                    <option>United Kingdom</option>
-                                    <option>American Samoa</option>
-                                    <option>Belgium</option>
-                                    <option>Cameroon</option>
-                                    <option>Canada</option>
+                                <select class="selectpicker search-fields" name="modelHome" id="modelHome" disabled="disabled">
+                                    <option value="0">Model</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-6 col-lg-3 col-md-3">
                             <div class="form-group">
-                                <select class="selectpicker search-fields" name="year">
-                                    <option>Max Price</option>
-                                    <option>2010</option>
-                                    <option>2011</option>
-                                    <option>2012</option>
-                                    <option>2013</option>
-                                    <option>2014</option>
-                                    <option>2015</option>
-                                    <option>2016</option>
-                                    <option>2017</option>
-                                    <option>2018</option>
-                                </select>
+                                <input type="number" class="search-fields" id="maxPriceHome" name="maxPriceHome" placeholder="Max price">
                             </div>
                         </div>
                         <div class="col-6 col-lg-3 col-md-3">
@@ -58,30 +38,28 @@
                     <div class="row">
                         <div class="col-6 col-lg-3 col-md-3">
                             <div class="form-group">
-                                <select class="selectpicker search-fields" name="body">
-                                    <option>Body</option>
-                                    <option>Suv</option>
-                                    <option>Sedan</option>
-                                    <option>Minivan</option>
-                                    <option>Truck</option>
+                                <select class="selectpicker search-fields" name="bodyHome" id="bodyHome" disabled="disabled">
+                                    <option value="0">Body</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-6 col-lg-3 col-md-3">
                             <div class="form-group">
-                                <select class="selectpicker search-fields" name="transmission">
-                                    <option>Year from</option>
-                                    <option>Automatic</option>
-                                    <option>Manual</option>
+                                <select class="selectpicker search-fields" name="yearFromHome" id="yearFromHome">
+                                    <option value="0">Year from</option>
+                                    @for($i = 2024; $i >= 1990; $i--)
+                                        <option value="{{$i}}">{{$i}}</option>
+                                    @endfor
                                 </select>
                             </div>
                         </div>
                         <div class="col-6 col-lg-3 col-md-3">
                             <div class="form-group">
-                                <select class="selectpicker search-fields" name="transmission">
-                                    <option>Year To</option>
-                                    <option>Automatic</option>
-                                    <option>Manual</option>
+                                <select class="selectpicker search-fields" name="yearToHome" id="yearToHome">
+                                    <option value="0">Year To</option>
+                                    @for($i = 2024; $i >= 1990; $i--)
+                                        <option value="{{$i}}">{{$i}}</option>
+                                    @endfor
                                 </select>
                             </div>
                         </div>
