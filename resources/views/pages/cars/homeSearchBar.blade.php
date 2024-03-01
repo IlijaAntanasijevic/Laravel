@@ -1,3 +1,5 @@
+
+
 <div class="search-area" id="search-area-1">
     <div class="container">
         <div class="search-area-inner">
@@ -7,26 +9,29 @@
                     method="GET">
                     <div class="row">
                         <div class="col-6 col-lg-3 col-md-3">
-                            <div class="form-group">
-                                <select class="selectpicker search-fields"  name="brandHome" id="brandHome">
-                                    <option value="0">Brand</option>
-                                    @foreach($brands as $brand)
-                                        <option value="{{$brand['id']}}" >{{$brand['name']}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                                <x-drop-down
+                                name="brandHome"
+                                id="brandHome"
+                                first-option-text="Brand"
+                                :options="$brands"
+                                add-other-option="true"/>
                         </div>
                         <div class="col-6 col-lg-3 col-md-3">
-                            <div class="form-group">
-                                <select class="selectpicker search-fields" name="modelHome" id="modelHome" disabled="disabled">
-                                    <option value="0">Model</option>
-                                </select>
-                            </div>
+                                <x-drop-down
+                                    name="modelHome"
+                                    id="modelHome"
+                                    first-option-text="Model"
+                                    :options="[]"
+                                    disabled="true"/>
                         </div>
                         <div class="col-6 col-lg-3 col-md-3">
-                            <div class="form-group">
-                                <input type="number" class="search-fields" id="maxPriceHome" name="maxPriceHome" placeholder="Max price">
-                            </div>
+                            <x-text-field
+                                type="number"
+                                name="maxPriceHome"
+                                id="maxPriceHome"
+                                placeholder='Max price'
+                                parent-class="form-group"
+                                field-class="search-fields"/>
                         </div>
                         <div class="col-6 col-lg-3 col-md-3">
                             <div class="form-group">
@@ -34,14 +39,14 @@
                             </div>
                         </div>
                         </div>
-                    </div>
+
                     <div class="row">
                         <div class="col-6 col-lg-3 col-md-3">
-                            <div class="form-group">
-                                <select class="selectpicker search-fields" name="bodyHome" id="bodyHome" disabled="disabled">
-                                    <option value="0">Body</option>
-                                </select>
-                            </div>
+                            <x-drop-down
+                                name="bodyHome"
+                                id="bodyHome"
+                                first-option-text="Model"
+                                :options="$bodies"/>
                         </div>
                         <div class="col-6 col-lg-3 col-md-3">
                             <div class="form-group">

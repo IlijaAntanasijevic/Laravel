@@ -35,8 +35,12 @@ class Car extends Model
     {
         return $this->hasMany(Images::class);
     }
-    public function safeti()
+    public function safeties()
     {
-
+        return $this->belongsToMany(Safety::class,'car_safeties');
+    }
+    public function equipment()
+    {
+        return $this->belongsToMany(Equipment::class);
     }
 }

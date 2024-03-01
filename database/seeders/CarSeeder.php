@@ -18,7 +18,7 @@ class CarSeeder extends Seeder
             \DB::table('cars')->insert([
                 'name' => $faker->word,
                 'kilometers' => rand(1000, 200000),
-                'primary_image' => 'primaryCar.jpg',
+                'primary_image' => 'car-'.$i.'.jpg',
                 'price' => rand(5000, 50000),
                 'description' => $faker->paragraph,
                 'registration' => $faker->date($format = 'Y-m-d', $max = 'now'),

@@ -57,7 +57,7 @@ class EquipmentSeeder extends Seeder
     public function run(): void
     {
         foreach ($this->values as $value) {
-            DB::table('equipments')->insert([
+            DB::table('equipment')->insert([
                 'name' => $value,
             ]);
         }

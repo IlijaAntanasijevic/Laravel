@@ -29,18 +29,13 @@
                     <li>
                         <a href="#">/</a>
                     </li>
-                    @foreach($menu as $link)
-                        @if($link['name'] === 'Login')
                             <li>
                                 <a href="login.html" class="sign-in"><i class="fa fa-sign-in"></i> Login </a>
                             </li>
-                        @elseif($link['name'] === 'Register')
+
                             <li>
                                 <a href="login.html" class="sign-in"><i class="fa fa-user"></i>Register</a>
                             </li>
-                        @endif
-
-                    @endforeach
                 </ul>
             </div>
         </div>

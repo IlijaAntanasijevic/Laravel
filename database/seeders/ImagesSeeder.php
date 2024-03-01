@@ -14,7 +14,7 @@ class ImagesSeeder extends Seeder
     {
         for($i = 1; $i <= 30; $i++){
             \DB::table('images')->insert([
-                'path' => 'primaryCar.jpg',
+                'path' => 'car-'.$i.'.jpg',
                 'car_id' => rand(1, 6)
             ]);
         }

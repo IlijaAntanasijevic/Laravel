@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Body;
+use App\Models\Brand;
 use App\Models\Car;
 use Illuminate\Http\Request;
 
@@ -101,7 +103,12 @@ class HomeController extends PrimaryController
                 "location" => "123 Cathal St. Tampa City"
             ]
         ];*/
-        $data = Car::with('model','engine','user')->get();
-        return view('pages.main.home',["cars" => $data]);
+        $cars = Car::with('model','engine','user')->get();
+        $brands = Brand::all()->sortBy('name')->reject(function ($brand){
+            return $brand->name === 'Other';
+        });
+        $bodies = Body::all();
+
+        return view('pages.main.home',compact('cars','brands','bodies'));
     }
 }

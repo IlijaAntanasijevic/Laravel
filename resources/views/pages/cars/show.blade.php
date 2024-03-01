@@ -109,10 +109,10 @@
                                                 <h5 class="mb-4">Features</h5>
 
                                                 <ul>
-                                                    @foreach($car['features'] as $value)
+                                                    @foreach($car['equipment'] as $value)
                                                         <li>
                                                             <i class="fa fa-circle"></i>
-                                                            {{ $value['equipment']['name'] }}
+                                                            {{ $value['name'] }}
                                                         </li>
                                                     @endforeach
                                                 </ul>
@@ -122,10 +122,10 @@
                                         <div class="col-md-4 col-sm-6">
                                             <h5 class="mb-4">Safety</h5>
                                             <ul>
-                                                @foreach($car['features'] as $value)
+                                                @foreach($car['safeties'] as $value)
                                                     <li>
                                                         <i class="fa fa-circle"></i>
-                                                        {{ $value['safety']['name'] }}
+                                                        {{ $value['name'] }}
                                                     </li>
                                                 @endforeach
                                             </ul>

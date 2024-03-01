@@ -25,9 +25,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $menu = Menu::all();
-        $brands = Brand::all()->sortBy('name');
         View::share("menu",$menu);
-        View::share('brands',$brands);
 
     }
 }

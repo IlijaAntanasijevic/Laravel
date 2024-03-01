@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Safety extends Model
 {
     use HasFactory;
-    public function features()
-    {
-        return $this->hasMany(CarFeatures::class);
-    }
 
+    public function cars()
+    {
+        return $this->belongsToMany(Car::class,'car_safeties');
+    }
 
 }

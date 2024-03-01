@@ -51,7 +51,7 @@ class BrandSeeder extends Seeder
         "Rolls-Royce",
         "Lamborghini",
         "Bugatti",
-        "Other"
+        'Other'
     ];
     public function run(): void
     {
