@@ -4,10 +4,8 @@
         <label for="{{$id}}">{{$label}}</label>
     @endif
 
-    <input type="{{$type}}" class="search-fields {{$fieldClass}}" id="{{$id}}" name="{{$name}}" placeholder="{{$placeholder}}">
+    <input type="{{$type}}" class="{{$fieldClass}}" id="{{$id}}" name="{{$name}}" placeholder="{{$placeholder}}">
     @if($error)
-        <div class="alert alert-danger">
-           <p> {{ $error }}</p>
-        </div>
+           <p class="text-danger"> {{ $error }}</p>
     @endif
 </div>

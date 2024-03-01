@@ -13,6 +13,8 @@
 <!-- Custom JS Script -->
 <script src="{{asset('assets/js/app.js')}}"></script>
 
+@yield('custom_scripts')
+
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WLMZXT6" height="0" width="0"
                   style="display:none;visibility:hidden"></iframe></noscript>

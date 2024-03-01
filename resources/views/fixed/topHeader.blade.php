@@ -29,13 +29,15 @@
                     <li>
                         <a href="#">/</a>
                     </li>
-                            <li>
-                                <a href="login.html" class="sign-in"><i class="fa fa-sign-in"></i> Login </a>
-                            </li>
-
-                            <li>
-                                <a href="login.html" class="sign-in"><i class="fa fa-user"></i>Register</a>
-                            </li>
+                    <li>
+                        <a href="#">/</a>
+                    </li>
+                    <li>
+                        <a href="{{route('login')}}" class="sign-in"><i class="fa fa-sign-in"></i> Login </a>
+                    </li>
+                    <li>
+                        <a href="{{route('register')}}" class="sign-in"><i class="fa fa-user"></i>Register</a>
+                    </li>
                 </ul>
             </div>
         </div>

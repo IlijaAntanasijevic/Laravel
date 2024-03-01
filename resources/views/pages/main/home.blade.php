@@ -3,7 +3,7 @@
 @section('title') Home @endsection
 
 @section('content')
-    @include('pages.cars.homeSearchBar',$brands)
+    @include('pages.cars.homeSearchBar')
     <div class="featured-car content-area-2">
         <div class="container">
             <div class="main-title">

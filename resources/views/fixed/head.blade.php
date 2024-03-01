@@ -22,6 +22,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets/fonts/font-awesome/css/font-awesome.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/fonts/flaticon/font/flaticon.css')}}">
 
+
     <!-- Favicon icon -->
     <link rel="shortcut icon" href="{{asset('assets/img/favicon.ico')}}" type="image/x-icon">
 
@@ -32,5 +33,7 @@
     <!-- Custom Stylesheet -->
     <link type="text/css" rel="stylesheet" href="{{asset('assets/css/style.css')}}">
     <link rel="stylesheet" type="text/css" id="style_sheet" href="{{asset('assets/css/skins/default.css')}}">
+
+    @yield('custom_links')
 
 </head>

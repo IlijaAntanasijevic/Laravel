@@ -3472,6 +3472,12 @@ table {
     transition: all 0.9s;
     z-index: 1;
 }
+.login-1 .form-register {
+    max-width: 1300px;
+}
+.login-1 .register-block {
+    width: 45%;
+}
 
 .login-1 .bg-img {
     min-height: 100vh;
@@ -3491,7 +3497,9 @@ table {
     background-repeat: no-repeat;
     background-size: cover;
 }
-
+.login-1 .register-section {
+    min-height: 80vh;
+}
 .login-1 .bg-img:before {
     position: absolute;
     content: '';
