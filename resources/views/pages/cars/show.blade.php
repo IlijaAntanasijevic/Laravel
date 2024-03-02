@@ -7,7 +7,7 @@
             font-size: 28px;
             margin-top: 10px;
         }
-        #bottomWishList {
+        .bottomWishList {
             color: #ffc12b;
             font-size: 26px;
             cursor: pointer;
@@ -17,13 +17,15 @@
             font-size: 26px;
             cursor: pointer;
         }
+        .addedCompare {
+            color: lightgreen!important;
+        }
     </style>
 @endsection
 @section('content')
     @php
         $inWishList = $car->wishlist->where('user_id',Auth::id())->first();
     @endphp
-
     <div class="car-details-page content-area-4">
         <div class="container">
             <div class="row">
@@ -38,7 +40,9 @@
                                     </div>
                                     <div class="p-r">
                                         <h3>{{number_format($car->price,0,' ','.')}} $</h3>
-                                        <span class="wishList {{$inWishList ? 'checked' : ''}}" data-id="{{$car->id}}" id="headWishList"><i class="fa fa-heart{{$inWishList != null ? '' : '-o'}}"  aria-hidden="true"></i></span>
+                                        <span class="wishList {{$inWishList ? 'checked' : ''}} " data-id="{{$car->id}}" id="headWishList">
+                                            <i class="fa fa-heart{{$inWishList != null ? '' : '-o'}}"  aria-hidden="true"></i>
+                                        </span>
                                     </div>
 
 
@@ -62,8 +66,25 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-around">
-                        <p id="bottomWishList" class="wishList {{$inWishList ? 'checked' : ''}}" data-id="{{$car->id}}">Wish List <i class="fa fa-heart{{$inWishList ? '' : '-o'}}"></i></p>
-                        <p id="compareCar">Compare Car <i class="fa fa-check-circle-o" aria-hidden="true"></i></p>
+
+                        <div class="d-flex align-items-center bottomWishList">
+                            <span class="mr-3 bottomWishList ">Wish List</span>
+                            <p class="wishList bottomWishList {{$inWishList ? 'checked' : ''}} mb-0" >
+                                <i class="fa fa-heart{{$inWishList ? '' : '-o'}}"></i>
+                            </p>
+                        </div>
+
+                        @if(session('compare') && in_array($car->id, session('compare')))
+                            <p id="compareCar" class="addedCompare">
+                                Added <i class="fa fa-check-circle" aria-hidden="true"></i>
+                            </p>
+                        @else
+                            <p id="compareCar">
+                                Compare Car
+                                <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+                            </p>
+                        @endif
+
                     </div>
 
                 </div>
@@ -131,7 +152,7 @@
                                     <li><span><i class="flaticon-gas-pump"></i> Fuel Type: {{$car->engine['fuel']['name']}}</span></li>
                                     <li><span><i class="flaticon-road-with-broken-line"></i>Kilometers: {{number_format($car->kilometers)}}</span>
                                     </li>
-                                    <li><span><i class="flaticon-engine"></i> Engine: {{$car->engine['engine_value']}}</span></li>
+                                    <li><span><i class="flaticon-engine"></i> Engine: {{$car->engine['engine_value']}} L</span></li>
                                 </ul>
                             </div>
                             <div class="col-md-4 col-sm-6">
@@ -241,48 +262,44 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 @endsection
 @php
     $userId = Auth::id() ? Auth::id() : null;
+    $carId = $car->id;
 @endphp
 
 @section('custom_scripts')
     <script>
         $('.wishList').click(function (){
-            let id = this.getAttribute('data-id');
+            console.log($('.wishList'));
+            let carId = {{$carId}};
             //let userId = {{Auth::id()}} ? {{Auth::id()}} : null;
+
             let userId = @json($userId);
             let headWishList = $('#headWishList');
             let bottomWishList = $('#bottomWishList');
-            /*
-             $('#headWishList').html('<i class="fa fa-heart-o" aria-hidden="true"></i>')
-                        $('#bottomWishList').html('Wish List <i class="fa fa-heart-o" aria-hidden="true"></i>')
-                        toastr.warning(message)
-             */
 
-            if(headWishList.hasClass('checked') && bottomWishList.hasClass('checked')){
+            if($('.wishList').hasClass('checked')){
                 $.ajax({
-                    url: '{{route('wishlist')}}',
+                    url: '{{route('remove.wishlist')}}',
                     method: 'DELETE',
                     data: {
-                        carId: id,
+                        carId: carId,
                         userId: userId,
                         _token: '{{csrf_token()}}'
                     },
                     success: function(data) {
                         let message = data.message;
 
-                        headWishList.removeClass('checked');
-                        bottomWishList.removeClass('checked');
-                        headWishList.html('<i class="fa fa-heart-o" aria-hidden="true"></i>')
-                        bottomWishList.html('Wish List <i class="fa fa-heart-o" aria-hidden="true"></i>')
+                        $('.wishList').removeClass('checked');
+                        $('.wishList').html('<i class="fa fa-heart-o" aria-hidden="true"></i>')
+                        //bottomWishList.html('Wish List <i class="fa fa-heart-o" aria-hidden="true"></i>')
 
                         toastr.warning(message)
                     },
@@ -304,16 +321,14 @@
                     url: '{{route('wishlist')}}',
                     method: 'POST',
                     data: {
-                        carId: id,
+                        carId: carId,
                         userId: userId,
                         _token: '{{csrf_token()}}'
                     },
                     success: function (data) {
                         let message = data.message;
-                        headWishList.addClass('checked');
-                        bottomWishList.addClass('checked');
-                        headWishList.html('<i class="fa fa-heart" aria-hidden="true"></i>')
-                        bottomWishList.html('Wish List <i class="fa fa-heart" aria-hidden="true"></i>')
+                        $('.wishList').addClass('checked');
+                        $('.wishList').html('<i class="fa fa-heart" aria-hidden="true"></i>')
                         toastr.success(message)
                     },
                     error: function (xhr){
@@ -328,6 +343,33 @@
                 })
             }
         })
+
+        $('#compareCar').click(function () {
+            $.ajax({
+                url: "{{route('compare')}}",
+                method: "POST",
+                data: {
+                    carId: {{$carId}},
+                    _token: '{{csrf_token()}}'
+                },
+                success: function (data) {
+                    $('#compareCar').css({
+                        color: 'lightgreen',
+                    })
+                    $('#compareCar').html('Added <i class="fa fa-check-circle" aria-hidden="true"></i>')
+
+                    toastr.success(data.message)
+                },
+                error: function (xhr, status, error){
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        toastr.warning(xhr.responseJSON.message);
+                    } else {
+                        toastr.warning('Something went wrong')
+                    }
+                }
+            })
+        })
+
     </script>
 @endsection
 

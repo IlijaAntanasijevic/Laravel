@@ -12,7 +12,7 @@ class MenuSeeder extends Seeder
      * Run the database seeds.
      */
     private $names = ['Home','Contact','Cars','Car Comparison'];
-    private $routes = ['home','contact','cars','car-comparison'];
+    private $routes = ['home','contact','cars.index','car.comparison'];
     public function run(): void
     {
         for($i = 0; $i < count($this->names); $i++) {

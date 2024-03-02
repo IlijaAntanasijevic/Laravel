@@ -11,13 +11,16 @@ class HomeController extends PrimaryController
 {
     public function index()
     {
-        $cars = Car::with('model','engine','user')->get();
+        $cars = Car::with('model','engine','user','wishlist')->get();
         $brands = Brand::all()->sortBy('name')->reject(function ($brand){
             return $brand->name === 'Other';
         });
         $bodies = Body::all();
 
-
         return view('pages.main.home',compact('cars','brands','bodies'));
     }
+    public function carComparison()
+    {
+    }
+
 }

@@ -11,7 +11,7 @@
             </div>
             <div class="row">
                 @foreach($cars as $car)
-                    @component('pages.cars.homeCard', ['car' => $car])
+                    @component('pages.cars.homeCard', ['car' => $car , 'showOverlay' => true])
                     @endcomponent
                 @endforeach
             </div>

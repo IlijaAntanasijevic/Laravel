@@ -19,6 +19,7 @@ class Car extends Model
         return $this->belongsTo(Engine::class);
     }
 
+
     public function drive_type()
     {
         return $this->belongsTo(DriveType::class);

@@ -14,8 +14,7 @@
                         <ul class="navbar-nav ml-auto">
                             @foreach($menu as $link)
                                 <li class="nav-item ">
-{{--                                    <a class="nav-link " href="{{route($link["route"])}}">{{$link["name"]}}</a>--}}
-                                        <a class="nav-link " href="{{$link["route"]}}">{{$link["name"]}}</a>
+                                    <a class="nav-link " href="{{route($link["route"])}}">{{$link["name"]}}</a>
                                 </li>
                             @endforeach
                         @if(Auth::check())
@@ -23,7 +22,7 @@
                                 <a href="#" class="nav-link text-danger">Sell Car</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"> <i class="fa fa-heart-o"></i></a>
+                                <a class="nav-link" href="{{route('wishlist.index')}}"> <i class="fa fa-heart-o"></i></a>
                             </li>
                         @endif
                         </ul>

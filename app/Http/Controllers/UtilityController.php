@@ -5,11 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Car;
 use App\Models\WishList;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Mockery\Exception;
 
 class UtilityController extends PrimaryController
 {
+    public function wishlist_index()
+    {
+        $userId = Auth::id();
+        $data = Wishlist::where('user_id', $userId)
+            ->with('car')
+            ->get();
+        return view('pages.main.wish-list',['data' => $data]);
+    }
     public function wishlist(Request $request)
     {
         try {
@@ -27,8 +36,8 @@ class UtilityController extends PrimaryController
                 ]);
                 return response()->json(["message" => "Car added to wishlist."],201);
             }
-            return response()->json(["message" => "Car removed from wishlist."],202);//204
-
+            //return response()->json(["message" => "Car removed from wishlist."],202);//204
+            return response()->json([],500);
         }catch (Exception $e){
             Log::error($e->getMessage());
             return response()->json([], 500);
@@ -56,8 +65,5 @@ class UtilityController extends PrimaryController
 
     }
 
-    public function compareCar()
-    {
 
-    }
 }
