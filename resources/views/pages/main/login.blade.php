@@ -3,6 +3,10 @@
 @section('title') Login @endsection
 
 @section('content')
+    @php
+        $emailError = $errors->get('email')[0] ?? null;
+        $passwordError = $errors->get('password')[0] ?? null;
+    @endphp
     <div class="login-1">
         <div class="container-fluid">
             @if(session('success'))
@@ -35,7 +39,8 @@
                                 id="email"
                                 parent-class="clearfix"
                                 field-class="form-control"
-                                value="ilija0125@gmail.com"/>
+                                value="ilija0125@gmail.com"
+                                :error="$emailError"/>
 
                             <x-text-field
                             name="password"
@@ -44,7 +49,8 @@
                             id="password"
                             parent-class="clearfix"
                             field-class="form-control"
-                            value="ilija12345"/>
+                            value="ilija12345"
+                            :error="$passwordError"/>
 
                             {{--<div class="checkbox form-group clearfix">
                                 <a href="forgot-password.html" class="forgot-password">Forgot Password</a>
