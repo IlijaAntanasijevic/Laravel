@@ -22,5 +22,7 @@ Route::get("/home",[HomeController::class,'index'])->name('home');
 Route::get("/contact",[ContactController::class,'index'])->name('contact');
 Route::get('/login', [AuthController::class, 'login_index'])->name('login');
 Route::get('/register', [AuthController::class, 'register_index'])->name('register');
-
+Route::post('/register', [AuthController::class, 'register'])->name('register.store');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::resource('cars', CarController::class);

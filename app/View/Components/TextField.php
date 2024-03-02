@@ -11,8 +11,8 @@ class TextField extends Component
     /**
      * Create a new component instance.
      */
-    public $type,$label, $id, $error, $name, $placeholder, $parentClass, $fieldClass;
-    public function __construct($id, $name, $label = null,$error = null, $placeholder = '' , $parentClass = '', $fieldClass = '',$type = "text")
+    public $type,$label, $id, $value, $error, $name, $placeholder, $parentClass, $fieldClass;
+    public function __construct($id, $name,$value = null ,$label = null,$error = null, $placeholder = '' , $parentClass = '', $fieldClass = '',$type = "text")
     {
         $this->type = $type;
         $this->label = $label;
@@ -22,6 +22,7 @@ class TextField extends Component
         $this->placeholder = $placeholder;
         $this->parentClass = $parentClass;
         $this->fieldClass = $fieldClass;
+        $this->value = $value;
     }
 
 

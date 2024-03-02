@@ -15,13 +15,14 @@
                             @foreach($menu as $link)
                                 <li class="nav-item ">
 {{--                                    <a class="nav-link " href="{{route($link["route"])}}">{{$link["name"]}}</a>--}}
-                                    @if($link['name'] !== 'Login' && $link['name'] !== 'Register')
                                         <a class="nav-link " href="{{$link["route"]}}">{{$link["name"]}}</a>
-
-                                    @endif
                                 </li>
                             @endforeach
-
+                        @if(Auth::check())
+                            <li class="nav-item">
+                                <a href="#" class="nav-link text-danger">Sell Car</a>
+                            </li>
+                        @endif
                         </ul>
                     </div>
                 </nav>

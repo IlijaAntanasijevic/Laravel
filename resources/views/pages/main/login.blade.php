@@ -5,6 +5,11 @@
 @section('content')
     <div class="login-1">
         <div class="container-fluid">
+            @if(session('success'))
+                <div class="alert alert-success my-3">
+                    <p class="text-center h5"> {{session('success')}}</p>
+                </div>
+            @endif
             <div class="row login-box">
                 <div class="col-lg-6 bg-color-15 pad-0 none-992 bg-img">
                     <div class="info clearfix">
@@ -14,20 +19,23 @@
                             galley of type and scrambled it to make a type</p>
                     </div>
                 </div>
+
                 <div class="col-lg-6 align-self-center pad-0 form-section">
                     <div class="form-inner">
                         <a href="{{route('home')}}" class="logo">
                             <img src="{{asset('assets/img/logos/logo.png')}}" alt="logo">
                         </a>
                         <h3>Sign Into Your Account</h3>
-                        <form action="#" method="GET">
+                        <form action="{{route('login')}}" method="POST">
+                            @csrf
                             <x-text-field
                                 name="email"
                                 type="email"
                                 placeholder="Email Address"
                                 id="email"
                                 parent-class="clearfix"
-                                field-class="form-control"/>
+                                field-class="form-control"
+                                value="ilija0125@gmail.com"/>
 
                             <x-text-field
                             name="password"
@@ -35,7 +43,8 @@
                             placeholder="Password"
                             id="password"
                             parent-class="clearfix"
-                            field-class="form-control"/>
+                            field-class="form-control"
+                            value="ilija12345"/>
 
                             {{--<div class="checkbox form-group clearfix">
                                 <a href="forgot-password.html" class="forgot-password">Forgot Password</a>
@@ -45,7 +54,9 @@
                             </div>
                             <div class="clearfix"></div>
                         </form>
-
+                        @if(session('error'))
+                            <p class="text-danger alert alert-danger mb-4">{{session('error')}}</p>
+                        @endif
                         <div class="clearfix"></div>
                         <p>Don't have an account? <a href="{{route('register')}}" class="thembo"> Register here</a></p>
                     </div>

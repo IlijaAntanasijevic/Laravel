@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             'phone' => '123456789',
             'address' => 'Test address',
             'city' => 'Test city',
-            'avatar' => 'defaultAvatar.jpg',
+            'avatar' => 'default.jpg',
         ]);
     }
 }

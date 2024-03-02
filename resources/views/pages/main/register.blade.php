@@ -4,80 +4,121 @@
 
 @section('content')
 
+    @php
+        $firstNameError = $errors->get('name')[0] ?? null;
+        $lastNameError = $errors->get('lastName')[0] ?? null;
+        $emailError = $errors->get('email')[0] ?? null;
+        $passwordError = $errors->get('password')[0] ?? null;
+        $cityError = $errors->get('city')[0] ?? null;
+        $addressError = $errors->get('address')[0] ?? null;
+        $phoneError = $errors->get('phone')[0] ?? null;
+        $avatarError = $errors->get('avatar')[0] ?? null;
+
+
+    @endphp
+
+    @if(session('tmp'))
+        @dd(session('tmp'))
+    @endif
     <div class="login-1">
         <div class="container-fluid ">
             <div class="col-lg-12 row flex-column align-items-center pt-5" style="background-color: #fff7f7">
                 <a href="{{route('home')}}" class="logo">
                     <img src="{{asset('assets/img/logos/logo.png')}}" alt="logo">
                 </a>
-                <h3>Create An Cccount</h3>
+                <h3>Create An Account</h3>
             </div>
+            @if(session("error"))
+                <div class="alert alert-danger my-5 w-75 mx-auto">
+                    <p class="text-center h3 ">{{session("error")}}</p>
+                </div>
+            @endif
             <div class="row login-box">
+
                 <div class="col-lg-12 align-self-center pad-0 form-section register-section">
+
                     <div class="form-inner form-register">
-                        <form action="#" method="GET" enctype="multipart/form-data">
+                        <form action="{{route('register.store')}}" method="POST" enctype="multipart/form-data">
                             @csrf
                            <div class="row justify-content-around">
                                <div class="register-block">
                                    <x-text-field
-                                       name="userName"
+                                       name="name"
                                        type="text"
                                        placeholder="Name"
-                                       id="userName"
+                                       id="userRegName"
                                        parent-class="clearfix"
-                                       field-class="form-control"/>
+                                       field-class="form-control"
+                                       :error="$firstNameError"
+                                       :value="old('name')"/>
 
                                    <x-text-field
-                                       name="userEmail"
+                                       name="email"
                                        type="email"
                                        placeholder="Email"
-                                       id="userEmail"
+                                       id="userRegEmail"
                                        parent-class="clearfix"
-                                       field-class="form-control"/>
+                                       field-class="form-control"
+                                       :error="$emailError"
+                                       :value="old('email')"/>
 
                                    <x-text-field
-                                       name="userCity"
+                                       name="city"
                                        type="text"
                                        placeholder="City"
-                                       id="userCity"
+                                       id="userRegCity"
                                        parent-class="clearfix"
-                                       field-class="form-control"/>
+                                       field-class="form-control"
+                                       :error="$cityError"
+                                       :value="old('city')"/>
                                    <x-text-field
-                                       name="userPhone"
+                                       name="phone"
                                        type="number"
-                                       placeholder="Phone | +1234567890"
-                                       id="userPhone"
+                                       placeholder="Phone | 0601234567"
+                                       id="userRegPhone"
                                        parent-class="clearfix"
-                                       field-class="form-control"/>
+                                       field-class="form-control"
+                                       :error="$phoneError"
+                                       :value="old('phone')"/>
                                </div>
                                <div class="register-block">
                                    <x-text-field
-                                       name="userLastname"
+                                       name="lastName"
                                        type="text"
                                        placeholder="Last name"
-                                       id="userLastname"
+                                       id="userRegLastName"
                                        parent-class="clearfix"
-                                       field-class="form-control"/>
+                                       field-class="form-control"
+                                       :error="$lastNameError"
+                                       :value="old('lastName')"/>
                                    <x-text-field
-                                       name="userPassword"
+                                       name="password"
                                        type="password"
                                        placeholder="Password"
-                                       id="userPassword"
+                                       id="userRegPassword"
                                        parent-class="clearfix"
-                                       field-class="form-control"/>
+                                       field-class="form-control"
+                                       :error="$passwordError"
+                                       :value="old('password')"/>
 
                                    <x-text-field
-                                       name="userAddress"
+                                       name="address"
                                        type="text"
                                        placeholder="Address"
-                                       id="userAddress"
+                                       id="userRegAddress"
                                        parent-class="clearfix"
-                                       field-class="form-control"/>
+                                       field-class="form-control"
+                                       :error="$addressError"
+                                       :value="old('address')"/>
 
                                    <div class="clearfix ">
-                                       <input type="file" name="userAvatar" id="userAvatar" style="display:none" />
-                                       <label for="userAvatar" class="form-control pt-3" id="userAvatarLabel" style="cursor: pointer">Upload Profile Picture</label>
+                                       <input type="file" name="avatar" id="userRegAvatar" style="display:none" />
+                                       <label for="userRegAvatar" class="form-control pt-3" id="userAvatarLabel" style="cursor: pointer">Upload Profile Picture</label>
                                         <p id="userAvatarName"></p>
+                                       <small>Your profile picture is not required</small>
+                                       @if($avatarError)
+                                           <p class="text-danger"> {{ $avatarError }}</p>
+                                        @endif
                                    </div>
                                </div>
                            </div>
@@ -120,7 +161,7 @@
 @section('custom_scripts')
 
     <script>
-        $('#userAvatar').change(function () {
+        $('#userRegAvatar').change(function () {
             let path = $(this).val();
             let file = path.split('\\').pop();
             $('#userAvatarLabel').text(file);

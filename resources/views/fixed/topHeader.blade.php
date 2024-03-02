@@ -29,17 +29,33 @@
                     <li>
                         <a href="#">/</a>
                     </li>
-                    <li>
-                        <a href="#">/</a>
-                    </li>
-                    <li>
-                        <a href="{{route('login')}}" class="sign-in"><i class="fa fa-sign-in"></i> Login </a>
-                    </li>
-                    <li>
-                        <a href="{{route('register')}}" class="sign-in"><i class="fa fa-user"></i>Register</a>
-                    </li>
+                    @if(!Auth::check())
+                        <li>
+                            <a href="{{route('login')}}" class="sign-in"><i class="fa fa-sign-in"></i> Login </a>
+                        </li>
+                        <li>
+                            <a href="{{route('register')}}" class="sign-in"><i class="fa fa-user"></i>Register</a>
+                        </li>
+                    @else
+                        <li>
+                            <form action="{{route('logout')}}" method="POST" id="logoutForm">
+                                @csrf
+                                <input type="submit" value="{{ Auth::user()->name }} (Log out)" class="sign-in" id="logout">
+                            </form>
+                        </li>
+                    @endif
+
                 </ul>
             </div>
         </div>
     </div>
 </header>
+<style>
+    #logout {
+        border: none;
+        background: none;
+        cursor: pointer;
+        color: #ff0017;
+    }
+</style>
+
