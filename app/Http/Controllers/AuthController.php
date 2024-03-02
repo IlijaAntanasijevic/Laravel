@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
-class AuthController extends Controller
+class AuthController extends PrimaryController
 {
     public function login_index()
     {

@@ -22,6 +22,9 @@
                             <li class="nav-item">
                                 <a href="#" class="nav-link text-danger">Sell Car</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"> <i class="fa fa-heart-o"></i></a>
+                            </li>
                         @endif
                         </ul>
                     </div>

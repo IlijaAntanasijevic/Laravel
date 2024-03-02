@@ -17,6 +17,7 @@ class HomeController extends PrimaryController
         });
         $bodies = Body::all();
 
+
         return view('pages.main.home',compact('cars','brands','bodies'));
     }
 }

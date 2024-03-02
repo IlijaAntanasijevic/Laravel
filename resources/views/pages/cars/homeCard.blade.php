@@ -10,6 +10,9 @@
                 <a href="{{route('cars.show', ['car' => $car->id])}}" class="overlay-link">
                     <i class="fa fa-info"></i>
                 </a>
+                <a href="{{route('cars.show', ['car' => $car->id])}}" class="overlay-link">
+                    <i class="fa fa-heart-o"></i>
+                </a>
                 <div class="car-magnify-gallery">
                     <a href="{{asset('assets/img/' . $car->images[0]['path'])}}" class="overlay-link">
                         <i class="fa fa-expand"></i>
@@ -51,7 +54,6 @@
                     {{number_format($car->price,0,' ','.')}}$
                 </p>
             </div>
-
         </div>
     </div>
 </div>

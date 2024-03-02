@@ -6,7 +6,7 @@ use App\Models\Car;
 use App\Models\CarModel;
 use Illuminate\Http\Request;
 
-class CarController extends Controller
+class CarController extends PrimaryController
 {
     /**
      * Display a listing of the resource.
@@ -38,7 +38,13 @@ class CarController extends Controller
      */
     public function show(string $id)
     {
-        $car = Car::with('model','engine','user', 'equipment','safeties')->find($id);
+        $car = Car::with('model','engine','user', 'equipment','safeties','wishlist')->find($id);
+
+        $totalCars = Car::all()->groupBy('user_id')
+                                ->map(function ($item){return count($item);})
+                                ->first();
+        $car->totalCars = $totalCars;
+
         return view('pages.cars.show', ['car' => $car]);
     }
 

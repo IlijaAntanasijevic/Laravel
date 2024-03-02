@@ -21,7 +21,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/jquery.mCustomScrollbar.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/fonts/font-awesome/css/font-awesome.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/fonts/flaticon/font/flaticon.css')}}">
-
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     <!-- Favicon icon -->
     <link rel="shortcut icon" href="{{asset('assets/img/favicon.ico')}}" type="image/x-icon">

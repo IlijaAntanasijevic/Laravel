@@ -27,7 +27,7 @@
                         <a href="#" class="rss"><i class="fa fa-instagram"></i></a>
                     </li>
                     <li>
-                        <a href="#">/</a>
+                        <a >|</a>
                     </li>
                     @if(!Auth::check())
                         <li>
@@ -38,9 +38,15 @@
                         </li>
                     @else
                         <li>
+                            <a class="sign-in"> {{ Auth::user()->name }} <i class="fa fa-user" aria-hidden="true"></i></a>
+                        </li>
+                        <li>
+                            <a >|</a>
+                        </li>
+                        <li>
                             <form action="{{route('logout')}}" method="POST" id="logoutForm">
                                 @csrf
-                                <input type="submit" value="{{ Auth::user()->name }} (Log out)" class="sign-in" id="logout">
+                                <input type="submit" value="Log out" class="sign-in" id="logout">
                             </form>
                         </li>
                     @endif

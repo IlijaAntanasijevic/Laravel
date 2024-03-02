@@ -43,4 +43,9 @@ class Car extends Model
     {
         return $this->belongsToMany(Equipment::class);
     }
+
+    public function wishlist()
+    {
+        return $this->hasMany(WishList::class);
+    }
 }

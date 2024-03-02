@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\UtilityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +21,23 @@ use App\Http\Controllers\CarController;
 Route::get("/",[HomeController::class,'index'])->name('home');
 Route::get("/home",[HomeController::class,'index'])->name('home');
 Route::get("/contact",[ContactController::class,'index'])->name('contact');
-Route::get('/login', [AuthController::class, 'login_index'])->name('login');
-Route::get('/register', [AuthController::class, 'register_index'])->name('register');
-Route::post('/register', [AuthController::class, 'register'])->name('register.store');
-Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+
+
+Route::middleware(['no.auth'])->group(function (){
+    Route::get('/login', [AuthController::class, 'login_index'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
+    Route::get('/register', [AuthController::class, 'register_index'])->name('register');
+    Route::post('/register', [AuthController::class, 'register'])->name('register.store');
+
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('/wishlist', [UtilityController::class, 'wishlist'])->name('wishlist');
+    Route::delete('/wishlist', [UtilityController::class, 'wishlist_remove'])->name('remove.wishlist');
+});
+
+
 Route::resource('cars', CarController::class);
