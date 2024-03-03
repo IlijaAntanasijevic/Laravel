@@ -19,7 +19,6 @@ class CarModelSeeder extends Seeder
         foreach ($this->models as $model) {
             DB::table('car_models')->insert([
                 'name' => $model,
-                'year' => rand(2010,2023),
                 'brand_id' => rand(1, 20),
                 'body_id' => rand(1, 5),
                 'seat_id' => 4,

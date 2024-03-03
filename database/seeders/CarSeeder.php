@@ -26,7 +26,7 @@ class CarSeeder extends Seeder
                 'is_published' => true,
                 'model_id' => $i,
                 'engine_id' => rand(1, 6),
-                'color_id' => rand(1,15),
+                'color_id' => rand(1,14),
                 'drive_type_id' => rand(1,3),
                 'user_id' => 1
             ]);

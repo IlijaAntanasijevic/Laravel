@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
             'name' => 'Test',
             'last_name' => 'Test',
             'password' => md5('test'),
-            'email' => 'test@gmail.com' ,
+            'email' => 'testsst@gmail.com' ,
             'role_id' => 2,
             'phone' => '123456789',
             'address' => 'Test address',
