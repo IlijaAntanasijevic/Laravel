@@ -18,7 +18,7 @@
                         </div>
                         <div class="col-6 col-lg-3 col-md-3">
                                 <x-drop-down
-                                    name="modelHome"
+                                    name="model"
                                     id="modelHome"
                                     first-option-text="Model"
                                     :options="[]"
@@ -52,7 +52,7 @@
                             <div class="form-group">
                                 <select class="selectpicker search-fields" name="yearFromHome" id="yearFromHome">
                                     <option value="0">Year from</option>
-                                    @for($i = 2024; $i >= 1990; $i--)
+                                    @for($i = 2024; $i >= 1980; $i--)
                                         <option value="{{$i}}">{{$i}}</option>
                                     @endfor
                                 </select>
@@ -62,7 +62,7 @@
                             <div class="form-group">
                                 <select class="selectpicker search-fields" name="yearToHome" id="yearToHome">
                                     <option value="0">Year To</option>
-                                    @for($i = 2024; $i >= 1990; $i--)
+                                    @for($i = 2024; $i >= 1980; $i--)
                                         <option value="{{$i}}">{{$i}}</option>
                                     @endfor
                                 </select>

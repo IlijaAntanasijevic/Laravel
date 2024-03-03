@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Body;
+use App\Models\Brand;
 use App\Models\Car;
 use App\Models\CarModel;
+use App\Models\Transmission;
 use Illuminate\Http\Request;
 
 class CarController extends PrimaryController
@@ -13,8 +16,13 @@ class CarController extends PrimaryController
      */
     public function index()
     {
-        $cars = CarModel::all();
-        return view('pages.cars.index', ['cars' => $cars]);
+        $cars = Car::with('engine','drive_type','user')->get();
+        $data['brands'] = Brand::all()->sortBy('name')->reject(function ($brand){
+            return $brand->name === 'Other';
+        });
+        $data['bodies'] = Body::all();
+        $data['transmission'] = Transmission::all();
+        return view('pages.cars.index', ['cars' => $cars, 'data' => $data]);
     }
 
     /**

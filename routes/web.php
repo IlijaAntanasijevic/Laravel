@@ -18,6 +18,17 @@ use App\Http\Controllers\CompareCarController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+// TODO:
+// * Create a middleware that checks if the user is an admin
+// * Contact custom components
+// * Cars page
+// * Search more page
+// * Insert Car / Sell Car
+// * Filter
+// * Admin
+// * Pagination - Car page
+// * View More - Home page
+
 
 Route::get("/",[HomeController::class,'index'])->name('home');
 Route::get("/home",[HomeController::class,'index'])->name('home');

@@ -1,5 +1,9 @@
-<div class="form-group {{$parentClass}}">
-    <select class="selectpicker search-fields {{ $selectClass }}"  name="{{$name}}" id="{{$id}}"  {{$disabled ? 'disabled=disabled' : ''}}>
+<div class="{{$parentClass}}">
+    @if($label)
+        <label for="{{$id}}" class="form-label">{{$label}}</label>
+    @endif
+
+    <select class="{{ $selectClass }}"  name="{{$name}}" id="{{$id}}"  {{$disabled ? 'disabled=disabled' : ''}}>
 
         @if($firstOptionText)
             <option value="{{$firstOptionValue}}">{{$firstOptionText}}</option>

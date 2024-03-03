@@ -474,7 +474,7 @@ input[type=checkbox]:checked + label:before {
 }
 
 .content-area-2 {
-    padding: 100px 0 70px;
+    padding-top: 100px;
 }
 
 .content-area-3 {
@@ -1662,6 +1662,7 @@ input[type=number] {
 }
 
 .car-box-5 .col-pad{
+    height: 225px;
     padding: 0;
 }
 
@@ -5359,7 +5360,7 @@ table {
     }
 
     .content-area-2 {
-        padding: 80px 0 50px;
+        padding-top: 80px;
     }
 
     .services-info{
@@ -5811,7 +5812,7 @@ table {
     }
 
     .content-area-2 {
-        padding: 60px 0 30px;
+        padding-top: 60px;
     }
 
     .content-area-3 {
