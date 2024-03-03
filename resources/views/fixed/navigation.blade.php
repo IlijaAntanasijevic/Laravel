@@ -19,7 +19,7 @@
                             @endforeach
                         @if(Auth::check())
                             <li class="nav-item">
-                                <a href="#" class="nav-link text-danger">Sell Car</a>
+                                <a href="{{route('cars.create')}}" class="nav-link text-danger">Sell Car</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('wishlist.index')}}"> <i class="fa fa-heart-o"></i></a>

@@ -1,5 +1,5 @@
 
-<div class="form-group {{$parentClass}}">
+<div class="{{$parentClass}}">
     @if($label)
         <label for="{{$id}}">{{$label}}</label>
     @endif

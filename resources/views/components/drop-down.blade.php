@@ -10,11 +10,14 @@
         @endif
 
         @foreach($options as $option)
-            <option value="{{$option->$value}}" @selected($selected == $option->$value)>{{$option->$text}}</option>
+            <option value="{{$option->$value}}" @selected($selected == $option->$value)>{{ucfirst($option->$text)}}</option>
         @endforeach
 
         @if($addOtherOption)
                 <option value="other">Other</option>
         @endif
     </select>
+        @if($error)
+            <p class="text-danger"> {{ $error }}</p>
+        @endif
 </div>

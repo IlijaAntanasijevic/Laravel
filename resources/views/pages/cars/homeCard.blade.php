@@ -5,7 +5,7 @@
     <div class="car-box ">
         <!-- car img -->
         <div class="car-thumbnail">
-            <a href="car-details.html" class="car-img">
+            <a href="{{route('cars.show', ['car' => $car->id])}}" class="car-img">
                 <img src="{{asset('assets/img/' . $car->primary_image)}}" alt="{{$car->name}}" class="img-fluid">
             </a>
             <div class="car-overlay {{$showOverlay ? '' : 'd-none'}}">

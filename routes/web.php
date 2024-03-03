@@ -19,15 +19,16 @@ use App\Http\Controllers\CompareCarController;
 |
 */
 // TODO:
+// !* Insert Car / Sell Car
 // * Create a middleware that checks if the user is an admin
 // * Contact custom components
 // * Cars page
 // * Search more page
-// * Insert Car / Sell Car
 // * Filter
 // * Admin
 // * Pagination - Car page
 // * View More - Home page
+// * User Profile
 
 
 Route::get("/",[HomeController::class,'index'])->name('home');
@@ -48,6 +49,8 @@ Route::middleware(['no.auth'])->group(function (){
     Route::post('/login', [AuthController::class, 'login'])->name('login');
     Route::get('/register', [AuthController::class, 'register_index'])->name('register');
     Route::post('/register', [AuthController::class, 'register'])->name('register.store');
+    Route::resource('cars', CarController::class)->except(['create', 'store', 'edit', 'update', 'destroy']);
+
 
 
 });
@@ -57,6 +60,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/wishlist', [UtilityController::class, 'wishlist'])->name('wishlist');
     Route::delete('/wishlist', [UtilityController::class, 'wishlist_remove'])->name('remove.wishlist');
     Route::get('/wishlist', [UtilityController::class, 'wishlist_index'])->name('wishlist.index');
+    Route::resource('cars', CarController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
 });
 
 

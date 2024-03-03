@@ -256,14 +256,14 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     -webkit-animation-delay: 1.2s
 }
 
-input[type=checkbox]:checked + label:before {
+/*input[type=checkbox]:checked + label:before {
     content: "\2713";
     text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
     font-size: 15px;
     color: #f3f3f3;
     text-align: center;
     line-height: 15px;
-}
+}*/
 
 .form-check label, .radio label {
     min-height: 20px;
@@ -271,15 +271,29 @@ input[type=checkbox]:checked + label:before {
     margin-bottom: 0;
     font-weight: 400;
     cursor: pointer;
+
 }
-
-
+.form-check-input {
+    position: relative;
+    margin-left: 0px;
+}
+.form-check label {
+    padding: 0px;
+    position: unset;
+    font-size: 1rem;
+    margin: 10px 10px 5px 0px ;
+}
+/*
 .form-check label {
     display: inline-block;
     position: relative;
     padding-left: 10px;
 }
-
+.form-check-input{
+     position: unset;
+     margin-top: 0;
+     margin-left: 0;
+}
 .form-check label::before {
     content: "";
     display: inline-block;
@@ -294,7 +308,7 @@ input[type=checkbox]:checked + label:before {
     -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
     -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
     transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
-}
+}*/
 
 .form-check label::after {
     display: inline-block;
@@ -3427,13 +3441,13 @@ table {
     cursor: pointer;
 }
 
-.payment-box input[type=checkbox], input[type=radio] {
+/*.payment-box input[type=checkbox], input[type=radio] {
     box-sizing: border-box;
     padding: 30px;
     left: 0;
     box-sizing: border-box;
     margin:5px 0 0 15px;
-}
+}*/
 /** Content form box STARTED **/
 .form-check{
     font-size: 13px;
@@ -5036,12 +5050,12 @@ table {
     border-radius: 4px; /* Thumb border radius */
 }
 
-.form-group label,
+/*.form-group label,
 .checkbox label {
     font-size: 12px;
     font-weight: 500;
     color: #37404d;
-}
+}*/
 
 .search-area  .search-fields button {
     border-radius: 1px;

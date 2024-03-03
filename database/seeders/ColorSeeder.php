@@ -13,7 +13,7 @@ class ColorSeeder extends Seeder
      * Run the database seeds.
      */
 
-    private $colors = ['red', 'blue', 'green', 'yellow', 'black', 'white', 'silver', 'gray', 'brown', 'orange', 'purple', 'gold', 'pink', 'bronze', 'other'];
+    private $colors = ['red', 'blue', 'green', 'yellow', 'black', 'white', 'silver', 'gray', 'brown', 'orange', 'purple', 'gold', 'pink', 'bronze'];
 
     public function run(): void
     {
