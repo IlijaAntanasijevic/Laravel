@@ -46,7 +46,7 @@
                             field-class="form-control"
                             id="name"
                             name="name"
-                            :value="old('name')"/>
+                            value="Test"/>
                         <x-dropdown
                             label="Brand"
                             parent-class="form-group col-md-6"
@@ -75,7 +75,7 @@
                             first-option-value="0"
                             name="body"
                             id="body"
-                            :selected="old('body')"/>
+                            selected="2"/>
                         <x-text-field
                             label="Year"
                             parent-class="form-group col-md-3"
@@ -84,7 +84,7 @@
                             placeholder="2024"
                             id="year"
                             name="year"
-                            :value="old('year')"/>
+                            value="2023"/>
                         <x-text-field
                             label="Kilometers"
                             parent-class="form-group col-md-3"
@@ -93,7 +93,7 @@
                             placeholder="22000"
                             id="kilometers"
                             name="kilometers"
-                            :value="old('year')"/>
+                            value="15000"/>
                         <x-dropdown
                             parent-class="form-group col-md-3 my-4"
                             select-class="selectpicker search-fields form-control"
@@ -102,7 +102,7 @@
                             first-option-value="0"
                             name="doors"
                             id="doors"
-                            :selected="old('doors')"/>
+                            selected="2"/>
                         <x-dropdown
                             parent-class="form-group col-md-3 my-4"
                             select-class="selectpicker search-fields form-control"
@@ -112,7 +112,7 @@
                             first-option-value="0"
                             name="seats"
                             id="seats"
-                            :selected="old('seats')"/>
+                            selected="4"/>
                         <x-dropdown
                             parent-class="form-group col-md-3 my-4"
                             select-class="selectpicker search-fields form-control"
@@ -121,7 +121,7 @@
                             first-option-value="0"
                             name="color"
                             id="color"
-                            :selected="old('color')"/>
+                            selected="2"/>
                         <x-dropdown
                             parent-class="form-group col-md-3 my-4"
                             select-class="selectpicker search-fields form-control"
@@ -130,7 +130,7 @@
                             first-option-value="0"
                             name="driveType"
                             id="driveType"
-                            :selected="old('driveType')"/>
+                            selected="1"/>
                         <x-text-field
                             label="Engine Value"
                             parent-class="form-group col-md-3"
@@ -139,7 +139,7 @@
                             placeholder="1789"
                             id="engine"
                             name="engine"
-                            :value="old('engine')"/>
+                            value="1900"/>
                         <x-text-field
                             label="Horse Power"
                             parent-class="form-group col-md-3"
@@ -147,7 +147,7 @@
                             field-class="form-control"
                             id="horsepower"
                             name="horsepower"
-                            :value="old('horsepower')"/>
+                            value="150"/>
                         <x-dropdown
                             label="Fuel"
                             parent-class="form-group col-md-3"
@@ -185,12 +185,13 @@
                             id="price"
                             type="number"
                             name="price"
-                            :value="old('price')"/>
+                            value="2999"/>
 
                        <div class="container my-5">
                            <div class="row justify-content-around">
                                <div class="">
                                    <h3 class="mb-4">Safety</h3>
+                                   <p class="text-danger error-message" id="safetiesError"></p>
                                    <x-check-box
                                        name="safety[]"
                                        :options="$safeties"
@@ -199,6 +200,7 @@
 
                                <div class="">
                                    <h3 class="mb-4">Equipments</h3>
+                                   <p class="text-danger error-message" id="equipmentsError"></p>
                                    <x-check-box
                                        name="equipments[]"
                                        :options="$equipments"
@@ -208,18 +210,18 @@
                        </div>
                         <div class="form-group  w-100 mb-5 ">
                             <label for="description">Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="5">{{old('description')}}</textarea>
+                            <textarea class="form-control" id="description" name="description" rows="5">{{old('description')}}Test bla bla</textarea>
                         </div>
                     </div>
                     <h3 class="mt-5">Images</h3>
                     <small>The first image will be displayed as the main image! (max 10 images)</small>
                     <div id="my-dropzone" class="dropzone"></div>
-                    <p class="text-danger" id="imageError"></p>
+                    <p class="text-danger error-message" id="imageError"></p>
 
                     <div class="w-50 mx-auto my-5">
                         <button id="submitButton"  class="btn btn-success my-5 w-100 mx-auto">Submit</button>
                         <p class="alert alert-danger text-center globalMessages" id="globalErrorMsg">There is some errors, please check all inputs</p>
-                        <p class="alert alert-success text-center globalMessages" id="globalSuccessMsg">Success</p>
+                        <p class="alert alert-success text-center globalMessages" id="globalSuccessMsg">Car added successfully! Admin approval is required</p>
                     </div>
                 </form>
 
@@ -246,7 +248,6 @@
                dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<p class="display-inline"> (Or Click)</p></span>',
                dictRemoveFile: "Remove",
                uploadMultiple: true,
-               maxFiles: 10,
                parallelUploads: 10,
                 autoProcessQueue: false,
 
@@ -262,7 +263,6 @@
            $('#submitButton').click(function (e){
                e.preventDefault();
                //dropzone.processQueue();
-               console.log($('#registration').val())
 
                let formData = new FormData();
                 formData.append('name', $('#name').val());
@@ -270,6 +270,7 @@
                 formData.append('model', $('#model').val());
                 formData.append('body', $('#body').val());
                 formData.append('year', $('#year').val());
+                formData.append('kilometers', $('#kilometers').val());
                 formData.append('engine', $('#engine').val());
                 formData.append('doors', $('#doors').val());
                 formData.append('seats', $('#seats').val());
@@ -287,22 +288,13 @@
                     formData.append('images[]', file);
                 }
 
-               if ($('input[name="safety[]"]:checked').length === 0) {
-                   formData.append('safety', null);
-               }
-               else {
-                   $('input[name="safety[]"]:checked').each(function () {
-                       formData.append('safety[]', this.value);
-                   })
-               }
-               if($('input[name="equipments[]"]:checked').length === 0){
-                   formData.append('equipments', null);
-               }
-               else {
-                   $('input[name="equipments[]"]:checked').each(function () {
-                       formData.append('equipments[]', this.value);
-                   })
-               }
+               $('input[name="equipments[]"]:checked').each(function () {
+                   formData.append('equipments[]', this.value);
+               })
+
+               $('input[name="safety[]"]:checked').each(function () {
+                   formData.append('safety[]', this.value);
+               })
 
                $.ajax({
                    url: "{{ route('cars.store') }}",
@@ -314,15 +306,18 @@
                        'X-CSRF-TOKEN': csrfToken
                    },
                    success: function (data){
+                       $('#globalErrorMsg').hide();
                        $('#globalSuccessMsg').show();
-                       console.log(data);
+                       $('.error-message').remove();
                    },
                    error: function (xhr, status, error){
                        $('#globalErrorMsg').show();
+                       $('#globalSuccessMsg').hide();
                        if (xhr.status === 422) {
                            let errors = xhr.responseJSON.errors;
                            displayErrors(errors);
                        } else {
+                           $('#globalSuccessMsg').hide();
                            $('#globalErrorMsg').text("Server error, please try again later!");
                            console.log('Error:', xhr.responseText);
                        }
@@ -350,6 +345,9 @@
                        options += `<option value='other'>Other</option>`;
                        $('#model').html(options);
                        $('#model').removeAttr('disabled');
+                   },
+                   error: function (xhr, status, error){
+                       console.log(xhr)
                    }
                })
            })
@@ -363,6 +361,13 @@
 
                    if(field === 'images'){
                         $('#imageError').text(messages[0]);
+                   }
+                   if(field.includes('safety')){
+                          $('#safetiesError').text(messages[0]);
+                   }
+                   if(field.includes('equipments')){
+                       $('#equipmentsError').text(messages[0]);
+
                    }
 
                    if (messages.length > 0) {

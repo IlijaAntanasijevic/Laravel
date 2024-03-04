@@ -15,9 +15,12 @@ $attributesValues = ['name','engine_value','name'];
         $firsCar = $cars[0];
         $secondCar = isset($cars[1]) ? $cars[1] : null;
     }
+    dd($cars);
+    die;
 
 @endphp
 @section('content')
+
     @if($show)
     <div class="">
         <div class="comparison content-area-2">

@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Equipment;
+use App\Models\Safety;
 
 class InsertCarRequest extends FormRequest
 {
@@ -22,39 +24,50 @@ class InsertCarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:75',
-            'brand' => 'required|exists:brands,id',
-            'model' => 'required|exists:car_models,id',
-            'body' => 'required|exists:bodies,id',
-            'year' => 'required|digits:4|integer|min:1980|max:2024',
-            'kilometers' => 'required|numeric|min:0|max:9999999',
-            'doors' => 'required|exists:doors,id',
-            'seats' => 'required|exists:seats,id',
-            'color' => 'required|exists:colors,id',
-            'driveType' => 'required|exists:drive_types,id',
-            'engine' => 'required|numeric',
-            'horsepower' => 'required|numeric',
-            'fuel' => 'required|exists:fuels,id',
-            'transmission' => 'required|exists:transmissions,id',
+            'name' => 'bail|required|alpha|max:75',
+            'brand' => 'bail|required|exists:brands,id',
+            'model' => 'bail|required|exists:car_models,id',
+            'body' => 'bail|required|exists:bodies,id',
+            'year' => 'bail|required|digits:4|integer|min:1980|max:2024',
+            'kilometers' => 'bail|required|numeric|min:0|max:9999999',
+            'doors' => 'bail|required|exists:doors,id',
+            'seats' => 'bail|required|exists:seats,id',
+            'color' => 'bail|required|exists:colors,id',
+            'driveType' => 'bail|required|exists:drive_types,id',
+            'engine' => 'bail|required|numeric',
+            'horsepower' => 'bail|required|numeric',
+            'fuel' => 'bail|required|exists:fuels,id',
+            'transmission' => 'bail|required|exists:transmissions,id',
             'registration' => [
+                'bail',
                 'nullable',
                 'date',
+                'after:start_date',
                 'date_format:Y-m-d',
+                'after_or_equal:' . now()->format('Y-m-d'),
+                'before_or_equal:' . now()->addYear()->format('Y-m-d'),
+            ],
+            'price' => 'bail|required|numeric|max:9999999.99',
+            'description' => 'bail|required|string',
+            'equipments' => 'array',
+            'equipments.*' => [
                 function ($attribute, $value, $fail) {
-                    $expectedDate = now()->subYear()->format('Y-m-d');
-                    if ($value !== $expectedDate) {
-                        $fail('The registration date must be exactly 1 year before today.');
+                    if ($value !== 0 && !Equipment::where('id', $value)->exists()) {
+                        $fail("$value is not a valid car equipment ID.");
                     }
                 },
             ],
-            'price' => 'required|numeric|max:9999999.99',
-            'description' => 'required|string',
-            'safeties' => 'array',
-            'safeties.*' => 'exists:car_safeties,id',
-            'equipments' => 'array',
-            'equipments.*' => 'exists:car_equipment,id',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'images' => 'required|array|max:10',
+
+            'safety' => 'array',
+            'safety.*' => [
+                function ($attribute, $value, $fail) {
+                    if ($value !== 0 && !Safety::where('id', $value)->exists()) {
+                        $fail("$value is not a valid car equipment ID.");
+                    }
+                },
+            ],
+            'images.*' => 'bail|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'images' => 'bail|required|array|max:10',
         ];
     }
 }

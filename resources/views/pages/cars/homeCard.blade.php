@@ -17,7 +17,7 @@
                 </span>
 
                 <div class="car-magnify-gallery">
-                    <a href="{{asset('assets/img/' . $car->images[0]['path'])}}" class="overlay-link">
+                    <a href="{{asset('assets/img/' . $car->primary_image)}}" class="overlay-link">
                         <i class="fa fa-expand"></i>
                     </a>
                     @foreach($car->images as $image)

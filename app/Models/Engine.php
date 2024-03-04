@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Engine extends Model
 {
     use HasFactory;
-
+    protected $fillable = ['engine_value','horsepower','fuel_id','transmission_id'];
     public function car()
     {
         return $this->hasMany(Car::class);

@@ -19,8 +19,6 @@ class HomeController extends PrimaryController
 
         return view('pages.main.home',compact('cars','brands','bodies'));
     }
-    public function carComparison()
-    {
-    }
+
 
 }

@@ -20,7 +20,9 @@ use App\Http\Controllers\CompareCarController;
 */
 // TODO:
 // !* Insert Car / Sell Car
+// ?* Fix Register - Login
 // * Create a middleware that checks if the user is an admin
+// * Show all seller cars (click?)
 // * Contact custom components
 // * Cars page
 // * Search more page

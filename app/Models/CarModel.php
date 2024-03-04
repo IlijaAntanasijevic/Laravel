@@ -26,6 +26,11 @@ class CarModel extends Model
         return $this->belongsTo(Doors::class);
     }
 
+    public function year()
+    {
+        return $this->belongsToMany(Year::class, 'model_year', 'model_id', 'year_id');
+    }
+
     public function car()
     {
         return $this->hasMany(Car::class);

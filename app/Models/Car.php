@@ -9,6 +9,7 @@ class Car extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name','kilometers','primary_image','price','year', 'registration','description', 'user_id', 'model_id', 'engine_id', 'drive_type_id', 'color_id'];
     public function model()
     {
         return $this->belongsTo(CarModel::class);
@@ -49,4 +50,5 @@ class Car extends Model
     {
         return $this->hasMany(WishList::class);
     }
+
 }

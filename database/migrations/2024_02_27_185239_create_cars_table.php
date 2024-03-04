@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('kilometers');
             $table->string('primary_image');
             $table->decimal('price', 10, 2);
+            $table->string('year');
             $table->text('description')->nullable();
             $table->date('registration')->nullable();
             $table->boolean('is_sold')->default(false);

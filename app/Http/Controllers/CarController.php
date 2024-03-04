@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\InsertCarRequest;
 use App\Models\Engine;
+use App\Models\Images;
+use App\Models\Year;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use App\Models\Body;
 use App\Models\Brand;
@@ -27,6 +30,7 @@ class CarController extends PrimaryController
      */
     public function index()
     {
+        //->where('is_published','1')
         $cars = Car::with('engine','drive_type','user')->get();
         $data['brands'] = Brand::all()->sortBy('name')->reject(function ($brand){
             return $brand->name === 'Other';
@@ -61,161 +65,33 @@ class CarController extends PrimaryController
      */
     public function store(InsertCarRequest $request)
     {
-        /*
-         array:20 [ // app\Http\Controllers\CarController.php:65
-          "name" => "Ilija"
-          "brand" => "5"
-          "model" => "3"
-          "body" => "14"
-          "year" => "2000"
-          "engine" => "2000"
-          "doors" => "1"
-          "seats" => "2"
-          "color" => "12"
-          "driveType" => "1"
-          "horsepower" => "100",
-          "kilometers" => "100000",
-          "fuel" => "1"
-          "transmission" => "1"
-          "registration" => null
-          "price" => "2000"
-          "description" => "Test"
-          "userId" => "2"
-          "safety" => array:3 [
-            0 => "6"
-            1 => "8"
-            2 => "11"
-          ]
-          "equipments" => array:3 [
-            0 => "6"
-            1 => "7"
-            2 => "8"
-          ]
-          "images" => array:3 [
-            0 =>
-        Illuminate\Http
-        \
-        UploadedFile {#1327
-              -test: false
-              -originalName: "car-21.jpg"
-              -mimeType: "image/jpeg"
-              -error: 0
-              #hashName: null
-              path: "C:\xampp\tmp"
-              filename: "phpF068.tmp"
-              basename: "phpF068.tmp"
-              pathname: "C:\xampp\tmp\phpF068.tmp"
-              extension: "tmp"
-              realPath: "
-        C:\xampp
-        \
-        tmp\phpF068.tmp"
-              aTime: 2024-03-03 23:28:34
-              mTime: 2024-03-03 23:28:34
-              cTime: 2024-03-03 23:28:34
-              inode: 17451448556326416
-              size: 367805
-              perms: 0100666
-              owner: 0
-              group: 0
-              type: "file"
-              writable: true
-              readable: true
-              executable: false
-              file: true
-              dir: false
-              link: false
-              linkTarget: "C:\xampp\tmp\phpF068.tmp"
-            }
-            1 =>
-        Illuminate\Http
-        \
-        UploadedFile {#1328
-              -test: false
-              -originalName: "car-22.jpg"
-              -mimeType: "image/jpeg"
-              -error: 0
-              #hashName: null
-              path: "C:\xampp\tmp"
-              filename: "phpF069.tmp"
-              basename: "phpF069.tmp"
-              pathname: "C:\xampp\tmp\phpF069.tmp"
-              extension: "tmp"
-              realPath: "
-        C:\xampp
-        \
-        tmp\phpF069.tmp"
-              aTime: 2024-03-03 23:28:34
-              mTime: 2024-03-03 23:28:34
-              cTime: 2024-03-03 23:28:34
-              inode: 6192449488013609
-              size: 67115
-              perms: 0100666
-              owner: 0
-              group: 0
-              type: "file"
-              writable: true
-              readable: true
-              executable: false
-              file: true
-              dir: false
-              link: false
-              linkTarget: "C:\xampp\tmp\phpF069.tmp"
-            }
-            2 =>
-        Illuminate\Http
-        \
-        UploadedFile {#1329
-              -test: false
-              -originalName: "car-23.jpg"
-              -mimeType: "image/jpeg"
-              -error: 0
-              #hashName: null
-              path: "C:\xampp\tmp"
-              filename: "phpF06A.tmp"
-              basename: "phpF06A.tmp"
-              pathname: "C:\xampp\tmp\phpF06A.tmp"
-              extension: "tmp"
-              realPath: "
-        C:\xampp
-        \
-        tmp\phpF06A.tmp"
-              aTime: 2024-03-03 23:28:34
-              mTime: 2024-03-03 23:28:34
-              cTime: 2024-03-03 23:28:34
-              inode: 5066549581170988
-              size: 317747
-              perms: 0100666
-              owner: 0
-              group: 0
-              type: "file"
-              writable: true
-              readable: true
-              executable: false
-              file: true
-              dir: false
-              link: false
-              linkTarget: "C:\xampp\tmp\phpF06A.tmp"
-            }
-          ]
-        ]
-         */
 
 
         $data = $request->all();
+
+        $carModel = CarModel::find($data['model']);
+
+        $years = $carModel->year()->pluck('year');
+        if ( $data['year'] <= date('Y')  && $data['year'] >= 1980 && !$years->contains($data['year'])) {
+            $year = Year::firstOrCreate(['year' => $data['year']]);
+            $carModel->year()->attach($year);
+        }
+
         \DB::beginTransaction();
         try {
 
-            $engine = Engine::create([
-                'engine' => $data['engine'],
+            $engineId = Engine::create([
+                'engine_value' => $data['engine'],
                 'horsepower' => $data['horsepower'],
                 'fuel_id' => $data['fuel'],
                 'transmission_id' => $data['transmission']
-            ]);
+            ])->id;
+
+
 
             $primaryImage = $data['images'][0];
-            $primaryImageName = time() . rand(1,10000) . '.' . $primaryImage->extension();
-            $primaryImage->move(public_path('assets/img/cars'), $primaryImageName);
+            $primaryImageName = time() . rand(1,1000000) . '.' . $primaryImage->extension();
+            $primaryImage->move(public_path('assets/img'), $primaryImageName);
 
 
             $car = Car::create([
@@ -223,35 +99,47 @@ class CarController extends PrimaryController
                 'kilometers' => $data['kilometers'],
                 'primary_image' => $primaryImageName,
                 'price' => $data['price'],
+                'year' => $data['year'],
                 'description' => $data['description'],
                 'registration' => $data['registration'],
                 'model_id' => $data['model'],
-                'body_id' => $data['body'],
-                'year' => $data['year'],
-                'doors_id' => $data['doors'],
-                'seats_id' => $data['seats'],
+                'engine_id' => $engineId,
                 'color_id' => $data['color'],
                 'drive_type_id' => $data['driveType'],
                 'user_id' => $data['userId']
             ]);
 
-            $car->safeties()->attach($data['safety']);
-            $car->equipment()->attach($data['equipments']);
+            if(isset($data['safety']))
+            {
+                $car->safeties()->attach($data['safety']);
 
-            foreach ($data['images'] as $image) {
-                $imageName = time() . '.' . $image->extension();
-                $image->move(public_path('assets/img/cars'), $imageName);
-                $car->images()->create(['name' => $imageName]);
+            }
+            if(isset($data['equipments'])){
+                $car->equipment()->attach($data['equipments']);
+            }
+            $otherImages = [];
+            for ($i = 1; $i < count($data['images']); $i++) {
+                $imageName = time() . rand(1,10000000) . '.' . $data['images'][$i]->extension();
+                $data['images'][$i]->move(public_path('assets/img'), $imageName);
+                $otherImages[] = [
+                    'path' => $imageName,
+                    'car_id' => $car->id
+                ];
             }
 
+            //Images::createMany($otherImages);
+            \DB::table('images')->insert($otherImages);
+
             \DB::commit();
+            return response()->json(['success' => 'Car added successfully!'], 201);
 
         } catch (\Exception $e) {
             \DB::rollBack();
             Log::error($e->getMessage());
-            return redirect()->back()->with('error', 'Server error. Please try again later.');
+            return response()->json(['error' => 'Server error'], 500);
+
         }
-        return redirect()->back()->with('success', 'Car added successfully!');
+
     }
 
     /**
@@ -259,7 +147,7 @@ class CarController extends PrimaryController
      */
     public function show(string $id)
     {
-        $car = Car::with('model','engine','user', 'equipment','safeties','wishlist')->find($id);
+        $car = Car::with('model.year','engine','user', 'equipment','safeties','wishlist')->find($id);
 
         $totalCars = Car::all()->groupBy('user_id')
                                 ->map(function ($item){return count($item);})

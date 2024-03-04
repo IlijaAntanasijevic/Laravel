@@ -55,8 +55,9 @@
                                 <img src="{{asset('assets/img/'. $car->primary_image)}}" class="img-fluid" alt="car-17">
                             </div>
                             @foreach($car->images as $image )
+
                                 <div class="item carousel-item" data-slide-number="1">
-                                    <img src="{{asset('assets/img/' . $car->path)}}" class="img-fluid" alt="car-16">
+                                    <img src="{{asset('assets/img/' . $image->path)}}" class="img-fluid" alt="car-16">
                                 </div>
                             @endforeach
                             <a class="carousel-control left" href="#carDetailsSlider" data-slide="prev"><i
@@ -158,7 +159,7 @@
                             <div class="col-md-4 col-sm-6">
                                 <ul>
                                     <li><span><i class="flaticon-car"></i> Body: {{$car->model['body']['name']}}</span></li>
-                                    <li><span><i class="flaticon-calendar"></i> Year: {{$car->model['year']}}</span></li>
+                                    <li><span><i class="flaticon-calendar"></i> Year: {{$car->year}}</span></li>
                                     <li><span><i class="flaticon-gas-pump"></i> Fuel: {{$car->engine['fuel']['name']}}</span></li>
                                 </ul>
                             </div>
@@ -217,11 +218,15 @@
                                 </li>
                                 <li>
                                     <span>Year</span>
-                                    {{$car->model['year']}}
+                                    {{$car->year}}
                                 </li>
                                 <li>
                                     <span>Kilometers</span>
                                     {{number_format($car->kilometers)}} km
+                                </li>
+                                <li>
+                                    <span>Registration</span>
+                                    {{$car->registration ?  $car->registration : '/'}}
                                 </li>
                                 <li>
                                     <span>Transmission</span>
@@ -282,8 +287,6 @@
             //let userId = {{Auth::id()}} ? {{Auth::id()}} : null;
 
             let userId = @json($userId);
-            let headWishList = $('#headWishList');
-            let bottomWishList = $('#bottomWishList');
 
             if($('.wishList').hasClass('checked')){
                 $.ajax({

@@ -20,6 +20,7 @@ class CarSeeder extends Seeder
                 'kilometers' => rand(1000, 200000),
                 'primary_image' => 'car-'.$i.'.jpg',
                 'price' => rand(5000, 50000),
+                'year' => rand(1990, 2022),
                 'description' => $faker->paragraph,
                 'registration' => $faker->date($format = 'Y-m-d', $max = 'now'),
                 'is_sold' => false,

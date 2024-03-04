@@ -17,6 +17,7 @@ class CompareCarController extends Controller
         $equipments = [];
         $safeties = [];
 
+
         if(session()->has('compare')){
             foreach ($data as $value){
                 $cars[] = Car::with('model','engine','drive_type', 'color','safeties','equipment')->find($value);
@@ -24,6 +25,8 @@ class CompareCarController extends Controller
             $equipments = Equipment::all();
             $safeties = Safety::all();
         }
+
+
 
         $tmp = [];
 
