@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
+use App\Models\CarModel;
 use App\Models\WishList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -63,6 +64,13 @@ class UtilityController extends PrimaryController
             return response()->json([], 500);
         }
 
+    }
+
+    public function getModelsById(Request $request)
+    {
+        $id = $request->get('id');
+        $models = CarModel::where('brand_id', $id)->get();
+        return response()->json($models);
     }
 
 

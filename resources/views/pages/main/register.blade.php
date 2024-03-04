@@ -47,7 +47,7 @@
                                        type="text"
                                        placeholder="Name"
                                        id="userRegName"
-                                       parent-class="clearfix"
+                                       parent-class="form-group clearfix"
                                        field-class="form-control"
                                        :error="$firstNameError"
                                        :value="old('name')"/>
@@ -57,7 +57,7 @@
                                        type="email"
                                        placeholder="Email"
                                        id="userRegEmail"
-                                       parent-class="clearfix"
+                                       parent-class="form-group clearfix"
                                        field-class="form-control"
                                        :error="$emailError"
                                        :value="old('email')"/>
@@ -67,7 +67,7 @@
                                        type="text"
                                        placeholder="City"
                                        id="userRegCity"
-                                       parent-class="clearfix"
+                                       parent-class="form-group clearfix"
                                        field-class="form-control"
                                        :error="$cityError"
                                        :value="old('city')"/>
@@ -76,7 +76,7 @@
                                        type="number"
                                        placeholder="Phone | 0601234567"
                                        id="userRegPhone"
-                                       parent-class="clearfix"
+                                       parent-class="form-group clearfix"
                                        field-class="form-control"
                                        :error="$phoneError"
                                        :value="old('phone')"/>
@@ -87,7 +87,7 @@
                                        type="text"
                                        placeholder="Last name"
                                        id="userRegLastName"
-                                       parent-class="clearfix"
+                                       parent-class="form-group clearfix"
                                        field-class="form-control"
                                        :error="$lastNameError"
                                        :value="old('lastName')"/>
@@ -96,7 +96,7 @@
                                        type="password"
                                        placeholder="Password"
                                        id="userRegPassword"
-                                       parent-class="clearfix"
+                                       parent-class="form-group clearfix"
                                        field-class="form-control"
                                        :error="$passwordError"
                                        :value="old('password')"/>
@@ -106,7 +106,7 @@
                                        type="text"
                                        placeholder="Address"
                                        id="userRegAddress"
-                                       parent-class="clearfix"
+                                       parent-class="form-group clearfix"
                                        field-class="form-control"
                                        :error="$addressError"
                                        :value="old('address')"/>

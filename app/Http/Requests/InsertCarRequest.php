@@ -23,15 +23,38 @@ class InsertCarRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:75',
-            'brand' => 'required|exists:brand,id',
-            'model' => 'required|exists:car_model,id',
-            'body' => 'required|exists:body,id',
-            'fuel' => 'required|exists:fuel,id',
-            'transmission' => 'required|exists:transmission,id',
-            'driveType' => 'required|exists:drive_type,id',
-            'engine' => 'required|exists:engine,id',
-            'color' => 'required|exists:color,id',
-            'year' => 'required|digits:4',
+            'brand' => 'required|exists:brands,id',
+            'model' => 'required|exists:car_models,id',
+            'body' => 'required|exists:bodies,id',
+            'year' => 'required|digits:4|integer|min:1980|max:2024',
+            'kilometers' => 'required|numeric|min:0|max:9999999',
+            'doors' => 'required|exists:doors,id',
+            'seats' => 'required|exists:seats,id',
+            'color' => 'required|exists:colors,id',
+            'driveType' => 'required|exists:drive_types,id',
+            'engine' => 'required|numeric',
+            'horsepower' => 'required|numeric',
+            'fuel' => 'required|exists:fuels,id',
+            'transmission' => 'required|exists:transmissions,id',
+            'registration' => [
+                'nullable',
+                'date',
+                'date_format:Y-m-d',
+                function ($attribute, $value, $fail) {
+                    $expectedDate = now()->subYear()->format('Y-m-d');
+                    if ($value !== $expectedDate) {
+                        $fail('The registration date must be exactly 1 year before today.');
+                    }
+                },
+            ],
+            'price' => 'required|numeric|max:9999999.99',
+            'description' => 'required|string',
+            'safeties' => 'array',
+            'safeties.*' => 'exists:car_safeties,id',
+            'equipments' => 'array',
+            'equipments.*' => 'exists:car_equipment,id',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'images' => 'required|array|max:10',
         ];
     }
 }

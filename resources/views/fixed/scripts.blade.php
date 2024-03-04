@@ -12,7 +12,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="{{asset('assets/js/ie-emulation-modes-warning.js')}}"></script>
 <!-- Custom JS Script -->
-<script src="{{asset('assets/js/customFunctions.js')}}"></script>
 <script src="{{asset('assets/js/app.js')}}"></script>
 
 @yield('custom_scripts')

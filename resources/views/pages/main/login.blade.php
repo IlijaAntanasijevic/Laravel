@@ -37,7 +37,7 @@
                                 type="email"
                                 placeholder="Email Address"
                                 id="email"
-                                parent-class="clearfix"
+                                parent-class="form-group clearfix"
                                 field-class="form-control"
                                 value="ilija0125@gmail.com"
                                 :error="$emailError"/>
@@ -47,7 +47,7 @@
                             type="password"
                             placeholder="Password"
                             id="password"
-                            parent-class="clearfix"
+                            parent-class="form-group clearfix"
                             field-class="form-control"
                             value="ilija12345"
                             :error="$passwordError"/>

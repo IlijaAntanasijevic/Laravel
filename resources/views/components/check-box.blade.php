@@ -5,4 +5,7 @@
             <label class="form-check-label" for="{{$option->$text}}-{{$option->$value}}">{{$option->$text}}</label>
         </div>
     @endforeach
+        @if($error)
+            <p class="text-danger"> {{ $error }}</p>
+        @endif
 </div>

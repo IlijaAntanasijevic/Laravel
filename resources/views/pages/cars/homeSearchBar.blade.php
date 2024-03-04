@@ -45,7 +45,7 @@
                             <x-drop-down
                                 name="bodyHome"
                                 id="bodyHome"
-                                first-option-text="Model"
+                                first-option-text="Body"
                                 :options="$bodies"/>
                         </div>
                         <div class="col-6 col-lg-3 col-md-3">
@@ -77,3 +77,34 @@
         </div>
     </div>
 </div>
+
+@section('custom_scripts')
+    <script>
+        $(document).ready(function () {
+            $('#brandHome').change(function () {
+                let brandId = $(this).val();
+                if (brandId === '0') {
+                    $('#modelHome').html('<option value="0">Model</option>');
+                    $('#modelHome').attr('disabled', 'disabled');
+                    return;
+                }
+                $.ajax({
+                    url: "{{route('get.models')}}",
+                    data: {
+                      id: brandId
+                    },
+                    method: 'GET',
+                    success: function (response) {
+                        let options = '<option value="0">Model</option>';
+                        response.forEach(function (model) {
+                            options += `<option value="${model.id}">${model.name}</option>`;
+                        });
+                        options += `<option value='other'>Other</option>`;
+                        $('#modelHome').html(options);
+                        $('#modelHome').removeAttr('disabled');
+                    }
+                });
+            });
+        });
+    </script>
+@endsection
