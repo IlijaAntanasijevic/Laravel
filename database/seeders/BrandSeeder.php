@@ -39,7 +39,6 @@ class BrandSeeder extends Seeder
         "Land Rover",
         "Lincoln",
         "Mitsubishi",
-        "Ram",
         "Mini",
         "Fiat",
         "Alfa Romeo",
@@ -51,7 +50,6 @@ class BrandSeeder extends Seeder
         "Rolls-Royce",
         "Lamborghini",
         "Bugatti",
-        'Other'
     ];
     public function run(): void
     {

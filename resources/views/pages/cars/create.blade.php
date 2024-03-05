@@ -342,7 +342,6 @@
                        for(let model of data){
                            options += `<option value='${model.id}'>${model.name}</option>`;
                        }
-                       options += `<option value='other'>Other</option>`;
                        $('#model').html(options);
                        $('#model').removeAttr('disabled');
                    },
@@ -352,8 +351,9 @@
                })
            })
            function displayErrors(errors) {
-               $('.error-message').remove();
                $('#imageError').text('');
+               $('.error-message').text('');
+
 
                $.each(errors, function (field, messages) {
                    let error_field = $('#' + field);

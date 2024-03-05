@@ -60,75 +60,8 @@
     </div>
 </div>
 
-@php
-    $userId = Auth::id() ? Auth::id() : null;
-
-@endphp
-
-@section('custom_scripts')
-    <script>
-
-           $('.wishList').click(function (){
-               let carId = $(this).data('id');
-               let userId = @json($userId);
 
 
-               if($(this).hasClass('checked')){
-                   $.ajax({
-                       url: '{{route('remove.wishlist')}}',
-                       method: 'DELETE',
-                       data: {
-                           carId: carId,
-                           userId: userId,
-                           _token: '{{csrf_token()}}'
-                       },
-                       success: function(data) {
-                           let message = data.message;
-                           $('#carWish-'+carId).removeClass('checked');
-                           $('#carWish-'+carId).html('<i class="fa fa-heart-o" aria-hidden="true"></i>')
-                           toastr.warning(message)
-                       },
-                       error: function (xhr){
-                           if(xhr.status === 401){
-                               toastr.error('You must be logged in to add to wishlist');
-                           }
-                           else if(xhr.status === 404){
-                               toastr.error('Car not found in wishlist.');
-                           }
-                           else {
-                               toastr.error('Something went wrong');
-                           }
-                       }
-                   })
-               }
-               else {
-                   $.ajax({
-                       url: '{{route('wishlist')}}',
-                       method: 'POST',
-                       data: {
-                           carId: carId,
-                           userId: userId,
-                           _token: '{{csrf_token()}}'
-                       },
-                       success: function (data) {
-                           let message = data.message;
-                           $('#carWish-'+carId).addClass('checked');
-                           $('#carWish-'+carId).html('<i class="fa fa-heart" aria-hidden="true"></i>')
-                           toastr.success(message)
-                       },
-                       error: function (xhr){
-                           if(xhr.status === 401){
-                               toastr.error('You must be logged in to add to wishlist');
-                           }
-                           else {
-                               toastr.error('Something went wrong');
-                           }
-                       }
 
-                   })
-               }
-       })
-    </script>
-@endsection
 
 

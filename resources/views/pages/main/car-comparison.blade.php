@@ -15,8 +15,7 @@ $attributesValues = ['name','engine_value','name'];
         $firsCar = $cars[0];
         $secondCar = isset($cars[1]) ? $cars[1] : null;
     }
-    dd($cars);
-    die;
+
 
 @endphp
 @section('content')
@@ -119,6 +118,12 @@ $attributesValues = ['name','engine_value','name'];
                                                 <td> Doors </td>
                                                 @foreach($cars as $car)
                                                     <td> {{$car->model['doors']->name}}  </td>
+                                                @endforeach
+                                            </tr>
+                                            <tr>
+                                                <td> Registration </td>
+                                                @foreach($cars as $car)
+                                                    <td> {{$car->registration ? $car->registration : "/"}}  </td>
                                                 @endforeach
                                             </tr>
                                             </tbody>

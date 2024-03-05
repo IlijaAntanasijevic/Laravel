@@ -2,8 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Body;
+use App\Models\Brand;
 use App\Models\Car;
 use App\Models\CarModel;
+use App\Models\Color;
+use App\Models\Doors;
+use App\Models\DriveType;
+use App\Models\Equipment;
+use App\Models\Fuel;
+use App\Models\Safety;
+use App\Models\Seats;
+use App\Models\Transmission;
 use App\Models\WishList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -72,6 +82,22 @@ class UtilityController extends PrimaryController
         $models = CarModel::where('brand_id', $id)->get();
         return response()->json($models);
     }
+
+    public function search_index()
+    {
+        $fuels = Fuel::all();
+        $transmission = Transmission::all();
+        $bodies = Body::all();
+        $brands = Brand::all();
+        $doors = Doors::all();
+        $seats = Seats::all();
+        $colors = Color::all();
+        $driveTypes = DriveType::all();
+        $safeties = Safety::all();
+        $equipments = Equipment::all();
+        return view('pages.main.search',compact('fuels','transmission','bodies','brands','doors','seats','colors','driveTypes','safeties','equipments'));
+    }
+
 
 
 }

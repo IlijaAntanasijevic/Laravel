@@ -69,7 +69,7 @@
                             </div>
                         </div>
                         <div class="col-6 col-lg-3 col-md-3 text-center mt-2">
-                            <a class="text-warning h5" id="searchMore">Search more...</a>
+                            <a class="text-warning h5" href="{{route('search-index')}}" id="searchMore">Search more...</a>
                         </div>
                     </div>
                 </form>
@@ -78,33 +78,3 @@
     </div>
 </div>
 
-@section('custom_scripts')
-    <script>
-        $(document).ready(function () {
-            $('#brandHome').change(function () {
-                let brandId = $(this).val();
-                if (brandId === '0') {
-                    $('#modelHome').html('<option value="0">Model</option>');
-                    $('#modelHome').attr('disabled', 'disabled');
-                    return;
-                }
-                $.ajax({
-                    url: "{{route('get.models')}}",
-                    data: {
-                      id: brandId
-                    },
-                    method: 'GET',
-                    success: function (response) {
-                        let options = '<option value="0">Model</option>';
-                        response.forEach(function (model) {
-                            options += `<option value="${model.id}">${model.name}</option>`;
-                        });
-                        options += `<option value='other'>Other</option>`;
-                        $('#modelHome').html(options);
-                        $('#modelHome').removeAttr('disabled');
-                    }
-                });
-            });
-        });
-    </script>
-@endsection
