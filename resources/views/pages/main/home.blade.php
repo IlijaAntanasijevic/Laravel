@@ -2,12 +2,23 @@
 
 @section('title') Home @endsection
 
+@section('custom_links')
+    <style>
+        #titleError {
+            display: none;
+        }
+    </style>
+@endsection
+
 @section('content')
+    <div class="page_loader"></div>
     @include('pages.cars.homeSearchBar')
     <div class="featured-car content-area-2">
         <div class="container">
             <div class="main-title">
-                <h1>Newest Car</h1>
+                <h1 id="homeTitle">Newest Car</h1>
+                <h3 class="text-left" id="searchedTitle"></h3>
+                <h1 id="titleError" class="text-danger">No cars found</h1>
             </div>
             <div class="row" id="showCars">
                @foreach($cars as $car)
@@ -31,7 +42,8 @@
 @section('custom_scripts')
     <script type="text/javascript">
         $(document).ready(function () {
-
+            $('.page_loader').remove();
+            //loadCars(1);
             // ** Model Dropdown ** //
             $('#brandHome').change(function () {
                 let brandId = $(this).val();
@@ -51,7 +63,6 @@
                         response.forEach(function (model) {
                             options += `<option value="${model.id}">${model.name}</option>`;
                         });
-                        options += `<option value='other'>Other</option>`;
                         $('#modelHome').html(options);
                         $('#modelHome').removeAttr('disabled');
                     }
@@ -61,7 +72,6 @@
 
             // ** Wishlist ** //
             $(document).on('click', '.wishList', function () {
-                alert();
                 let carId = $(this).data('id');
                 let userId = @json($userId);
 
@@ -76,10 +86,8 @@
                             _token: '{{csrf_token()}}'
                         },
                         success: function(data) {
-                            let message = data.message;
                             $('#carWish-'+carId).removeClass('checked');
                             $('#carWish-'+carId).html('<i class="fa fa-heart-o" aria-hidden="true"></i>')
-                            toastr.warning(message)
                         },
                         error: function (xhr){
                             if(xhr.status === 401){
@@ -127,35 +135,127 @@
             // ** View More ** //
             $('#showMoreHome').click(function () {
                 let nextPage = parseInt($(this).data('page')) + 1;
+                console.log(nextPage);
                 $(this).html('Loading...');
                 loadCars(nextPage);
                 $(this).data('page', nextPage);
             })
 
 
-
-            function loadCars(page){
-                $.ajax({
-                    url: '/home?page=' + page,
-                    method: 'GET',
-                    success: function (data) {
-                        console.log(data)
-                            $('#showMoreHome').show();
-                            $('#showMoreHome').html('View more');
-                            $('#showCars').append(data.html);
-                            if(!data.hasMore){
-                                $('#showMoreHome').hide();
-                            }
-                    },
-                    error: function (xhr) {
-                        alert('Something went wrong')
-                        console.log(xhr)
-                    }
-                })
-            }
             // ** End View More ** //
 
+
+            // ** Search ** //
+            $('#search').click(function (e){
+                $('#showMoreHome').data('page', 1);
+                loadCars(1,true);
+
+            })
+
+            magnificGallery();
         });
+
+        function loadCars(page,searched=false){
+            let brandId = $('#brandHome').val();
+            let modelId = $('#modelHome').val();
+            let bodyId = $('#bodyHome').val();
+            let maxPrice = $('#maxPriceHome').val();
+            let yearFrom = $('#yearFromHome').val();
+            let yearTo = $('#yearToHome').val();
+            let queryString = `?page=${page}&brand=${brandId}&model=${modelId}&maxPrice=${maxPrice}&body=${bodyId}&yearFrom=${yearFrom}&yearTo=${yearTo}`;
+
+            showSearchedTitle(brandId,modelId,bodyId,maxPrice,yearFrom,yearTo);
+            $.ajax({
+                url: '/home' + queryString,
+                method: 'GET',
+                success: function (data) {
+                    $('#showMoreHome').show();
+                    $('#showMoreHome').html('View more');
+                    if(data.html == ''){
+                        $('#showCars').html('');
+
+                        $('#homeTitle').hide();
+                        $('#titleError').show();
+                        $('#titleError').html('No cars found');
+                        toastr.warning('No cars found');
+                    }
+                    else if(searched && page == 1){
+                        $('#showCars').html(data.html);
+                        $('#titleError').hide();
+
+                    }
+                    else {
+                        $('#showCars').append(data.html);
+                        $('#titleError').hide();
+
+
+                    }
+                    magnificGallery();
+
+                    if(!data.hasMore){
+                        $('#showMoreHome').hide();
+                    }
+                },
+                error: function (xhr) {
+                    alert('Something went wrong')
+                    console.log(xhr)
+                }
+            })
+        }
+
+
+        function magnificGallery() {
+            $('.car-magnify-gallery').each(function () {
+                $(this).magnificPopup({
+                    delegate: 'a',
+                    type: 'image',
+                    gallery: {
+                        enabled: true
+                    }
+                });
+            });
+        }
+
+        function showSearchedTitle(brandId,modelId,bodyId,maxPrice,yearFrom,yearTo){
+            let brandName = $('#brandHome option:selected').text();
+            let modelName = $('#modelHome option:selected').text();
+            let bodyName = $('#bodyHome option:selected').text();
+            let title = 'Searched: ';
+            if(brandId != 0){
+                title += brandName + ', ';
+            }
+            if(modelId != 0){
+                title +=  modelName + ', ';
+            }
+            if(bodyId != 0){
+                title += bodyName + ', ';
+            }
+            if(maxPrice != 0){
+                title += ' Max price: ' + maxPrice + ', ';
+            }
+            if(yearFrom != 0){
+                title += ' Year from: ' + yearFrom + ', ';
+            }
+            if(yearTo != 0){
+                title += ' Year to: ' + yearTo;
+            }
+            if(brandId == 0 && modelId == 0 && bodyId == 0 && maxPrice == 0 && yearFrom == 0 && yearTo == 0){
+                $('#homeTitle').show();
+                $('#searchedTitle').hide();
+                $('#searchedTitle').html('');
+            }
+            else {
+                let lastIndex = title.lastIndexOf(',');
+                if (lastIndex !== -1) {
+                    title = title.substring(0, lastIndex) + title.substring(lastIndex + 1);
+                }
+                $('#homeTitle').hide();
+                $('#searchedTitle').html(title);
+            }
+
+
+        }
+
 
 
 

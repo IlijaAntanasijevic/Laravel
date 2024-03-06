@@ -110,12 +110,19 @@ $(function () {
     $('#yearFromHome').on('change', function () {
         let year = $(this).val();
         let string = '<option value="0">Year To</option>';
-        //2020
-        console.log(year)
         for(let i = 2024; i >= parseInt(year); i--){
             string += '<option value="'+i+'">'+i+'</option>';
         }
         $('#yearToHome').html(string);
+    });
+
+    $('#yearFromSearch').on('change', function () {
+        let year = $(this).val();
+        let string = '<option value="0">Year To</option>';
+        for(let i = 2024; i >= parseInt(year); i--){
+            string += '<option value="'+i+'">'+i+'</option>';
+        }
+        $('#yearToSearch').html(string);
     });
 
 

@@ -3,7 +3,7 @@
 @section('title') Contact @endsection
 
 @section('content')
-    <!-- Contact 1 start -->
+    <div class="page_loader"></div>
     <div class="contact-1 content-area-7">
         <div class="container">
             <div class="main-title">
@@ -88,4 +88,12 @@
     </div>
 
 
+@endsection
+
+@section('custom_scripts')
+    <script>
+        $(document).ready(function () {
+            $('.page_loader').remove();
+        });
+    </script>
 @endsection

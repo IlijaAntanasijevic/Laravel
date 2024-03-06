@@ -40,15 +40,16 @@
                             name="body"
                             id="body"
                             :selected="old('body')"/>
+
                         <x-text-field
-                            label="Year"
+                            label="Engine Value"
                             parent-class="form-group col-md-3"
                             field-class="form-control"
                             type="number"
-                            placeholder="2024"
-                            id="year"
-                            name="year"
-                            :value="old('year')"/>
+                            placeholder="1789"
+                            id="engine"
+                            name="engine"
+                            :value="old('engine')"/>
 
                         <x-dropdown
                             parent-class="form-group col-md-3 my-4"
@@ -87,15 +88,7 @@
                             name="driveType"
                             id="driveType"
                             :selected="old('$driveType')"/>
-                        <x-text-field
-                            label="Engine Value"
-                            parent-class="form-group col-md-3"
-                            field-class="form-control"
-                            type="number"
-                            placeholder="1789"
-                            id="engine"
-                            name="engine"
-                            :value="old('engine')"/>
+
                         <x-text-field
                             label="Horse Power"
                             parent-class="form-group col-md-3"
@@ -120,53 +113,52 @@
                             name="transmission"
                             id="transmission"
                             :selected="old('transmission')"/>
-                        <x-text-field
-                            label="Registration"
-                            parent-class="form-group col-md-3"
-                            field-class="form-control"
-                            id="registration"
-                            type="date"
-                            name="registration"
-                            :value="old('registration')"/>
+                        <div class="form-group col-md-3 ">
+                            <label class="text-light">...</label>
+                            <div class="form-check">
+
+                                <label for="registered">Registered</label>
+                                <input type="radio" checked id="registered" name="registration" class="mr-3">
+
+                                <label for="unregistered">Unregistered</label>
+                                <input  type="radio" id="unregistered" name="registration" >
+
+                            </div>
+                        </div>
 
                         <x-text-field
                             label="Price ($)"
-                            parent-class="form-group col-md-5"
+                            parent-class="form-group col-md-4"
                             field-class="form-control"
                             id="price"
                             type="number"
                             name="price"
                             :value="old('price')"/>
 
-                        <div class="container my-5">
-                            <div class="row justify-content-around">
-                                <div class="">
-                                    <h3 class="mb-4">Safety</h3>
-                                    <p class="text-danger error-message" id="safetiesError"></p>
-                                    <x-check-box
-                                        name="safety[]"
-                                        :options="$safeties"
-                                        :checked="old('safety')"/>
-                                </div>
-
-                                <div class="">
-                                    <h3 class="mb-4">Equipments</h3>
-                                    <p class="text-danger error-message" id="equipmentsError"></p>
-                                    <x-check-box
-                                        name="equipments[]"
-                                        :options="$equipments"
-                                        :checked="old('equipments')"/>
-                                </div>
+                        <div class="col-6 col-md-4">
+                            <div class="form-group">
+                                <label>Year From</label>
+                                <select class="selectpicker search-fields form-control" name="yearFrom" id="yearFromSearch">
+                                    @for($i = 2024; $i >= 1980; $i--)
+                                        <option value="{{$i}}">{{$i}}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <div class="form-group">
+                                <label>Year To</label>
+                                <select class="selectpicker search-fields form-control" name="yearTo" id="yearToSearch">
+                                    @for($i = 2024; $i >= 1980; $i--)
+                                        <option value="{{$i}}">{{$i}}</option>
+                                    @endfor
+                                </select>
                             </div>
                         </div>
                     </div>
 
                     <div class="w-50 mx-auto my-5">
                         <button id="submitButton"  class="btn btn-warning my-5 w-100 mx-auto text-light">Search</button>
-{{--
-                        <p class="alert alert-danger text-center globalMessages" id="globalErrorMsg">There is some errors, please check all inputs</p>
-                        <p class="alert alert-success text-center globalMessages" id="globalSuccessMsg">Car added successfully! Admin approval is required</p>
---}}
                     </div>
                 </form>
 
@@ -178,7 +170,32 @@
 
 @section('custom_scripts')
     <script>
-       /* $('#globalErrorMsg').hide();
-        $('#globalSuccessMsg').hide();*/
+        $(document).ready(function () {
+            // ** Model Dropdown ** //
+            $('#brand').change(function () {
+                let brandId = $(this).val();
+                if (brandId === '0') {
+                    $('#model').html('<option value="0">Model</option>');
+                    $('#model').attr('disabled', 'disabled');
+                    return;
+                }
+                $.ajax({
+                    url: "{{route('get.models')}}",
+                    data: {
+                        id: brandId
+                    },
+                    method: 'GET',
+                    success: function (response) {
+                        let options = '<option value="0">Model</option>';
+                        response.forEach(function (model) {
+                            options += `<option value="${model.id}">${model.name}</option>`;
+                        });
+                        $('#model').html(options);
+                        $('#model').removeAttr('disabled');
+                    }
+                });
+            });
+            // ** End Model DDL ** //
+        });
     </script>
 @endsection

@@ -19,7 +19,7 @@ $attributesValues = ['name','engine_value','name'];
 
 @endphp
 @section('content')
-
+    <div class="page_loader"></div>
     @if($show)
     <div class="">
         <div class="comparison content-area-2">
@@ -223,4 +223,12 @@ $attributesValues = ['name','engine_value','name'];
             <p class="text-danger text-center h2">Doesn't have cars to compare</p>
         </div>
     @endif
+@endsection
+
+@section('custom_scripts')
+    <script>
+        $(document).ready(function () {
+            $('.page_loader').remove();
+        });
+    </script>
 @endsection

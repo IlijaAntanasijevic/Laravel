@@ -1,8 +1,23 @@
 @extends('layouts.layout')
 
 @section('title') Cars @endsection
+@section('custom_links')
+    <style>
+        .pagination {
+            margin: 55px 0px;
+        }
+        .page-item.active .page-link {
+            background-color: red;
+        }
+        .page-link .active {
+            background-color: red;
+        }
 
+
+    </style>
+@endsection
 @section('content')
+    <div class="page_loader"></div>
     <div class="car-list-rightside content-area-2">
         <div class="container">
             <div class="row">
@@ -11,24 +26,14 @@
                         <div class="row clearfix">
                             <div class="col-lg-4 col-md-5 col-sm-5">
                                 <h4 class="ml-4">
-                                    <span class="heading">Car List</span>
+                                    <span class="heading">Available cars</span>
                                 </h4>
                             </div>
-                            <div class="col-lg-8 col-md-7 col-sm-7">
-                                <div class="search-area mr-4">
-                                    <select class="selectpicker search-fields" name="location">
-                                        <option value="0">Sort By</option>
-                                        <option value="price-asc">Highest price</option>
-                                        <option value="price-desc">Lower price</option>
-                                        <option value="new">Newest</option>
-                                        <option value="old">Oldest</option>
-                                    </select>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                     <div class="subtitle">
-                        20 Result Found
+                        {{$totalCars}} Result Found
                     </div>
 
                     @foreach($cars as $car)
@@ -36,18 +41,7 @@
                         @component('pages.cars.listCard', ['car' => $car])
                         @endcomponent
                     @endforeach
-
-                    <div class="pagination-box hidden-mb-45">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination">
-                                <li class="page-item"><a class="page-link" href="#"><span aria-hidden="true">«</span></a></li>
-                                <li class="page-item"><a class="page-link active" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#"><span aria-hidden="true">»</span></a></li>
-                            </ul>
-                        </nav>
-                    </div>
+                    {{$cars->links()}}
                 </div>
                 <div class="col-lg-4 col-md-12">
                     <div class="sidebar-right">
@@ -56,11 +50,12 @@
                             <h5 class="sidebar-title">Find your Car</h5>
                             <div class="search-area-inner">
                                 <div class="search-contents ">
-                                    <form method="GET">
+                                    <form method="GET" action="{{route('cars.index')}}">
                                         <x-drop-down
                                             name="brand"
                                             id="brandCarList"
                                             first-option-text="Chose One"
+                                            first-option-value="0"
                                             :options="$data['brands']"
                                             label="Brand"/>
 
@@ -68,12 +63,19 @@
                                             name="model"
                                             id="modelCarList"
                                             first-option-text="Chose One"
+                                            first-option-value="0"
                                             :options="[]"
                                             disabled="true"
                                             label="Model"/>
-
+                                        <x-drop-down
+                                            name="body"
+                                            id="bodyCarList"
+                                            first-option-text="Chose One"
+                                            first-option-value="0"
+                                            :options="$data['bodies']"
+                                            label="Body Type"/>
                                         <div class="form-group">
-                                            <label>Year from</label>
+                                            <label>Year From</label>
                                             <select class="selectpicker search-fields" name="yearFrom">
                                                 <option>Choose One</option>
                                                 @for($i = 2024; $i >= 1980; $i--)
@@ -81,22 +83,26 @@
                                                 @endfor
                                             </select>
                                         </div>
-                                        <x-drop-down
-                                            name="body"
-                                            id="bodyCarList"
-                                            first-option-text="Chose One"
-                                            :options="$data['bodies']"
-                                            label="Body Type"/>
+
 
                                         <x-drop-down
                                             name="transmission"
                                             id="transmissionCarList"
                                             first-option-text="Chose One"
+                                            first-option-value="0"
                                             :options="$data['transmission']"
                                             label="Transmission"/>
-
+                                        <div class="form-group">
+                                            <label>Sort By</label>
+                                                <select class="selectpicker search-fields" name="sort">
+                                                    <option value="new" @if(old('sort') == 'new') selected @endif>Newest</option>
+                                                    <option value="old" @if(old('sort') == 'old') selected @endif>Oldest</option>
+                                                    <option value="desc" @if(old('sort') == 'desc') selected @endif>Highest price</option>
+                                                    <option value="asc" @if(old('sort') == 'asc')selected @endif>Lower price</option>
+                                                </select>
+                                        </div>
                                         <br>
-                                        <button class="search-button btn-md btn-color">Search</button>
+                                        <button class="search-button btn-md btn-color" type="submit">Search</button>
                                     </form>
                                 </div>
                             </div>
@@ -105,4 +111,106 @@
             </div>
         </div>
     </div>
+
+
 @endsection
+@php
+    $userId = Auth::id() ? Auth::id() : null;
+@endphp
+@section('custom_scripts')
+
+
+            <script>
+                $(document).ready(function () {
+                    $('.page_loader').remove();
+                    $('.wishList').click(function (){
+                        let carId = $(this).data('id');
+                        let userId = @json($userId);
+
+
+                        if($(this).hasClass('checked')){
+                            $.ajax({
+                                url: '{{route('remove.wishlist')}}',
+                                method: 'DELETE',
+                                data: {
+                                    carId: carId,
+                                    userId: userId,
+                                    _token: '{{csrf_token()}}'
+                                },
+                                success: function(data) {
+                                    let message = data.message;
+                                    $('#carWish-'+carId).removeClass('checked');
+                                    $('#carWish-'+carId).html('<i class="fa fa-heart-o" aria-hidden="true"></i>')
+                                    toastr.warning(message)
+                                },
+                                error: function (xhr){
+                                    if(xhr.status === 401){
+                                        toastr.error('You must be logged in to add to wishlist');
+                                    }
+                                    else if(xhr.status === 404){
+                                        toastr.error('Car not found in wishlist.');
+                                    }
+                                    else {
+                                        toastr.error('Something went wrong');
+                                    }
+                                }
+                            })
+                        }
+                        else {
+                            $.ajax({
+                                url: '{{route('wishlist')}}',
+                                method: 'POST',
+                                data: {
+                                    carId: carId,
+                                    userId: userId,
+                                    _token: '{{csrf_token()}}'
+                                },
+                                success: function (data) {
+                                    let message = data.message;
+                                    $('#carWish-'+carId).addClass('checked');
+                                    $('#carWish-'+carId).html('<i class="fa fa-heart" aria-hidden="true"></i>')
+                                    toastr.success(message)
+                                },
+                                error: function (xhr){
+                                    if(xhr.status === 401){
+                                        toastr.error('You must be logged in to add to wishlist');
+                                    }
+                                    else {
+                                        toastr.error('Something went wrong');
+                                    }
+                                }
+
+                            })
+                        }
+                    })
+
+
+                    // ** Model Dropdown ** //
+                    $('#brandCarList').change(function () {
+                        let brandId = $(this).val();
+                        if (brandId === '0') {
+                            $('#modelCarList').html('<option value="0">Model</option>');
+                            $('#modelCarList').attr('disabled', 'disabled');
+                            return;
+                        }
+                        $.ajax({
+                            url: "{{route('get.models')}}",
+                            data: {
+                                id: brandId
+                            },
+                            method: 'GET',
+                            success: function (response) {
+                                let options = '<option value="0">Model</option>';
+                                response.forEach(function (model) {
+                                    options += `<option value="${model.id}">${model.name}</option>`;
+                                });
+                                $('#modelCarList').html(options);
+                                $('#modelCarList').removeAttr('disabled');
+                            }
+                        });
+                    });
+                    // ** End Model DDL ** //
+                })
+            </script>
+@endsection
+

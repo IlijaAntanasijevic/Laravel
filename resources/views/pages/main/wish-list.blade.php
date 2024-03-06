@@ -3,6 +3,7 @@
 @section('title') Wish List @endsection
 
 @section('content')
+    <div class="page_loader"></div>
     <div class="featured-car content-area-2 ">
         <div class="container">
             <div class="main-title">
@@ -20,4 +21,12 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('custom_scripts')
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.page_loader').remove();
+        });
+    </script>
 @endsection

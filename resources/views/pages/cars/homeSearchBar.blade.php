@@ -4,9 +4,7 @@
     <div class="container">
         <div class="search-area-inner">
             <div class="search-contents ">
-                <form
-                    action="https://storage.googleapis.com/theme-vessel-items/checking-sites-2/car-shop-html/HTML/main/index.html"
-                    method="GET">
+                <form action="#" method="GET">
                     <div class="row">
                         <div class="col-6 col-lg-3 col-md-3">
                                 <x-drop-down
@@ -14,7 +12,7 @@
                                 id="brandHome"
                                 first-option-text="Brand"
                                 :options="$brands"
-                                add-other-option="true"/>
+                                :selected="old('brandHome')"/>
                         </div>
                         <div class="col-6 col-lg-3 col-md-3">
                                 <x-drop-down
@@ -22,7 +20,8 @@
                                     id="modelHome"
                                     first-option-text="Model"
                                     :options="[]"
-                                    disabled="true"/>
+                                    disabled="true"
+                                    :selected="old('modelHome')"/>
                         </div>
                         <div class="col-6 col-lg-3 col-md-3">
                             <x-text-field
@@ -35,7 +34,7 @@
                         </div>
                         <div class="col-6 col-lg-3 col-md-3">
                             <div class="form-group">
-                                <button class="search-button btn-md btn-color" type="submit">Search</button>
+                                <span class="search-button btn-md btn-color text-center d-block" id="search">Search</span>
                             </div>
                         </div>
                         </div>

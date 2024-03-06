@@ -12,6 +12,10 @@
         @foreach($options as $option)
             <option value="{{$option->$value}}" @selected($selected == $option->$value)>{{ucfirst($option->$text)}}</option>
         @endforeach
+           {{-- @foreach($options as $option)
+                <option value="{{$option->$value}}" {{ $selected == $option->$value ? 'selected' : '' }}>{{ ucfirst($option->$text) }}</option>
+            @endforeach
+            --}}
 
         @if($addOtherOption)
                 <option value="other">Other</option>

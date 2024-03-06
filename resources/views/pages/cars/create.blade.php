@@ -31,7 +31,7 @@
 @endsection
 
 @section('content')
-
+<div class="page_loader"></div>
     <div class="container mt-4 min-vh-100 mb-5">
         <div class="row">
             <div class="col-lg-12">
@@ -175,7 +175,7 @@
 
                         <div class="ml-3 col-md-3" id="registeredBlock">
                             <input type="checkbox"  class="form-check-input" name="registrationCheckbox" id="registrationCheckbox">
-                            <label for="registrationCheckbox">Not registered</label>
+                            <label for="registrationCheckbox">Unregistered</label>
                         </div>
 
                         <x-text-field
@@ -236,6 +236,7 @@
 @section('custom_scripts')
     <script type="text/javascript">
        $(document).ready(function () {
+              $('.page_loader').remove();
            let csrfToken =  $('meta[name="csrf-token"]').attr('content');
            let dropzone = new Dropzone("#my-dropzone", {
                url: "{{ route('cars.store') }}",

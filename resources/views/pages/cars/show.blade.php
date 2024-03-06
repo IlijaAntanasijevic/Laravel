@@ -23,6 +23,7 @@
     </style>
 @endsection
 @section('content')
+    <div class="page_loader"></div>
     @php
         $inWishList = $car->wishlist->where('user_id',Auth::id())->first();
     @endphp
@@ -209,16 +210,12 @@
                                     {{$car->name}}
                                 </li>
                                 <li>
+                                    <span>Brand</span>
+                                    {{$car->model['brand']->name}}
+                                </li>
+                                <li>
                                     <span>Model</span>
                                     {{$car->model['name']}}
-                                </li>
-                                <li>
-                                    <span>Body Style</span>
-                                    {{$car->model['body']->name}}
-                                </li>
-                                <li>
-                                    <span>Year</span>
-                                    {{$car->year}}
                                 </li>
                                 <li>
                                     <span>Kilometers</span>
@@ -281,95 +278,97 @@
 
 @section('custom_scripts')
     <script>
-        $('.wishList').click(function (){
-            console.log($('.wishList'));
-            let carId = {{$carId}};
-            //let userId = {{Auth::id()}} ? {{Auth::id()}} : null;
+        $(document).ready(function () {
+            $('.page_loader').remove();
+            $('.wishList').click(function (){
+                let carId = {{$carId}};
+                //let userId = {{Auth::id()}} ? {{Auth::id()}} : null;
 
-            let userId = @json($userId);
+                let userId = @json($userId);
 
-            if($('.wishList').hasClass('checked')){
+                if($('.wishList').hasClass('checked')){
+                    $.ajax({
+                        url: '{{route('remove.wishlist')}}',
+                        method: 'DELETE',
+                        data: {
+                            carId: carId,
+                            userId: userId,
+                            _token: '{{csrf_token()}}'
+                        },
+                        success: function(data) {
+                            let message = data.message;
+
+                            $('.wishList').removeClass('checked');
+                            $('.wishList').html('<i class="fa fa-heart-o" aria-hidden="true"></i>')
+                            //bottomWishList.html('Wish List <i class="fa fa-heart-o" aria-hidden="true"></i>')
+
+                            toastr.warning(message)
+                        },
+                        error: function (xhr, status, error){
+                            if(xhr.status === 401){
+                                toastr.error('You must be logged in to add to wishlist');
+                            }
+                            else if(xhr.status === 404){
+                                toastr.error('Car not found in wishlist.');
+                            }
+                            else {
+                                toastr.error('Something went wrong');
+                            }
+                        }
+                    })
+                }
+                else {
+                    $.ajax({
+                        url: '{{route('wishlist')}}',
+                        method: 'POST',
+                        data: {
+                            carId: carId,
+                            userId: userId,
+                            _token: '{{csrf_token()}}'
+                        },
+                        success: function (data) {
+                            let message = data.message;
+                            $('.wishList').addClass('checked');
+                            $('.wishList').html('<i class="fa fa-heart" aria-hidden="true"></i>')
+                            toastr.success(message)
+                        },
+                        error: function (xhr){
+                            if(xhr.status === 401){
+                                toastr.error('You must be logged in to add to wishlist');
+                            }
+                            else {
+                                toastr.error('Something went wrong');
+                            }
+                        }
+
+                    })
+                }
+            })
+
+            $('#compareCar').click(function () {
                 $.ajax({
-                    url: '{{route('remove.wishlist')}}',
-                    method: 'DELETE',
+                    url: "{{route('compare')}}",
+                    method: "POST",
                     data: {
-                        carId: carId,
-                        userId: userId,
-                        _token: '{{csrf_token()}}'
-                    },
-                    success: function(data) {
-                        let message = data.message;
-
-                        $('.wishList').removeClass('checked');
-                        $('.wishList').html('<i class="fa fa-heart-o" aria-hidden="true"></i>')
-                        //bottomWishList.html('Wish List <i class="fa fa-heart-o" aria-hidden="true"></i>')
-
-                        toastr.warning(message)
-                    },
-                    error: function (xhr, status, error){
-                        if(xhr.status === 401){
-                            toastr.error('You must be logged in to add to wishlist');
-                        }
-                        else if(xhr.status === 404){
-                            toastr.error('Car not found in wishlist.');
-                        }
-                        else {
-                            toastr.error('Something went wrong');
-                        }
-                    }
-                })
-            }
-            else {
-                $.ajax({
-                    url: '{{route('wishlist')}}',
-                    method: 'POST',
-                    data: {
-                        carId: carId,
-                        userId: userId,
+                        carId: {{$carId}},
                         _token: '{{csrf_token()}}'
                     },
                     success: function (data) {
-                        let message = data.message;
-                        $('.wishList').addClass('checked');
-                        $('.wishList').html('<i class="fa fa-heart" aria-hidden="true"></i>')
-                        toastr.success(message)
+                        $('#compareCar').css({
+                            color: 'lightgreen',
+                        })
+                        $('#compareCar').html('Added <i class="fa fa-check-circle" aria-hidden="true"></i>')
+
+                        toastr.success(data.message)
                     },
-                    error: function (xhr){
-                        if(xhr.status === 401){
-                            toastr.error('You must be logged in to add to wishlist');
-                        }
-                        else {
-                            toastr.error('Something went wrong');
+                    error: function (xhr, status, error){
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            toastr.warning(xhr.responseJSON.message);
+                        } else {
+                            toastr.warning('Something went wrong')
                         }
                     }
-
                 })
-            }
-        })
-
-        $('#compareCar').click(function () {
-            $.ajax({
-                url: "{{route('compare')}}",
-                method: "POST",
-                data: {
-                    carId: {{$carId}},
-                    _token: '{{csrf_token()}}'
-                },
-                success: function (data) {
-                    $('#compareCar').css({
-                        color: 'lightgreen',
-                    })
-                    $('#compareCar').html('Added <i class="fa fa-check-circle" aria-hidden="true"></i>')
-
-                    toastr.success(data.message)
-                },
-                error: function (xhr, status, error){
-                    if (xhr.responseJSON && xhr.responseJSON.message) {
-                        toastr.warning(xhr.responseJSON.message);
-                    } else {
-                        toastr.warning('Something went wrong')
-                    }
-                }
             })
         })
 

@@ -22,17 +22,18 @@ use App\Http\Controllers\CompareCarController;
 // ?* Cars page -> Done
 // ?* Insert Car / Sell Car -> Done
 // ?* Fix Register - Login -> Done, probably
-// ?* Fix (other) Insert car / Sell car
-// * Search more page
-// * View More - Home page
-// * Pagination - Car page
-// * Show all seller cars (click?)
-// * User Profile / Edit Profile, Edit Car
-// * Filter, Sort
-// * Create a middleware that checks if the user is an admin
-// * Admin panel
-// * Contact custom components
-
+// ?* View More - Home page -> Done
+// ?* Pagination - Car page -> Done
+// ?* Search more page -> Done
+// ?* Filter, Sort -> Done
+// !* Search more
+// !* Fix selected items in search
+// !* User Profile / Edit Profile, Edit Car
+// !* Show all seller cars (click?)
+// !* Create a middleware that checks if the user is an admin
+// !* Admin panel
+// !* Contact custom components
+// !* Contact - mail
 
 Route::get("/",[HomeController::class,'index'])->name('home');
 Route::get("/home",[HomeController::class,'index'])->name('home');
@@ -41,7 +42,7 @@ Route::get("/contact",[ContactController::class,'index'])->name('contact');
 Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
 Route::get('/cars/{car}', [CarController::class, 'show'])->where('car','[0-9]+')->name('cars.show');
 
-Route::get('/search-index', [UtilityController::class, 'search_index'])->name('search-index');
+Route::get('/search-index', [HomeController::class, 'search_index'])->name('search-index');
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 
 

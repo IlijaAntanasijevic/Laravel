@@ -83,20 +83,7 @@ class UtilityController extends PrimaryController
         return response()->json($models);
     }
 
-    public function search_index()
-    {
-        $fuels = Fuel::all();
-        $transmission = Transmission::all();
-        $bodies = Body::all();
-        $brands = Brand::all();
-        $doors = Doors::all();
-        $seats = Seats::all();
-        $colors = Color::all();
-        $driveTypes = DriveType::all();
-        $safeties = Safety::all();
-        $equipments = Equipment::all();
-        return view('pages.main.search',compact('fuels','transmission','bodies','brands','doors','seats','colors','driveTypes','safeties','equipments'));
-    }
+
 
 
 

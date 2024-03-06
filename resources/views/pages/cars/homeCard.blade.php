@@ -1,5 +1,6 @@
 @php
     $inWishList = $car->wishlist->where('user_id',Auth::id())->first();
+    
 @endphp
 <div class="col-lg-4 col-md-6 col-sm-6" >
     <div class="car-box ">
@@ -48,10 +49,10 @@
             </h1>
             <!-- Location -->
             <div class="location d-flex justify-content-between">
-                <a href="car-details.html">
+                <span>
                     <i class="fa fa-map-marker"></i>
                     {{$car->user['address']}}
-                </a>
+                </span>
                 <p class="text-dark font-weight-bold home-car-price">
                     {{number_format($car->price,0,' ','.')}}$
                 </p>

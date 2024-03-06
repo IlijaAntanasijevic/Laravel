@@ -13,15 +13,15 @@
                     <div class="collapse navbar-collapse" id="navbar">
                         <ul class="navbar-nav ml-auto">
                             @foreach($menu as $link)
-                                <li class="nav-item ">
+                                <li class="nav-item @if(request()->routeIs($link->route)) active @endif">
                                     <a class="nav-link " href="{{route($link["route"])}}">{{$link["name"]}}</a>
                                 </li>
                             @endforeach
                         @if(Auth::check())
-                            <li class="nav-item">
+                            <li class="nav-item @if(request()->routeIs('cars.create')) active @endif" >
                                 <a href="{{route('cars.create')}}" class="nav-link text-danger">Sell Car</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item @if(request()->routeIs('wishlist.index')) active @endif">
                                 <a class="nav-link" href="{{route('wishlist.index')}}"> <i class="fa fa-heart-o"></i></a>
                             </li>
                         @endif
