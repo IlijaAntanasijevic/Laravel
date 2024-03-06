@@ -9,7 +9,6 @@
                 <h1>Search more</h1>
                 <hr />
                 <form action="{{route('search')}}" method="GET">
-                    @csrf
                     <div class="form-row">
                         <x-dropdown
                             label="Brand"
@@ -42,7 +41,7 @@
                             :selected="old('body')"/>
 
                         <x-text-field
-                            label="Engine Value"
+                            label="Max Engine Value"
                             parent-class="form-group col-md-3"
                             field-class="form-control"
                             type="number"
@@ -90,62 +89,68 @@
                             :selected="old('$driveType')"/>
 
                         <x-text-field
-                            label="Horse Power"
-                            parent-class="form-group col-md-3"
+                            parent-class="form-group col-md-3 mt-4"
                             placeholder="150"
                             field-class="form-control"
+                            placeholder="Max horse power"
                             id="horsepower"
                             name="horsepower"
                             :value="old('horsepower')"/>
                         <x-dropdown
-                            label="Fuel"
-                            parent-class="form-group col-md-3"
+                            parent-class="form-group col-md-3 mt-4"
                             select-class="selectpicker search-fields form-control"
+                            first-option-text="Fuel"
                             :options="$fuels"
                             name="fuel"
                             id="fuel"
                             :selected="old('fuel')"/>
                         <x-dropdown
-                            label="Transmission"
-                            parent-class="form-group col-md-3"
+                            parent-class="form-group col-md-3 mt-4"
                             select-class="selectpicker search-fields form-control"
+                            first-option-text="Transmission"
                             :options="$transmission"
                             name="transmission"
                             id="transmission"
                             :selected="old('transmission')"/>
-                        <div class="form-group col-md-3 ">
-                            <label class="text-light">...</label>
+                        <div class="form-group col-md-3 mt-4 p-0">
                             <div class="form-check">
-
-                                <label for="registered">Registered</label>
-                                <input type="radio" checked id="registered" name="registration" class="mr-3">
-
-                                <label for="unregistered">Unregistered</label>
-                                <input  type="radio" id="unregistered" name="registration" >
+                                <select class="selectpicker search-fields form-control" name="registration" id="registration">
+                                    <option value="0">Registration (All)</option>
+                                    <option value="registered">Registered</option>
+                                    <option value="unregistered">Unregistered</option>
+                                </select>
 
                             </div>
                         </div>
 
                         <x-text-field
-                            label="Price ($)"
-                            parent-class="form-group col-md-4"
+                            label="Min Price ($)"
+                            parent-class="form-group col-md-3"
                             field-class="form-control"
                             id="price"
                             type="number"
-                            name="price"
+                            name="minPrice"
+                            :value="old('price')"/>
+                        <x-text-field
+                            label="Max Price ($)"
+                            parent-class="form-group col-md-3"
+                            field-class="form-control"
+                            id="price"
+                            type="number"
+                            name="maxPrice"
                             :value="old('price')"/>
 
-                        <div class="col-6 col-md-4">
+                        <div class="col-6 col-md-3">
                             <div class="form-group">
                                 <label>Year From</label>
                                 <select class="selectpicker search-fields form-control" name="yearFrom" id="yearFromSearch">
-                                    @for($i = 2024; $i >= 1980; $i--)
+                                    @for($i = 1980; $i <= 2024; $i++)
                                         <option value="{{$i}}">{{$i}}</option>
                                     @endfor
                                 </select>
                             </div>
                         </div>
-                        <div class="col-6 col-md-4">
+                        <div class="col-6 col-md-3">
                             <div class="form-group">
                                 <label>Year To</label>
                                 <select class="selectpicker search-fields form-control" name="yearTo" id="yearToSearch">

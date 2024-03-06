@@ -31,52 +31,13 @@ class CarController extends PrimaryController
      */
     public function index(Request $request)
     {
-        $cars = Car::with('engine','drive_type','user','model')
-                    ->where('is_published','1')
-                    ->where('is_sold','0');
 
-        $sort = $request->get('sort');
-
-        $models = CarModel::all();
-
-        if(Str::contains($sort,'asc')){
-            $cars->orderBy('price');
-        }
-        else if (Str::contains($sort,'desc')){
-            $cars->orderByDesc('price');
-        }
-        else if (Str::contains($sort,'old')){
-            $cars->orderBy('created_at');
-        }
-        else {
-            $cars->orderByDesc('created_at');
-        }
-
-        if($request->has('brand') && $request->get('brand') != 0){
-            $brandId = $request->get('brand');
-            $models = $models->where('brand_id',$brandId);
-        }
-        if($request->has('model') && $request->get('model') != 0){
-            $modelId = $request->get('model');
-            $models = $models->where('id',$modelId);
-        }
-        if($request->has('body') && $request->get('body') != 0){
-            $bodyId = $request->get('body');
-            $models = $models->where('body_id',$bodyId);
-        }
-        if($request->has('transmission') && $request->get('transmission') != 0) {
-            $transmissionId = $request->get('transmission');
-            $cars->whereHas('engine', function ($query) use ($transmissionId) {
-                $query->where('transmission_id', $transmissionId);
-            });
-
-        }
-
-        $modelIds = $models->pluck('id');
-        $cars->whereIn('model_id',$modelIds);
+        $carModel = new Car();
+        $cars = $carModel->filterCars($request);
         $cars = $cars->paginate(6)->withQueryString();
 
         $totalCars = $cars->total();
+
         $data['brands'] = Brand::all()->sortBy('name');
         $data['bodies'] = Body::all();
         $data['transmission'] = Transmission::all();

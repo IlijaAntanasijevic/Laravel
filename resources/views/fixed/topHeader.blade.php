@@ -38,7 +38,7 @@
                         </li>
                     @else
                         <li>
-                            <a class="sign-in" href="#"> {{ Auth::user()->name }} <i class="fa fa-user" aria-hidden="true"></i></a>
+                            <a class="sign-in" href="{{route('profile.index')}}"> {{ Auth::user()->name }} <i class="fa fa-user" aria-hidden="true"></i></a>
                         </li>
                         <li>
                             <a >|</a>

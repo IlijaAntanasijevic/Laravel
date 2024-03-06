@@ -21,7 +21,7 @@
                 <h1 id="titleError" class="text-danger">No cars found</h1>
             </div>
             <div class="row" id="showCars">
-               @foreach($cars as $car)
+               @foreach($data as $car)
                     @component('pages.cars.homeCard', ['car' => $car , 'showOverlay' => true])
                     @endcomponent
                 @endforeach
@@ -88,6 +88,7 @@
                         success: function(data) {
                             $('#carWish-'+carId).removeClass('checked');
                             $('#carWish-'+carId).html('<i class="fa fa-heart-o" aria-hidden="true"></i>')
+                            toastr.warning(data.message);
                         },
                         error: function (xhr){
                             if(xhr.status === 401){

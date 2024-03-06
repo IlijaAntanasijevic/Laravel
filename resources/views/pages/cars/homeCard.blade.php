@@ -1,6 +1,6 @@
 @php
     $inWishList = $car->wishlist->where('user_id',Auth::id())->first();
-    
+
 @endphp
 <div class="col-lg-4 col-md-6 col-sm-6" >
     <div class="car-box ">

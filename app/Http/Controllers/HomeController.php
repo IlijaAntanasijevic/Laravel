@@ -18,84 +18,35 @@ class HomeController extends PrimaryController
 {
     public function index(Request $request)
     {
-        /*
-         $cars = new Car();
-        $cars->getFilteredCars($request);
-         */
         $perPage = 2;
+        $brands = Brand::all()->sortBy('name');
+        $bodies = Body::all();
 
-        $cars = Car::with('engine', 'user', 'wishlist')
-                    ->where('is_sold','0')
-                    ->where('is_published','1')
-                    ->orderByDesc('created_at');
-
-        $models = CarModel::all();
-
-        if ($request->has('brand') && $request->get('brand') != 0){
-            $brandId = $request->input('brand');
-             //$modelIDs = CarModel::where('brand_id',$brandId)->pluck('id');
-            $models = $models->where('brand_id',$brandId);
-        }
-
-        if($request->has('model') && $request->get('model') != 0){
-            $modelId = $request->input('model');
-            //$modelIDs = CarModel::where('id',$modelId)->pluck('id');
-            $models = $models->where('id',$modelId);
-        }
-        if($request->has('body') && $request->get('body') != 0){
-            $bodyId = $request->input('body');
-            //$modelIDs = CarModel::where('body_id',$bodyId)->pluck('id');
-
-            $models = $models->where('body_id',$bodyId);
-
-        }
-        if($request->has('maxPrice') && $request->get('maxPrice') != ''){
-
-            $maxPrice = $request->input('maxPrice');
-            $cars = $cars->where('price','<=',$maxPrice);
-        }
-        if($request->has('yearFrom') && $request->get('yearFrom') != 0){
-            $yearFrom = $request->input('yearFrom');
-            $cars = $cars->where('year','>=',$yearFrom);
-        }
-        if($request->has('yearTo') && $request->get('yearTo') != 0){
-            $yearTo = $request->input('yearTo');
-            $cars = $cars->where('year','<=',$yearTo);
-        }
-
-        $modelIds = $models->pluck('id');
-        $cars->whereIn('model_id',$modelIds);
+         $cars = new Car();
+         $data = $cars->filterCars($request);
 
 
-        if ($request->ajax()) {
+        if($request->ajax()){
             $html = '';
             $page = $request->get('page', 1);
-            $totalPages = ceil($cars->count() / $perPage);
+            $totalPages = ceil($data->count() / $perPage);
+            $cars = $data->skip(($page - 1) * $perPage)
+                ->take($perPage)
+                ->get();
 
-            if($totalPages >= $page) {
-                $cars = $cars->skip(($page - 1) * $perPage)
-                    ->take($perPage)
-                    ->get();
-                foreach ($cars as $car) {
-                    $html .= view('pages.cars.homeCard', ['car' => $car, 'showOverlay' => true])->render();
-                }
-                return response()->json([
-                    'html' => $html,
-                    'hasMore' => $totalPages > $page
-                ]);
+            foreach ($cars as $car) {
+                $html .= view('pages.cars.homeCard', ['car' => $car, 'showOverlay' => true])->render();
             }
             return response()->json([
-                'html' => '',
-                'hasMore' => false
+                'html' => $html,
+                'hasMore' => $totalPages > $page
             ]);
 
         }
 
-        $cars = $cars->limit($perPage)->get();
-        $brands = Brand::all()->sortBy('name');
-        $bodies = Body::all();
+        $data = $cars->limit($perPage)->get();
 
-        return view('pages.main.home', compact('cars', 'brands', 'bodies'));
+        return view('pages.main.home', compact('data', 'brands', 'bodies'));
     }
 
     public function search_index()
@@ -103,7 +54,7 @@ class HomeController extends PrimaryController
         $fuels = Fuel::all();
         $transmission = Transmission::all();
         $bodies = Body::all();
-        $brands = Brand::all();
+        $brands = Brand::all()->sortBy('name');
         $doors = Doors::all();
         $seats = Seats::all();
         $colors = Color::all();
@@ -111,14 +62,81 @@ class HomeController extends PrimaryController
         return view('pages.main.search',compact('fuels','transmission','bodies','brands','doors','seats','colors','driveTypes'));
     }
 
-    public function search()
+    public function search(Request $request)
     {
-        $cars = Car::with('engine','drive_type','user','model')
-            ->where('is_published','1')
-            ->where('is_sold','0')->paginate(6);
+        $carModel = new Car();
+
+        $cars = $carModel->filterCars($request);
+        $cars = $cars->paginate(6)->withQueryString();
+        $searchedInputs = $this->searchedInputs($request);
+
+        $totalCars = $cars->total();
+
+        return view('pages.main.searchedCars',['cars' => $cars,'totalCars' => $totalCars,'searchedInputs' => $searchedInputs]);
+    }
 
 
-        return view('pages.main.searchedCars',['cars' => $cars]);
+    public function searchedInputs($request)
+    {
+        $data = [];
+        if($request->has('brand') && $request->get('brand') != 0){
+            $data[] = Brand::find($request->get('brand'))->name;
+        }
+        if($request->has('model') && $request->get('model') != 0){
+            $data[] = CarModel::find($request->get('model'))->name;
+        }
+        if($request->has('body') && $request->get('body') != 0){
+            $data[] = Body::find($request->get('body'))->name;
+        }
+        if($request->has('engine') && $request->get('engine') != ''){
+            $data[] = 'Max engine: ' . $request->get('engine');
+        }
+        if($request->has('doors') && $request->get('doors') != 0){
+            $data[] = Doors::find($request->get('doors'))->name;
+        }
+        if($request->has('seats') && $request->get('seats') != 0){
+            $data[] = Seats::find($request->get('seats'))->value;
+        }
+        if($request->has('color') && $request->get('color') != 0){
+            $data[] = ucfirst(Color::find($request->get('color'))->name);
+        }
+        if($request->has('drive_type') && $request->get('drive_type') != 0){
+            $data[] = DriveType::find($request->get('drive_type'))->name;
+        }
+        if ($request->has('horsepower') && $request->get('horsepower') != ''){
+            $data[] = 'Horsepower: ' . $request->get('horsepower');
+        }
+        if($request->has('fuel') && $request->get('fuel') != 0){
+            $data[] = Fuel::find($request->get('fuel'))->name;
+        }
+        if($request->has('transmission') && $request->get('transmission') != 0){
+            $data[] = Transmission::find($request->get('transmission'))->name;
+        }
+        if($request->has('registration') && $request->get('registration') != 0){
+            if($request->get('registration') === 'unregistered'){
+                $data[] = 'Unregistered';
+            }
+            if($request->get('registration') === 'registered'){
+                $data[] = 'Registered';
+            }
+        }
+
+        if($request->has('minPrice') && $request->get('minPrice') != 0){
+            $data[] = 'Min price: ' . $request->get('minPrice');
+        }
+        if($request->has('maxPrice') && $request->get('maxPrice') != 0){
+            $data[] = 'Max price: ' . $request->get('maxPrice');
+        }
+        if($request->get('yearFrom')){
+            $data[] = ' From: ' . $request->get('yearFrom');
+        }
+        if($request->get('yearTo') && $request->get('yearTo') != 0){
+            $data[] = ' To: ' . $request->get('yearTo');
+        }
+
+        return $data;
+
+
     }
 
 

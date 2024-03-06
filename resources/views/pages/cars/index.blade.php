@@ -71,13 +71,12 @@
                                             name="body"
                                             id="bodyCarList"
                                             first-option-text="Chose One"
-                                            first-option-value="0"
                                             :options="$data['bodies']"
                                             label="Body Type"/>
                                         <div class="form-group">
                                             <label>Year From</label>
                                             <select class="selectpicker search-fields" name="yearFrom">
-                                                <option>Choose One</option>
+                                                <option value="0">Choose One</option>
                                                 @for($i = 2024; $i >= 1980; $i--)
                                                     <option value="{{$i}}">{{$i}}</option>
                                                 @endfor
