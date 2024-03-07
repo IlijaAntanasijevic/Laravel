@@ -308,6 +308,7 @@
                        $('#globalErrorMsg').hide();
                        $('#globalSuccessMsg').show();
                        $('.error-message').remove();
+                       $('#submitButton').remove();
                    },
                    error: function (xhr, status, error){
                        $('#globalErrorMsg').show();

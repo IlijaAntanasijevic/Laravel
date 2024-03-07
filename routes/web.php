@@ -25,18 +25,18 @@ use App\Http\Controllers\UserController;
 // ?* Fix Register - Login -> Done, probably
 // ?* View More - Home page -> Done
 // ?* Pagination - Car page -> Done
+// ?* Footer -> Done
 // ?* Search more page -> Done
 // ?* Filter, Sort -> Done
 // ?* Search more -> Done
+// ?* Contact custom components -> Done
 // !* User Profile / Edit Profile, Edit Car
-// !* Validate search inputs
 // !* Fix selected items in search
-// !* Show all seller cars (click?)
 // !* Create a middleware that checks if the user is an admin
 // !* Admin panel
-// !* Contact custom components
 // !* Contact - mail
-// !* Footer
+// !* Show all seller cars (click?)
+// ** Make partials folder
 
 Route::get("/",[HomeController::class,'index'])->name('home');
 Route::get("/home",[HomeController::class,'index'])->name('home');
@@ -78,7 +78,9 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/profile', [UserController::class, 'updateUser'])->name('profile.update');
     Route::get('/profile/cars', [UserController::class, 'showAllCars'])->name('profile.cars');
     Route::get('/profile/cars/{car}', [UserController::class, 'editCar'])->where('car','[0-9]+')->name('profile.cars.edit');
-
+    Route::patch('/profile/cars/sold', [UserController::class, 'soldCar'])->name('profile.cars.sold');
+    Route::patch('/profile/cars/update',[UserController::class, 'updateCar'])->name('profile.cars.update');
+    Route::delete('/profile/cars',[UserController::class, 'deleteCarImage'])->name('profile.cars.delete.image');
 });
 
 

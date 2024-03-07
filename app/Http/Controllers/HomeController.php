@@ -26,13 +26,14 @@ class HomeController extends PrimaryController
          $data = $cars->filterCars($request);
 
 
+
         if($request->ajax()){
             $html = '';
             $page = $request->get('page', 1);
             $totalPages = ceil($data->count() / $perPage);
             $cars = $data->skip(($page - 1) * $perPage)
-                ->take($perPage)
-                ->get();
+                         ->take($perPage)
+                         ->get();
 
             foreach ($cars as $car) {
                 $html .= view('pages.cars.homeCard', ['car' => $car, 'showOverlay' => true])->render();
@@ -44,7 +45,7 @@ class HomeController extends PrimaryController
 
         }
 
-        $data = $cars->limit($perPage)->get();
+        $data = $data->take($perPage)->get();
 
         return view('pages.main.home', compact('data', 'brands', 'bodies'));
     }

@@ -61,25 +61,19 @@
                 </thead>
                 <tbody>
                     @foreach($cars as $car)
-                        <tr class="my-3">
+                        <tr class="my-3" id="carBlock-{{$car->id}}">
                             <td>{{$car->model['brand']->name}}</td>
                             <td>{{$car->model['name']}}</td>
                             <td>{{$car->year}}</td>
                             <td>{{$car->price}}</td>
                             <td>
-                               {{-- <a href="{{route('car.show', $car->id)}}" class="btn btn-primary">Show</a>
-                                <a href="{{route('car.edit', $car->id)}}" class="btn btn-warning">Edit</a>--}}
-                                <a href="{{route('cars.show', $car->id)}}" class="btn btn-primary">Show</a>
+                                <a href="{{route('cars.show', $car->id)}}" class="btn btn-info">Show</a>
                             </td>
                             <td>
                                 <a href="{{route('profile.cars.edit',$car->id)}}" class="btn btn-warning">Edit</a>
                             </td>
                             <td>
-                                <form action="#" method="POST">{{--{{route('car.destroy', $car->id)}}--}}
-                                    @csrf
-                                    @method('PATCH')
-                                    <button type="submit" class="btn btn-success">Sold</button>
-                                </form>
+                                <a href="#" class="btn btn-success sold" id="{{$car->id}}">Sold</a>
                             </td>
                         </tr>
                     @endforeach
@@ -87,4 +81,55 @@
             </table>
         </div>
     </div>
+
+
+@endsection
+
+@section('custom_scripts')
+    <script>
+        $('.sold').click(function (e) {
+            e.preventDefault();
+            let id = $(this).attr('id');
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#8bee6b",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, sold it!",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    soldCar(id);
+                }
+            });
+
+        });
+
+       function soldCar(id) {
+           $.ajax({
+               url: `{{route('profile.cars.sold')}}`,
+               method: 'PATCH',
+               data: {
+                   "_token": "{{ csrf_token() }}",
+                   "id": id
+               },
+               success: function () {
+                   $('#carBlock-' + id).remove();
+                   Swal.fire({
+                       title: "Success!",
+                       text: "Car is sold.",
+                       icon: "success"
+                   });
+               },
+               error: function (xhr) {
+                   Swal.fire("Server error", "Changes are not saved", "error");
+                   console.log(xhr)
+               }
+           })
+       }
+
+    </script>
+
+
 @endsection

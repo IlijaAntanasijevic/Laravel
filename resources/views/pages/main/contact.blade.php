@@ -15,28 +15,35 @@
                     <form action="#" method="GET" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                                <div class="form-group name">
-                                    <input type="text" name="name" class="form-control" placeholder="Name">
-                                </div>
+                                <x-text-field
+                                    parent-class="form-group"
+                                    field-class="form-control"
+                                    placeholder="Name"
+                                    id="contactName"
+                                    type="text"
+                                    name="contactName"/>
                             </div>
                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                                <div class="form-group email">
-                                    <input type="email" name="email" class="form-control" placeholder="Email">
-                                </div>
+                                <x-text-field
+                                    parent-class="form-group"
+                                    field-class="form-control"
+                                    placeholder="Email"
+                                    id="contactEmail"
+                                    type="email"
+                                    name="contactEmail"/>
                             </div>
-                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                                <div class="form-group subject">
-                                    <input type="text" name="subject" class="form-control" placeholder="Subject">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                                <div class="form-group number">
-                                    <input type="text" name="phone" class="form-control" placeholder="Number">
-                                </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <x-text-field
+                                    parent-class="form-group"
+                                    field-class="form-control"
+                                    placeholder="Email"
+                                    id="contactSubject"
+                                    type="text"
+                                    name="contactSubject"/>
                             </div>
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group message">
-                                    <textarea class="form-control" name="message" placeholder="Write message"></textarea>
+                                    <textarea class="form-control" name="contactMessage" placeholder="Write message"></textarea>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
@@ -76,14 +83,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <!-- Contact 1 end -->
-
-    <!-- Google map start -->
-    <div class="section">
-        <div class="map">
-            <div id="map" class="contact-map"></div>
         </div>
     </div>
 
