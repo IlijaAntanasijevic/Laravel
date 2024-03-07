@@ -24,7 +24,7 @@ class InsertCarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'bail|required|alpha|max:75',
+            'name' => 'bail|required|string|max:75',
             'brand' => 'bail|required|exists:brands,id',
             'model' => 'bail|required|exists:car_models,id',
             'body' => 'bail|required|exists:bodies,id',

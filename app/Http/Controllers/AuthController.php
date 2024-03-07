@@ -15,11 +15,11 @@ class AuthController extends PrimaryController
 {
     public function login_index()
     {
-        return view("pages.main.login");
+        return view("pages.user.login");
     }
     public function register_index()
     {
-        return view("pages.main.register");
+        return view("pages.user.register");
     }
 
     public function register(RegisterRequest $request)

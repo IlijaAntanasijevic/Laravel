@@ -22,18 +22,19 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|alpha',
-            'lastName' => 'required|string|alpha',
-            'email' => 'required|email|unique:users,email',
+            'name' => 'bail|required|string|alpha|min:3|max:30',
+            'lastName' => 'bail|required|string|alpha|min:3|max:30',
+            'email' => 'bail|required|email|unique:users,email',
             'password' => [
+                'bail',
                 'required',
                 'min:8',
                 'regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/'
             ],
-            'city' => 'required|string|max:50|alpha',
-            'address' => 'required|string|max:75',
-            'phone' => 'required|string|max:15|unique:users,phone|regex:/^[0-9]{7,15}$/',
-            'avatar' => 'image|mimes:jpeg,png,jpg|max:2048'
+            'city' => 'bail|required|string|min:3|max:50|alpha',
+            'address' => 'bail|required|string|min:3|max:75',
+            'phone' => 'bail|required|string|max:15|unique:users,phone|regex:/^[0-9]{7,15}$/',
+            'avatar' => 'bail|image|mimes:jpeg,png,jpg|max:2048'
         ];
     }
     public function messages()

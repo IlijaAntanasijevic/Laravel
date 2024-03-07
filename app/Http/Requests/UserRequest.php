@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserRequest extends FormRequest
 {
@@ -22,13 +23,25 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|alpha|max:30',
-            'lastName' => 'required|alpha|max:30',
-            'email' => 'required|email|unique:users,email',
-            'city' => 'required|string|max:50|alpha',
-            'address' => 'required|string|max:75',
-            'phone' => 'required|string|max:15|unique:users,phone|regex:/^[0-9]{7,15}$/',
-            'avatar' => 'image|mimes:jpeg,png,jpg|max:2048'
+            'name' => 'bail|required|alpha|min:3|max:30',
+            'lastName' => 'bail|required|alpha|min:3|max:30',
+            'email' => [
+                'bail',
+                'required',
+                'email',
+                Rule::unique('users', 'email')->ignore(auth()->user()->id),
+            ],
+            'city' => 'bail|required|string|min:3|max:50|alpha',
+            'address' => 'bail|required|string|min:3|max:75',
+            'phone' => [
+                'bail',
+                'required',
+                'string',
+                'max:15',
+                'regex:/^[0-9]{7,15}$/',
+                Rule::unique('users', 'phone')->ignore(auth()->user()->id),
+            ],
+            'avatar' => 'bail|nullable|image|mimes:jpeg,png,jpg|max:2048'
         ];
     }
 

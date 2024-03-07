@@ -2,13 +2,25 @@
 
 @section('title') User @endsection
 
+@php
+    $firstNameError = $errors->get('name')[0] ?? null;
+    $lastNameError = $errors->get('lastName')[0] ?? null;
+    $emailError = $errors->get('email')[0] ?? null;
+    $cityError = $errors->get('city')[0] ?? null;
+    $addressError = $errors->get('address')[0] ?? null;
+    $phoneError = $errors->get('phone')[0] ?? null;
+    $avatarError = $errors->get('avatar')[0] ?? null;
+
+
+@endphp
+
 @section('content')
     <div class="container">
         <div>
             <nav>
                 <ul class="nav ">
                     <li class="nav-item">
-                        <a href="#" class="nav-link text-danger h5">Cars</a>{{--{{route('user.cars')}}--}}
+                        <a href="{{route('profile.cars')}}" class="nav-link text-danger h5">Cars</a>
                     </li>
                     <li class="nav-item">
                         <a href="{{route('wishlist.index')}}" class="nav-link text-danger h5">Wishlist</a>
@@ -16,20 +28,33 @@
                 </ul>
             </nav>
         </div>
+        @if(session("error"))
+            <div class="alert alert-danger my-5 w-75 mx-auto">
+                <p class="text-center h3 ">{{session("error")}}</p>
+            </div>
+        @endif
+        @if(session('success'))
+            <div class="alert alert-success my-5 w-75 mx-auto">
+                <p class="text-center h3 ">{{session('success')}}</p>
+            </div>
+        @endif
         <div class="row flex-column align-items-center justify-content-center">
             <div class="">
                 <img src="{{asset('assets/img/avatar/' . $user->avatar)}}" alt="{{$user->name}}Avatar" class="rounded-circle">
             </div>
         </div>
-        <form action="{{route('profile.update')}}" method="POST">
+        <form action="{{route('profile.update')}}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
             <div class="row flex-column align-items-center">
                 <div class="form-group">
                     <input type="file" id="uploadAvatar" name="avatar" class="d-none" >
-                    <label for="uploadAvatar" class="btn btn-warning mt-4 mb-5">Change Avatar</label>
+                    <label for="uploadAvatar" class="btn btn-warning mt-4">Change Avatar</label>
                 </div>
-                <div class="row">
+                @if($avatarError)
+                    <p class="text-danger text-center">{{$avatarError}}</p>
+                @endif
+                <div class="row mt-5">
                     <x-text-field
                         label="Name"
                         type="text"
@@ -37,15 +62,18 @@
                         id="name"
                         parent-class="form-group col-6"
                         field-class="form-control"
-                        :value="$user->name"/>
+                        :value="$user->name"
+                        :value="old('name') ?? $user->name "
+                        :error="$firstNameError"/>
                     <x-text-field
                         label="Last name"
                         type="text"
-                        name="lastname"
-                        id="lastname"
+                        name="lastName"
+                        id="lastName"
                         parent-class="form-group col-6"
                         field-class="form-control"
-                        :value="$user->last_name"/>
+                        :value="old('lastName') ?? $user->last_name "
+                        :error="$lastNameError"/>
                 </div>
              <div class="row">
                  <x-text-field
@@ -55,7 +83,8 @@
                      id="email"
                      parent-class="form-group col-6 my-5"
                      field-class="form-control"
-                     :value="$user->email"/>
+                     :value="old('email') ?? $user->email "
+                    :error="$emailError"/>
                  <x-text-field
                      label="Phone"
                      type="text"
@@ -63,7 +92,9 @@
                      id="phone"
                      parent-class="form-group col-6 my-5"
                      field-class="form-control"
-                     :value="$user->phone"/>
+                     :value="$user->phone"
+                     :value="old('phone') ?? $user->phone"
+                     :error="$phoneError"/>
              </div>
             <div class="row">
                 <x-text-field
@@ -73,7 +104,9 @@
                     id="city"
                     parent-class="form-group col-6"
                     field-class="form-control"
-                    :value="$user->city"/>
+                    :value="$user->city"
+                    :value="old('city') ?? $user->city"
+                    :error="$cityError"/>
                 <x-text-field
                     label="Address"
                     type="text"
@@ -81,7 +114,8 @@
                     id="address"
                     parent-class="form-group col-6"
                     field-class="form-control"
-                    :value="$user->address"/>
+                    :value="old('address') ?? $user->address"
+                    :error="$addressError"/>
             </div>
             </div>
             <div class="w-25 mx-auto my-5">

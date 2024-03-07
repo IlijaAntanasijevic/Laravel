@@ -12,7 +12,7 @@ class CheckBox extends Component
      * Create a new component instance.
      */
     public $name, $value,$text, $error, $options, $fieldClass,$parentClass,$blockClass,$checked;
-    public function __construct($name,$options,$value='id',$text='name',$error = null,$fieldClass = 'form-check-input',$parentClass='form-check',$blockClass = '',$checked = false)
+    public function __construct($name,$options,$value='id',$text='name',$error = null,$fieldClass = 'form-check-input',$parentClass='form-check',$blockClass = '',$checked = [])
     {
         $this->name = $name;
         $this->value = $value;

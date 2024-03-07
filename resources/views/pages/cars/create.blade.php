@@ -194,8 +194,7 @@
                                    <p class="text-danger error-message" id="safetiesError"></p>
                                    <x-check-box
                                        name="safety[]"
-                                       :options="$safeties"
-                                        :checked="old('safety')"/>
+                                       :options="$safeties"/>
                                </div>
 
                                <div class="">
@@ -203,8 +202,7 @@
                                    <p class="text-danger error-message" id="equipmentsError"></p>
                                    <x-check-box
                                        name="equipments[]"
-                                       :options="$equipments"
-                                        :checked="old('equipments')"/>
+                                       :options="$equipments"/>
                                </div>
                            </div>
                        </div>

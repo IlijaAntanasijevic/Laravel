@@ -73,8 +73,12 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/wishlist', [UtilityController::class, 'wishlist_remove'])->name('remove.wishlist');
     Route::get('/wishlist', [UtilityController::class, 'wishlist_index'])->name('wishlist.index');
     Route::resource('cars', CarController::class)->only(['create','store','edit','update','destroy']);
-    Route::get('/profile', [UserController::class, 'index'])->name('profile.index');
+
+    Route::get('/profile', [UserController::class, 'userProfile'])->name('profile.index');
     Route::patch('/profile', [UserController::class, 'updateUser'])->name('profile.update');
+    Route::get('/profile/cars', [UserController::class, 'showAllCars'])->name('profile.cars');
+    Route::get('/profile/cars/{car}', [UserController::class, 'editCar'])->where('car','[0-9]+')->name('profile.cars.edit');
+
 });
 
 

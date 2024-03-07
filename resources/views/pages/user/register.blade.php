@@ -17,9 +17,6 @@
 
     @endphp
 
-    @if(session('tmp'))
-        @dd(session('tmp'))
-    @endif
     <div class="login-1">
         <div class="container-fluid ">
             <div class="col-lg-12 row flex-column align-items-center pt-5" style="background-color: #fff7f7">
