@@ -1,6 +1,8 @@
 @extends('layouts.layout')
 
-@section('title') Home @endsection
+@section('title')
+    Home
+@endsection
 
 @section('custom_links')
     <style>
@@ -21,8 +23,8 @@
                 <h1 id="titleError" class="text-danger">No cars found</h1>
             </div>
             <div class="row" id="showCars">
-               @foreach($data as $car)
-                    @component('pages.cars.homeCard', ['car' => $car , 'showOverlay' => true])
+                @foreach($data as $car)
+                    @component('pages.partials.homeCard', ['car' => $car , 'showOverlay' => true,'showSoldText' => false])
                     @endcomponent
                 @endforeach
 
@@ -76,7 +78,7 @@
                 let userId = @json($userId);
 
 
-                if($(this).hasClass('checked')){
+                if ($(this).hasClass('checked')) {
                     $.ajax({
                         url: '{{route('remove.wishlist')}}',
                         method: 'DELETE',
@@ -85,25 +87,19 @@
                             userId: userId,
                             _token: '{{csrf_token()}}'
                         },
-                        success: function(data) {
-                            $('#carWish-'+carId).removeClass('checked');
-                            $('#carWish-'+carId).html('<i class="fa fa-heart-o" aria-hidden="true"></i>')
+                        success: function (data) {
+                            $('#carWish-' + carId).removeClass('checked');
+                            $('#carWish-' + carId).html('<i class="fa fa-heart-o" aria-hidden="true"></i>')
                             toastr.warning(data.message);
                         },
-                        error: function (xhr){
-                            if(xhr.status === 401){
+                        error: function (xhr) {
+                            if (xhr.status === 401) {
                                 toastr.error('You must be logged in to add to wishlist');
                             }
-                            else if(xhr.status === 404){
-                                toastr.error('Car not found in wishlist.');
-                            }
-                            else {
-                                toastr.error('Something went wrong');
-                            }
+                            toastr.error(xhr.responseJSON.message);
                         }
                     })
-                }
-                else {
+                } else {
                     $.ajax({
                         url: '{{route('wishlist')}}',
                         method: 'POST',
@@ -114,17 +110,16 @@
                         },
                         success: function (data) {
                             let message = data.message;
-                            $('#carWish-'+carId).addClass('checked');
-                            $('#carWish-'+carId).html('<i class="fa fa-heart" aria-hidden="true"></i>')
+                            $('#carWish-' + carId).addClass('checked');
+                            $('#carWish-' + carId).html('<i class="fa fa-heart" aria-hidden="true"></i>')
                             toastr.success(message)
                         },
-                        error: function (xhr){
-                            if(xhr.status === 401){
+                        error: function (xhr) {
+                            console.log(xhr)
+                            if (xhr.status === 401) {
                                 toastr.error('You must be logged in to add to wishlist');
                             }
-                            else {
-                                toastr.error('Something went wrong');
-                            }
+                            toastr.error(xhr.responseJSON.message);
                         }
 
                     })
@@ -147,16 +142,16 @@
 
 
             // ** Search ** //
-            $('#search').click(function (e){
+            $('#search').click(function (e) {
                 $('#showMoreHome').data('page', 1);
-                loadCars(1,true);
+                loadCars(1, true);
 
             })
 
             magnificGallery();
         });
 
-        function loadCars(page,searched=false){
+        function loadCars(page, searched = false) {
             let brandId = $('#brandHome').val();
             let modelId = $('#modelHome').val();
             let bodyId = $('#bodyHome').val();
@@ -165,27 +160,25 @@
             let yearTo = $('#yearToHome').val();
             let queryString = `?page=${page}&brand=${brandId}&model=${modelId}&maxPrice=${maxPrice}&body=${bodyId}&yearFrom=${yearFrom}&yearTo=${yearTo}`;
 
-            showSearchedTitle(brandId,modelId,bodyId,maxPrice,yearFrom,yearTo);
+            showSearchedTitle(brandId, modelId, bodyId, maxPrice, yearFrom, yearTo);
             $.ajax({
                 url: '/home' + queryString,
                 method: 'GET',
                 success: function (data) {
                     $('#showMoreHome').show();
                     $('#showMoreHome').html('View more');
-                    if(data.html == ''){
+                    if (data.html == '') {
                         $('#showCars').html('');
 
                         $('#homeTitle').hide();
                         $('#titleError').show();
                         $('#titleError').html('No cars found');
-                        toastr.warning('No cars found');
-                    }
-                    else if(searched && page == 1){
+                        //toastr.warning('No cars found');
+                    } else if (searched && page == 1) {
                         $('#showCars').html(data.html);
                         $('#titleError').hide();
 
-                    }
-                    else {
+                    } else {
                         $('#showCars').append(data.html);
                         $('#titleError').hide();
 
@@ -193,7 +186,7 @@
                     }
                     magnificGallery();
 
-                    if(!data.hasMore){
+                    if (!data.hasMore) {
                         $('#showMoreHome').hide();
                     }
                 },
@@ -217,35 +210,34 @@
             });
         }
 
-        function showSearchedTitle(brandId,modelId,bodyId,maxPrice,yearFrom,yearTo){
+        function showSearchedTitle(brandId, modelId, bodyId, maxPrice, yearFrom, yearTo) {
             let brandName = $('#brandHome option:selected').text();
             let modelName = $('#modelHome option:selected').text();
             let bodyName = $('#bodyHome option:selected').text();
             let title = 'Searched: ';
-            if(brandId != 0){
+            if (brandId != 0) {
                 title += brandName + ', ';
             }
-            if(modelId != 0){
-                title +=  modelName + ', ';
+            if (modelId != 0) {
+                title += modelName + ', ';
             }
-            if(bodyId != 0){
+            if (bodyId != 0) {
                 title += bodyName + ', ';
             }
-            if(maxPrice != 0){
+            if (maxPrice != 0) {
                 title += ' Max price: ' + maxPrice + ', ';
             }
-            if(yearFrom != 0){
+            if (yearFrom != 0) {
                 title += ' Year from: ' + yearFrom + ', ';
             }
-            if(yearTo != 0){
+            if (yearTo != 0) {
                 title += ' Year to: ' + yearTo;
             }
-            if(brandId == 0 && modelId == 0 && bodyId == 0 && maxPrice == 0 && yearFrom == 0 && yearTo == 0){
+            if (brandId == 0 && modelId == 0 && bodyId == 0 && maxPrice == 0 && yearFrom == 0 && yearTo == 0) {
                 $('#homeTitle').show();
                 $('#searchedTitle').hide();
                 $('#searchedTitle').html('');
-            }
-            else {
+            } else {
                 let lastIndex = title.lastIndexOf(',');
                 if (lastIndex !== -1) {
                     title = title.substring(0, lastIndex) + title.substring(lastIndex + 1);
@@ -256,9 +248,6 @@
 
 
         }
-
-
-
 
 
     </script>

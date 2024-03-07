@@ -113,6 +113,7 @@ class CarController extends PrimaryController
                 'user_id' => $data['userId']
             ]);
 
+
             if(isset($data['safety']))
             {
                 $car->safeties()->attach($data['safety']);
@@ -139,7 +140,7 @@ class CarController extends PrimaryController
 
         } catch (\Exception $e) {
             \DB::rollBack();
-            Log::error($e->getMessage());
+            Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
             return response()->json(['error' => 'Server error'], 500);
 
         }

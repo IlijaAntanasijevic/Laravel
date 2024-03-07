@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CarModel extends Model
 {
     use HasFactory;
+    protected $fillable = ['name', 'brand_id', 'body_id', 'doors_id', 'seat_id'];
     public function seat()
     {
         return $this->belongsTo(Seats::class);

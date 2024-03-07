@@ -36,7 +36,7 @@ class HomeController extends PrimaryController
                          ->get();
 
             foreach ($cars as $car) {
-                $html .= view('pages.cars.homeCard', ['car' => $car, 'showOverlay' => true])->render();
+                $html .= view('pages.partials.homeCard', ['car' => $car, 'showOverlay' => true,'showSoldText' => false])->render();
             }
             return response()->json([
                 'html' => $html,

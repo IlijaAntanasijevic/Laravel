@@ -22,9 +22,6 @@
                     <li class="nav-item">
                         <a href="{{route('profile.cars')}}" class="nav-link text-danger h5">Cars</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{route('wishlist.index')}}" class="nav-link text-danger h5">Wishlist</a>
-                    </li>
                 </ul>
             </nav>
         </div>

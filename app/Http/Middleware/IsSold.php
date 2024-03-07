@@ -2,12 +2,12 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Car;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class IsAdmin
+class IsSold
 {
     /**
      * Handle an incoming request.
@@ -16,10 +16,11 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->role_id !== 2){
+        $carId = $request->route("car");
+        $car = Car::find($carId);
+        if($car->is_sold == 1){
             return redirect()->route('404');
         }
         return $next($request);
-
     }
 }

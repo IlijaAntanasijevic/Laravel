@@ -8,6 +8,7 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers\UtilityController;
 use App\Http\Controllers\CompareCarController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\IsSold;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,20 +31,24 @@ use App\Http\Controllers\UserController;
 // ?* Filter, Sort -> Done
 // ?* Search more -> Done
 // ?* Contact custom components -> Done
-// !* User Profile / Edit Profile, Edit Car
+// ?* User Profile / Edit Profile, Edit Car -> Done
+// ?* Make partials folder -> Done
+// ?* Create a middleware that checks if the user is an admin -> Done
 // !* Fix selected items in search
-// !* Create a middleware that checks if the user is an admin
 // !* Admin panel
 // !* Contact - mail
-// !* Show all seller cars (click?)
-// ** Make partials folder
+// !* Show all seller cars (click) (????)
 
 Route::get("/",[HomeController::class,'index'])->name('home');
 Route::get("/home",[HomeController::class,'index'])->name('home');
 Route::get("/contact",[ContactController::class,'index'])->name('contact');
 
 Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
-Route::get('/cars/{car}', [CarController::class, 'show'])->where('car','[0-9]+')->name('cars.show');
+Route::get('/cars/{car}', [CarController::class, 'show'])->middleware(IsSold::class)
+                                                             ->where('car','[0-9]+')
+                                                             ->name('cars.show');
+
+Route::view('/404','pages.main.404')->name('404');
 
 Route::get('/search-index', [HomeController::class, 'search_index'])->name('search.index');
 Route::get('/search', [HomeController::class, 'search'])->name('search');

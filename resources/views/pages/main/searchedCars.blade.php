@@ -1,6 +1,8 @@
 @extends('layouts.layout')
 
-@section('title') Searched @endsection
+@section('title')
+    Searched
+@endsection
 @section('custom_links')
     <style>
         .pagination {
@@ -9,16 +11,18 @@
             top: 100%;
             left: 20%;*/
         }
+
         .page-item.active .page-link {
             background-color: red;
         }
+
         .page-link .active {
             background-color: red;
         }
+
         .content-area-2 {
             padding: 20px 0px 30px 0px;
         }
-
 
 
     </style>
@@ -55,22 +59,26 @@
             </div>
             <div class="col-lg-12 col-md-12">
                 <h5>
-                    <span class="heading">Searched: @foreach($searchedInputs as $value){{$value}}@if(!$loop->last), @endif @endforeach
+                    <span class="heading">Searched: @foreach($searchedInputs as $value)
+                            {{$value}}@if(!$loop->last)
+                                ,
+                            @endif
+                        @endforeach
                  </span>
                 </h5>
             </div>
 
             <div class="featured-car content-area-2">
                 <div class="container">
-                   {{-- <div class="main-title">
-                        <h1 id="homeTitle">Newest Car</h1>
-                        <h3 class="text-left" id="searchedTitle"></h3>
-                        <h1 id="titleError" class="text-danger">No cars found</h1>
-                    </div>--}}
+                    {{-- <div class="main-title">
+                         <h1 id="homeTitle">Newest Car</h1>
+                         <h3 class="text-left" id="searchedTitle"></h3>
+                         <h1 id="titleError" class="text-danger">No cars found</h1>
+                     </div>--}}
                     <div class="row" id="showCars">
                         @foreach($cars as $car)
-                                @component('pages.cars.homeCard', ['car' => $car , 'showOverlay' => true])
-                                @endcomponent
+                            @component('pages.partials.homeCard', ['car' => $car , 'showOverlay' => true,'showSoldText' => false])
+                            @endcomponent
                         @endforeach
                     </div>
                     {{$cars->links()}}

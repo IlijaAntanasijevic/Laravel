@@ -39,9 +39,6 @@
                     <li class="nav-item">
                         <a href="{{route('profile.index')}}" class="nav-link text-danger h5">Profile</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{route('wishlist.index')}}" class="nav-link text-danger h5">Wishlist</a>
-                    </li>
                 </ul>
             </nav>
         </div>

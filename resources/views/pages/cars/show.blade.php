@@ -27,8 +27,12 @@
     @php
         $inWishList = $car->wishlist->where('user_id',Auth::id())->first();
     @endphp
+
     <div class="car-details-page content-area-4">
         <div class="container">
+            @if(Auth::check() && Auth::id() === $car->user_id)
+                <a href="{{route('profile.cars.edit', ["car" => $car->id])}}" class="btn btn-warning mb-5">Edit Car</a>
+            @endif
             <div class="row">
                 <div class="col-lg-12 widget-2">
                     <div id="carDetailsSlider" class="carousel car-details-sliders slide widget">
@@ -305,15 +309,11 @@
                             toastr.warning(message)
                         },
                         error: function (xhr, status, error){
+                            console.log(xhr)
                             if(xhr.status === 401){
                                 toastr.error('You must be logged in to add to wishlist');
                             }
-                            else if(xhr.status === 404){
-                                toastr.error('Car not found in wishlist.');
-                            }
-                            else {
-                                toastr.error('Something went wrong');
-                            }
+                            toastr.error(xhr.responseJSON.message);
                         }
                     })
                 }
@@ -333,12 +333,11 @@
                             toastr.success(message)
                         },
                         error: function (xhr){
+                            console.log()
                             if(xhr.status === 401){
                                 toastr.error('You must be logged in to add to wishlist');
                             }
-                            else {
-                                toastr.error('Something went wrong');
-                            }
+                            toastr.error(xhr.responseJSON.message);
                         }
 
                     })

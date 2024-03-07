@@ -33,7 +33,8 @@ class AuthController extends PrimaryController
             try {
                 $request->avatar->move(public_path('assets/img/avatar'), $imageName);
             } catch (\Exception $e) {
-                Log::error($e->getMessage());
+                Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
+
                 return redirect()->back()->with("error", "Failed to upload avatar");
             }
         }
@@ -52,8 +53,8 @@ class AuthController extends PrimaryController
            ]);
             return redirect()->route('login')->with("success", "You have successfully registered. Please log in.");
         }catch (\Exception $e) {
-            Log::error($e->getMessage());
-           if($imageName  && File::exists(public_path('/assets/img/avatar/' . $imageName))){
+            Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
+            if($imageName  && File::exists(public_path('/assets/img/avatar/' . $imageName))){
                File::delete(public_path('/assets/img/avatar/' . $imageName));
            }
             return redirect()->back()->with("error", "Server error. Please try again later.");

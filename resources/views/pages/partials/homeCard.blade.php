@@ -58,7 +58,15 @@
                 </p>
             </div>
         </div>
+        @if($showSoldText)
+            @if($car->is_sold)
+                <div class="alert alert-danger">
+                    <p>This car is sold</p>
+                </div>
+            @endif
+        @endif
     </div>
+
 </div>
 
 

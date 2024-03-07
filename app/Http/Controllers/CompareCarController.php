@@ -89,7 +89,8 @@ class CompareCarController extends Controller
             return redirect()->back()->with('success', 'Car removed from compare.');
 
         }catch (\Exception $e){
-            Log::error($e->getMessage());
+            Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
+
             return redirect()->back()->with('error', 'Server error. Please try again later.');
         }
     }

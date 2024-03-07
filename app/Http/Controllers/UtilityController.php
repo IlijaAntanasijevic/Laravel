@@ -26,8 +26,8 @@ class UtilityController extends PrimaryController
     {
         $userId = Auth::id();
         $data = Wishlist::where('user_id', $userId)
-            ->with('car')
-            ->get();
+                        ->with('car')
+                        ->get();
         return view('pages.main.wish-list',['data' => $data]);
     }
     public function wishlist(Request $request)
@@ -36,6 +36,12 @@ class UtilityController extends PrimaryController
             $userId = $request->get("userId");
             $carId = $request->get("carId");
 
+            /*  TESTIRANJE - ODKOMENTARISATI, RADI ✔
+             $car_userId = Car::find($carId)->user_id;
+            if($car_userId == $userId){
+                return response()->json(["message" => "You can't add your own car to wishlist."],400);
+            }
+             */
             $carExistsInWishlist = WishList::where("user_id", $userId)
                 ->where('car_id',$carId)
                 ->first();
@@ -47,10 +53,9 @@ class UtilityController extends PrimaryController
                 ]);
                 return response()->json(["message" => "Car added to wishlist."],201);
             }
-            //return response()->json(["message" => "Car removed from wishlist."],202);//204
-            return response()->json([],500);
+            return response()->json(["message" => "Car removed from wishlist."],202);//204
         }catch (Exception $e){
-            Log::error($e->getMessage());
+            Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
             return response()->json([], 500);
         }
 
@@ -70,7 +75,7 @@ class UtilityController extends PrimaryController
             return response()->json(["message" => "Car not found in wishlist."],404);
         }
         catch (Exception $e){
-            Log::error($e->getMessage());
+            Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
             return response()->json([], 500);
         }
 

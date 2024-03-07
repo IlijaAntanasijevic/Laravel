@@ -51,7 +51,7 @@ class UserController extends PrimaryController
                     $request->avatar->move(public_path('assets/img/avatar'), $imageName);
                     $user->avatar = $imageName;
                 } catch (\Exception $e) {
-                    Log::error($e->getMessage());
+                    Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
                     return redirect()->back()->with("error", "Failed to upload avatar");
                 }
             }
@@ -59,7 +59,8 @@ class UserController extends PrimaryController
 
             return redirect()->back()->with('success', 'User information updated successfully');
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
+            Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
+
             return redirect()->back()->with('error', 'Error while updating user information');
 
         }
@@ -131,8 +132,26 @@ class UserController extends PrimaryController
             $car->registration = $registration;
             $car->color_id = $data['color'];
             $car->drive_type_id = $data['driveType'];
-            $car->model_id = $data['model'];
             $car->engine_id = $engineID;
+
+            $carModelId = CarModel::where('brand_id',$data['brand'])
+                                ->where('body_id',$data['body'])
+                                ->where('seat_id',$data['seats'])
+                                ->where('doors_id',$data['doors'])->first();
+            if(!$carModelId){
+                $carModelName = CarModel::find($data['model'])->name;
+                $carModelId = CarModel::create([
+                    'name' => $carModelName,
+                    'brand_id' => $data['brand'],
+                    'body_id' => $data['body'],
+                    'seat_id' => $data['seats'],
+                    'doors_id' => $data['doors']
+                ])->id;
+            }
+            else {
+                $carModelId = $carModelId->id;
+            }
+            $car->model_id = $carModelId;
 
             if(isset($data['safety']))
             {
@@ -167,7 +186,7 @@ class UserController extends PrimaryController
             return redirect()->back()->with('success', 'Car updated successfully!');
         }catch (\Exception $e){
             DB::rollBack();
-            Log::error($e->getMessage());
+            Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
             return redirect()->back()->with('error', 'Error while updating car information');
         }
 
@@ -191,7 +210,7 @@ class UserController extends PrimaryController
             return response()->json(['message' => 'Car sold'], 200);
         }
         catch (\Exception $e){
-            Log::error($e->getMessage());
+            Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
             return response()->json(['message' => 'Server error'], 500);
         }
 
@@ -213,7 +232,7 @@ class UserController extends PrimaryController
                 $image->delete();
                 return response()->json(['message' => 'Image deleted'], 202);
             } catch (\Exception $e) {
-                Log::error($e->getMessage());
+                Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
                 return response()->json(['message' => 'Server error'], 500);
             }
         }
@@ -240,7 +259,7 @@ class UserController extends PrimaryController
             return response()->json(['message' => 'Server error'], 500);
 
         }catch (\Exception $e){
-            Log::error($e->getMessage());
+            Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
             return response()->json(['message' => 'Server error'], 500);
         }
     }

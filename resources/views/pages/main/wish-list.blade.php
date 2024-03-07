@@ -1,6 +1,8 @@
 @extends('layouts.layout')
 
-@section('title') Wish List @endsection
+@section('title')
+    Wish List
+@endsection
 
 @section('content')
     <div class="page_loader"></div>
@@ -15,8 +17,9 @@
             </div>
             <div class="row">
                 @foreach($data as $item)
-                    @component('pages.cars.homeCard', ['car' => $item->car, 'showOverlay' => false])
+                    @component('pages.partials.homeCard', ['car' => $item->car, 'showOverlay' => false,'showSoldText' => true])
                     @endcomponent
+
                 @endforeach
             </div>
         </div>

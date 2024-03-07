@@ -1,14 +1,18 @@
 @extends('layouts.layout')
 
-@section('title') Cars @endsection
+@section('title')
+    Cars
+@endsection
 @section('custom_links')
     <style>
         .pagination {
             margin: 55px 0px;
         }
+
         .page-item.active .page-link {
             background-color: red;
         }
+
         .page-link .active {
             background-color: red;
         }
@@ -38,7 +42,7 @@
 
                     @foreach($cars as $car)
 
-                        @component('pages.cars.listCard', ['car' => $car])
+                        @component('pages.partials.listCard', ['car' => $car])
                         @endcomponent
                     @endforeach
                     {{$cars->links()}}
@@ -52,27 +56,27 @@
                                 <div class="search-contents ">
                                     <form method="GET" action="{{route('cars.index')}}">
                                         <x-drop-down
-                                            name="brand"
-                                            id="brandCarList"
-                                            first-option-text="Chose One"
-                                            first-option-value="0"
-                                            :options="$data['brands']"
-                                            label="Brand"/>
+                                                name="brand"
+                                                id="brandCarList"
+                                                first-option-text="Chose One"
+                                                first-option-value="0"
+                                                :options="$data['brands']"
+                                                label="Brand"/>
 
                                         <x-drop-down
-                                            name="model"
-                                            id="modelCarList"
-                                            first-option-text="Chose One"
-                                            first-option-value="0"
-                                            :options="[]"
-                                            disabled="true"
-                                            label="Model"/>
+                                                name="model"
+                                                id="modelCarList"
+                                                first-option-text="Chose One"
+                                                first-option-value="0"
+                                                :options="[]"
+                                                disabled="true"
+                                                label="Model"/>
                                         <x-drop-down
-                                            name="body"
-                                            id="bodyCarList"
-                                            first-option-text="Chose One"
-                                            :options="$data['bodies']"
-                                            label="Body Type"/>
+                                                name="body"
+                                                id="bodyCarList"
+                                                first-option-text="Chose One"
+                                                :options="$data['bodies']"
+                                                label="Body Type"/>
                                         <div class="form-group">
                                             <label>Year From</label>
                                             <select class="selectpicker search-fields" name="yearFrom">
@@ -85,20 +89,26 @@
 
 
                                         <x-drop-down
-                                            name="transmission"
-                                            id="transmissionCarList"
-                                            first-option-text="Chose One"
-                                            first-option-value="0"
-                                            :options="$data['transmission']"
-                                            label="Transmission"/>
+                                                name="transmission"
+                                                id="transmissionCarList"
+                                                first-option-text="Chose One"
+                                                first-option-value="0"
+                                                :options="$data['transmission']"
+                                                label="Transmission"/>
                                         <div class="form-group">
                                             <label>Sort By</label>
-                                                <select class="selectpicker search-fields" name="sort">
-                                                    <option value="new" @if(old('sort') == 'new') selected @endif>Newest</option>
-                                                    <option value="old" @if(old('sort') == 'old') selected @endif>Oldest</option>
-                                                    <option value="desc" @if(old('sort') == 'desc') selected @endif>Highest price</option>
-                                                    <option value="asc" @if(old('sort') == 'asc')selected @endif>Lower price</option>
-                                                </select>
+                                            <select class="selectpicker search-fields" name="sort">
+                                                <option value="new" @if(old('sort') == 'new') selected @endif>Newest
+                                                </option>
+                                                <option value="old" @if(old('sort') == 'old') selected @endif>Oldest
+                                                </option>
+                                                <option value="desc" @if(old('sort') == 'desc') selected @endif>Highest
+                                                    price
+                                                </option>
+                                                <option value="asc" @if(old('sort') == 'asc')selected @endif>Lower
+                                                    price
+                                                </option>
+                                            </select>
                                         </div>
                                         <br>
                                         <button class="search-button btn-md btn-color" type="submit">Search</button>
@@ -106,28 +116,28 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
-@endsection
-@php
-    $userId = Auth::id() ? Auth::id() : null;
-@endphp
-@section('custom_scripts')
+        @endsection
+        @php
+            $userId = Auth::id() ? Auth::id() : null;
+        @endphp
+        @section('custom_scripts')
 
 
             <script>
                 $(document).ready(function () {
                     $('.page_loader').remove();
-                    $('.wishList').click(function (){
+                    $('.wishList').click(function () {
                         let carId = $(this).data('id');
                         let userId = @json($userId);
 
 
-                        if($(this).hasClass('checked')){
+                        if ($(this).hasClass('checked')) {
                             $.ajax({
                                 url: '{{route('remove.wishlist')}}',
                                 method: 'DELETE',
@@ -136,26 +146,23 @@
                                     userId: userId,
                                     _token: '{{csrf_token()}}'
                                 },
-                                success: function(data) {
+                                success: function (data) {
                                     let message = data.message;
-                                    $('#carWish-'+carId).removeClass('checked');
-                                    $('#carWish-'+carId).html('<i class="fa fa-heart-o" aria-hidden="true"></i>')
+                                    $('#carWish-' + carId).removeClass('checked');
+                                    $('#carWish-' + carId).html('<i class="fa fa-heart-o" aria-hidden="true"></i>')
                                     toastr.warning(message)
                                 },
-                                error: function (xhr){
-                                    if(xhr.status === 401){
+                                error: function (xhr) {
+                                    if (xhr.status === 401) {
                                         toastr.error('You must be logged in to add to wishlist');
-                                    }
-                                    else if(xhr.status === 404){
+                                    } else if (xhr.status === 404) {
                                         toastr.error('Car not found in wishlist.');
-                                    }
-                                    else {
+                                    } else {
                                         toastr.error('Something went wrong');
                                     }
                                 }
                             })
-                        }
-                        else {
+                        } else {
                             $.ajax({
                                 url: '{{route('wishlist')}}',
                                 method: 'POST',
@@ -166,15 +173,14 @@
                                 },
                                 success: function (data) {
                                     let message = data.message;
-                                    $('#carWish-'+carId).addClass('checked');
-                                    $('#carWish-'+carId).html('<i class="fa fa-heart" aria-hidden="true"></i>')
+                                    $('#carWish-' + carId).addClass('checked');
+                                    $('#carWish-' + carId).html('<i class="fa fa-heart" aria-hidden="true"></i>')
                                     toastr.success(message)
                                 },
-                                error: function (xhr){
-                                    if(xhr.status === 401){
+                                error: function (xhr) {
+                                    if (xhr.status === 401) {
                                         toastr.error('You must be logged in to add to wishlist');
-                                    }
-                                    else {
+                                    } else {
                                         toastr.error('Something went wrong');
                                     }
                                 }
