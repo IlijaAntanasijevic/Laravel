@@ -88,4 +88,8 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/profile/cars',[UserController::class, 'deleteCarImage'])->name('profile.cars.delete.image');
 });
 
+Route::get('/test', function (){
+    return view('admin.pages.home');
+})->name('test');
+
 
