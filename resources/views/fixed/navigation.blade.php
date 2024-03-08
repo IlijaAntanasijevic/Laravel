@@ -25,6 +25,14 @@
                                 <a class="nav-link" href="{{route('wishlist.index')}}"> <i class="fa fa-heart-o"></i></a>
                             </li>
                         @endif
+                        @if(Auth::check() && Auth::user()->role_id == 2)
+                            {{--<li class="nav-item @if(request()->routeIs('admin.index')) active @endif">
+                                <a class="nav-link" href="{{route('admin.index')}}">Admin</a>
+                            </li>--}}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="test">Admin</a>
+                                    </li>
+                        @endif
                         </ul>
                     </div>
                 </nav>

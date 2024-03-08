@@ -34,10 +34,12 @@ use App\Http\Middleware\IsSold;
 // ?* User Profile / Edit Profile, Edit Car -> Done
 // ?* Make partials folder -> Done
 // ?* Create a middleware that checks if the user is an admin -> Done
+// !* Edit car, check model (doors/seats,...)
 // !* Fix selected items in search
 // !* Admin panel
 // !* Contact - mail
 // !* Show all seller cars (click) (????)
+// !* Change user password
 
 Route::get("/",[HomeController::class,'index'])->name('home');
 Route::get("/home",[HomeController::class,'index'])->name('home');
@@ -84,12 +86,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile/cars', [UserController::class, 'showAllCars'])->name('profile.cars');
     Route::get('/profile/cars/{car}', [UserController::class, 'editCar'])->where('car','[0-9]+')->name('profile.cars.edit');
     Route::patch('/profile/cars/sold', [UserController::class, 'soldCar'])->name('profile.cars.sold');
-    Route::patch('/profile/cars/update',[UserController::class, 'updateCar'])->name('profile.cars.update');
+    Route::put('/profile/cars/update',[UserController::class, 'updateCar'])->name('profile.cars.update');
     Route::delete('/profile/cars',[UserController::class, 'deleteCarImage'])->name('profile.cars.delete.image');
 });
 
-Route::get('/test', function (){
-    return view('admin.pages.home');
-})->name('test');
+Route::middleware(['admin'])->group(function () {
+    Route::get('/test', function (){
+        return view('admin.pages.home');
+    })->name('test');
+});
+
 
 

@@ -67,7 +67,7 @@
         </div>
         <form action="{{route('profile.cars.update')}}" method="POST" enctype="multipart/form-data">
             @csrf
-            @method('PATCH')
+            @method('PUT')
             <input type="hidden" value="{{$car->id}}" name="id">
             <div class="form-row">
                 <x-text-field
