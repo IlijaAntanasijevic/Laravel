@@ -44,10 +44,7 @@
                             <a >|</a>
                         </li>
                         <li>
-                            <form action="{{route('logout')}}" method="POST" id="logoutForm">
-                                @csrf
-                                <input type="submit" value="Log out" class="sign-in" id="logout" style="margin-top: 0px">
-                            </form>
+                            <a href="{{route('logout')}}"  class="sign-in font-weight-bold" style="color: red"  id="logout">Logout</a>
                         </li>
                     @endif
 

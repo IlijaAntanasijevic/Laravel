@@ -9,6 +9,7 @@ use App\Http\Controllers\UtilityController;
 use App\Http\Controllers\CompareCarController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\IsSold;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,10 +37,12 @@ use App\Http\Middleware\IsSold;
 // ?* Create a middleware that checks if the user is an admin -> Done
 // !* Edit car, check model (doors/seats,...)
 // !* Fix selected items in search
+// !* Delete image from folder
+// !* Add delete car
+// !* Change user password
+
 // !* Admin panel
 // !* Contact - mail
-// !* Show all seller cars (click) (????)
-// !* Change user password
 
 Route::get("/",[HomeController::class,'index'])->name('home');
 Route::get("/home",[HomeController::class,'index'])->name('home');
@@ -75,7 +78,7 @@ Route::middleware(['no.auth'])->group(function (){
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::post('/wishlist', [UtilityController::class, 'wishlist'])->name('wishlist');
     Route::delete('/wishlist', [UtilityController::class, 'wishlist_remove'])->name('remove.wishlist');
     Route::get('/wishlist', [UtilityController::class, 'wishlist_index'])->name('wishlist.index');
@@ -91,9 +94,12 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['admin'])->group(function () {
-    Route::get('/test', function (){
-        return view('admin.pages.home');
-    })->name('test');
+    Route::view('/admin', 'admin.pages.index')->name('admin.index');
+    Route::view('/admin/users', 'admin.pages.users')->name('admin.users');
+    Route::view('/admin/user/profile', 'admin.pages.userProfile')->name('admin.user.profile');
+    Route::view('/admin/cars', 'admin.pages.cars')->name('admin.cars');
+    Route::view('/admin/wishlist', 'admin.pages.wishlist')->name('admin.wishlist');
+    Route::view('admin/edit', 'admin.pages.edit')->name('admin.edit');
 });
 
 

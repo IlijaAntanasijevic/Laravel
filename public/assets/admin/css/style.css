@@ -707,7 +707,7 @@ a:focus {
 .icon_info ul.user_profile_dd>li {
     width: auto;
     border-radius: 0;
-    background: #ff5722;
+    background-color: red;
     margin: 0;
     padding: 12px 0 12px 20px;
     height: auto;
@@ -3217,7 +3217,6 @@ td ul.list-inline li {
     border: none;
     font-weight: 400;
     padding: 6px 15px;
-    border-radius: 50px;
 }
 
 table.projects tr td:first-child {
