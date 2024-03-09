@@ -9,6 +9,7 @@ class Fuel extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name'];
     public function engine()
     {
         return $this->hasMany(Engine::class);

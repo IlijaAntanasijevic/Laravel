@@ -10,6 +10,7 @@ use App\Http\Controllers\CompareCarController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\IsSold;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CarPropertiesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,13 +36,16 @@ use App\Http\Controllers\AdminController;
 // ?* User Profile / Edit Profile, Edit Car -> Done
 // ?* Make partials folder -> Done
 // ?* Create a middleware that checks if the user is an admin -> Done
-// !* Edit car, check model (doors/seats,...)
+// !* Fix edit car, check model (doors/seats,...)
 // !* Fix selected items in search
+// !* Fix wishlist remove sold car
 // !* Delete image from folder
 // !* Add delete car
 // !* Change user password
 
 // !* Admin panel
+// !* Admin - Delete car
+// !* Admin - Delete: model,brand,color,...
 // !* Contact - mail
 
 Route::get("/",[HomeController::class,'index'])->name('home');
@@ -94,12 +98,27 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['admin'])->group(function () {
-    Route::view('/admin', 'admin.pages.index')->name('admin.index');
-    Route::view('/admin/users', 'admin.pages.users')->name('admin.users');
-    Route::view('/admin/user/profile', 'admin.pages.userProfile')->name('admin.user.profile');
-    Route::view('/admin/cars', 'admin.pages.cars')->name('admin.cars');
-    Route::view('/admin/wishlist', 'admin.pages.wishlist')->name('admin.wishlist');
-    Route::view('admin/edit', 'admin.pages.edit')->name('admin.edit');
+    Route::get('/admin', [AdminController::class,'index'])->name('admin.index');
+    Route::get('/admin/users', [AdminController::class,'users'])->name('admin.users');
+    Route::get('/admin/user/profile/{id}', [AdminController::class,'profile'])->name('admin.user.profile');
+    Route::get('/admin/cars', [AdminController::class,'cars'])->name('admin.cars');
+    Route::get('admin/car/show/{id}', [AdminController::class,'showCar'])->name('admin.car.show');
+    Route::get('admin/edit', [AdminController::class,'carProperties'])->name('admin.edit');
+    Route::get('/admin/wishlist', [AdminController::class,'wishlist'])->name('admin.wishlist');
+
+    Route::patch('admin/car/approve',[CarController::class,'approveCar'])->name('admin.car.approve');
+
+    Route::prefix('/admin/car/update')->group(function () {
+        Route::post('/model', [CarPropertiesController::class, 'addModel'])->name('admin.car.add.model');
+        Route::post('/brand', [CarPropertiesController::class, 'addBrand'])->name('admin.car.add.brand');
+        Route::post('/color', [CarPropertiesController::class, 'addColor'])->name('admin.car.add.color');
+        Route::post('/seats', [CarPropertiesController::class, 'addSeats'])->name('admin.car.add.seats');
+        Route::post('/doors', [CarPropertiesController::class, 'addDoors'])->name('admin.car.add.doors');
+        Route::post('/body', [CarPropertiesController::class, 'addBody'])->name('admin.car.add.body');
+        Route::post('/drive-type', [CarPropertiesController::class, 'addDriveType'])->name('admin.car.add.drive-type');
+        Route::post('/transmission', [CarPropertiesController::class, 'addTransmission'])->name('admin.car.add.transmission');
+        Route::post('/fuel', [CarPropertiesController::class, 'addFuel'])->name('admin.car.add.fuel');
+    });
 });
 
 

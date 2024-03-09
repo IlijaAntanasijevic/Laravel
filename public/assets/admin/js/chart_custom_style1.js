@@ -5,7 +5,7 @@
     Envato Profile: https://themeforest.net/user/htmldotdesign
     Website: https://html.design
     Version: 1.0
--------------------------------------------------------------------*/	
+-------------------------------------------------------------------*/
 
      var color = Chart.helpers.color;
 		var barChartData = {
@@ -124,7 +124,7 @@
 			}
 		});
 
-		window.onload = function() {
+		/*window.onload = function() {
 			var ctx = document.getElementById('canvas').getContext('2d');
 			window.myBar = new Chart(ctx, {
 				type: 'bar',
@@ -137,14 +137,13 @@
 					},
 				}
 			});
-		};
+		};*/
 
-		document.getElementById('randomizeData').addEventListener('click', function() {
+		/*document.getElementById('randomizeData').addEventListener('click', function() {
 			barChartData.datasets.forEach(function(dataset) {
 				dataset.data = dataset.data.map(function() {
 					return randomScalingFactor();
 				});
 			});
 			window.myBar.update();
-		});
-		
+		});*/

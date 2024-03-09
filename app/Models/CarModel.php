@@ -11,7 +11,7 @@ class CarModel extends Model
     protected $fillable = ['name', 'brand_id', 'body_id', 'doors_id', 'seat_id'];
     public function seat()
     {
-        return $this->belongsTo(Seats::class);
+        return $this->belongsTo(Seats::class,'seat_id');
     }
     public function brand()
     {

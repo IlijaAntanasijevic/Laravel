@@ -12,7 +12,7 @@
                             </div>
                             <div class="counter_no">
                                 <div>
-                                    <p class="total_no">250</p>
+                                    <p class="total_no">{{$totalUsers}}</p>
                                     <p class="head_couter">Total users</p>
                                 </div>
                             </div>
@@ -27,7 +27,7 @@
                             </div>
                             <div class="counter_no">
                                 <div>
-                                    <p class="total_no">50</p>
+                                    <p class="total_no">{{$totalCars}}</p>
                                     <p class="head_couter">Total cars</p>
                                 </div>
                             </div>
@@ -42,7 +42,7 @@
                             </div>
                             <div class="counter_no">
                                 <div>
-                                    <p class="total_no">1,805</p>
+                                    <p class="total_no">{{$totalSoldCars}}</p>
                                     <p class="head_couter">Sold Cars</p>
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                             </div>
                             <div class="counter_no">
                                 <div>
-                                    <p class="total_no">54</p>
+                                    <p class="total_no">{{$totalSavedCars}}</p>
                                     <p class="head_couter">Total Saved Cars</p>
                                 </div>
                             </div>
@@ -90,42 +90,36 @@
                                                 <div class="table-responsive-sm">
                                                     <table class="table table-striped projects">
                                                         <thead class="thead-dark">
-                                                        <tr>
+                                                        <tr class="text-center">
                                                             <th style="width: 2%">No</th>
-                                                            <th class="text-center">Car Name</th>
-                                                            <th class="text-center" >Model</th>
-                                                            <th class="text-center">Date posted</th>
-                                                            <th class="text-center">Status</th>
-                                                            <th class="text-center">View</th>
-                                                            <th class="text-center">Delete</th>
+                                                            <th>Car Name</th>
+                                                            <th >Model</th>
+                                                            <th>Date posted</th>
+                                                            <th>Status</th>
+                                                            <th>View</th>
+                                                            <th>Delete</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
+                                                        @foreach($carsToApprove as $key => $car)
+                                                            <tr class="text-center" id="car-{{$car->id}}">
+                                                                <td>{{$key}}</td>
+                                                                <td>{{$car->name}}</td>
+                                                                <td>{{$car->model['name']}}</td>
+                                                                <td>{{$car->created_at}}</td>
+                                                                <td>
+                                                                    <a href="#" id="{{$car->id}}" class="btn btn-warning btn-xs approveCar">Approve</a>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="{{route('admin.car.show',[$car->id])}}" class="btn btn-info btn-xs">View</a>
+                                                                </td>
+                                                                {{--Popup to send email why is deleted--}}
+                                                                <td>
+                                                                    <a href="#" class="btn btn-danger btn-xs">Delete</a>
+                                                                </td>
+                                                            </tr>
 
-                                                            @for($i = 1; $i < 10; $i++)
-                                                                <tr>
-                                                                <td>1</td>
-                                                                <td class="text-center">
-                                                                    <p>Car {{$i}}</p>
-                                                                </td>
-                                                                <td class="text-center">
-                                                                    <p>Model {{$i}}</p>
-                                                                </td>
-                                                                <td class="text-center">
-                                                                    <p>2021-05-20</p>
-                                                                </td>
-                                                                <td class="text-center">
-                                                                    <a href="#" class="btn btn-warning btn-xs">Approve</a>
-                                                                </td>
-                                                                    <td class="text-center">
-                                                                        <a href="#" class="btn btn-info btn-xs">View</a>
-                                                                    </td>
-                                                                    {{--Popup to send email why is deleted--}}
-                                                                    <td class="text-center">
-                                                                        <a href="#" class="btn btn-danger btn-xs">Delete</a>
-                                                                    </td>
-                                                                </tr>
-                                                            @endfor
+                                                        @endforeach
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -144,4 +138,10 @@
 
         </div>
     </div>
+@endsection
+
+@section('custom_scripts')
+    <script>
+
+    </script>
 @endsection

@@ -9,6 +9,7 @@ class Body extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name'];
     public function model()
     {
         return $this->hasMany(CarModel::class);

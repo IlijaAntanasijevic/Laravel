@@ -21,6 +21,7 @@ use App\Models\Safety;
 use App\Models\Seats;
 use App\Models\Transmission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -147,9 +148,6 @@ class CarController extends PrimaryController
 
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $car = Car::with('model.year','engine','user', 'equipment','safeties','wishlist')->find($id);
@@ -162,27 +160,56 @@ class CarController extends PrimaryController
         return view('pages.cars.show', ['car' => $car]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+   public function approveCar(Request $request)
+   {
+       try {
+           $request->validate([
+               'id' => 'required|numeric'
+           ]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+           $car = Car::find($request->id);
+           $car->is_published = 1;
+           $car->save();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+           return response()->json(['success' => 'Car approved successfully!'], 200);
+       }
+       catch (\Exception $e)
+       {
+           Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
+           return response()->json(['error' => 'Server error'], 500);
+       }
+   }
+
+   public function destroy(Request $request)
+   {
+       $request->validate([
+          'id' => 'required|numeric|exists:cars,id'
+       ]);
+
+       try {
+              $car = Car::find($request->id);
+               $car->safeties()->detach();
+               $car->equipment()->detach();
+               $images = $car->images;
+                foreach ($images as $image)
+                {
+                     if(File::exists(public_path('assets/img/' . $image->path)))
+                     {
+                          File::delete(public_path('assets/img/' . $image->path));
+                     }
+                }
+               $car->images()->delete();
+
+               $car->delete();
+
+              return response()->json(['success' => 'Car deleted successfully!'], 200);
+       }catch (\Exception $e)
+       {
+           Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
+           return response()->json(['error' => 'Server error'], 500);
+       }
+   }
+
+
+
 }

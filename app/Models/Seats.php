@@ -9,6 +9,7 @@ class Seats extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['value'];
     public function model()
     {
         return $this->hasMany(CarModel::class);

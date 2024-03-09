@@ -12,18 +12,22 @@
                         <th>Model</th>
                         <th>Brand</th>
                         <th>Total saved</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @for($i = 1; $i < 10; $i++)
+                    @foreach($cars as $car)
                         <tr class="text-center">
-                            <td>{{$i}}</td>
-                            <td>Car {{$i}}</td>
-                            <td>Model {{$i}}</td>
-                            <td>Brand {{$i}}</td>
-                            <td>10</td>
+                            <td>{{$car->id}}</td>
+                            <td>{{$car->name}}</td>
+                            <td>{{$car->model['name']}}</td>
+                            <td>{{$car->model['brand']->name}}</td>
+                            <td>{{$car->total_saved}}</td>
+                            <td>
+                                <a href="{{route('admin.car.show',[$car->id])}}" class="btn btn-info text-light">View</a>
+                            </td>
                         </tr>
-                    @endfor
+                    @endforeach
                     </tbody>
             </table>
         </div>
