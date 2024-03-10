@@ -74,7 +74,7 @@ class Car extends Model
 
         if($request->has('model') && $request->get('model') != 0){
             $modelId = $request->input('model');
-            $models = $models->where('id',$modelId);
+            $models = $models->where('model_id',$modelId);
         }
 
 

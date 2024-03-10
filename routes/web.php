@@ -42,9 +42,10 @@ use App\Http\Controllers\CarPropertiesController;
 // ?* Change user password -> Done
 // ?* Add delete car -> Done
 // ?* Fix wishlist remove sold car -> Done
-// !* Fix Admin panel - models,brands,colors,...
-// !* Fix search !!!
-// !* Fix selected items in search
+// ?* Fix Admin panel - models,brands,colors,...
+// ?* Fix search !!!
+// ?* Fix selected items in search
+
 // !* Contact - mail
 // * Fix edit car, check model (doors/seats,...)
 

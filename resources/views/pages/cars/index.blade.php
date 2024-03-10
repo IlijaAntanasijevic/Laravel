@@ -79,7 +79,7 @@
                                                 label="Body Type"/>
                                         <div class="form-group">
                                             <label>Year From</label>
-                                            <select class="selectpicker search-fields" name="yearFrom">
+                                            <select class="selectpicker search-fields" id="yearFrom" name="yearFrom">
                                                 <option value="0">Choose One</option>
                                                 @for($i = 2024; $i >= 1980; $i--)
                                                     <option value="{{$i}}">{{$i}}</option>
@@ -97,7 +97,7 @@
                                                 label="Transmission"/>
                                         <div class="form-group">
                                             <label>Sort By</label>
-                                            <select class="selectpicker search-fields" name="sort">
+                                            <select class="selectpicker search-fields" id="sort" name="sort">
                                                 <option value="new" @if(old('sort') == 'new') selected @endif>Newest
                                                 </option>
                                                 <option value="old" @if(old('sort') == 'old') selected @endif>Oldest
@@ -132,6 +132,41 @@
             <script>
                 $(document).ready(function () {
                     $('.page_loader').remove();
+
+                    let queryString = window.location.search;
+                    let params = {};
+
+                    if(queryString){
+                        queryString = queryString.substring(1);
+                        let keyValues = queryString.split('&');
+                        keyValues.forEach(function (keyValue) {
+                            let value = keyValue.split('=');
+                            params[value[0]] = value[1];
+                        });
+                    }
+                    else {
+                        params = null;
+                    }
+
+                    if(params){
+                        $('#brandCarList').val(params.brand);
+                        if(params.brand !== '0'){
+                            getModels(params.brand);
+                            /*setInterval(function () {
+                                $('#modelCarList').val(params.model);
+                            }, 200);*/
+                        }
+
+
+
+                        // $('#brandCarList').change();
+                        $('#bodyCarList').val(params.body);
+                        $('#yearFrom').val(params.yearFrom);
+                        $('#transmissionCarList').val(params.transmission);
+                        $('#sort').val(params.sort);
+                    }
+
+
                     $('.wishList').click(function () {
                         let carId = $(this).data('id');
                         let userId = @json($userId);
@@ -198,24 +233,29 @@
                             $('#modelCarList').attr('disabled', 'disabled');
                             return;
                         }
-                        $.ajax({
-                            url: "{{route('get.models')}}",
-                            data: {
-                                id: brandId
-                            },
-                            method: 'GET',
-                            success: function (response) {
-                                let options = '<option value="0">Model</option>';
-                                response.forEach(function (model) {
-                                    options += `<option value="${model.id}">${model.name}</option>`;
-                                });
-                                $('#modelCarList').html(options);
-                                $('#modelCarList').removeAttr('disabled');
-                            }
-                        });
+                        getModels(brandId);
+
                     });
                     // ** End Model DDL ** //
                 })
+
+                function getModels(id){
+                    $.ajax({
+                        url: "{{route('get.models')}}",
+                        data: {
+                            id: id
+                        },
+                        method: 'GET',
+                        success: function (response) {
+                            let options = '<option value="0">Model</option>';
+                            response.forEach(function (model) {
+                                options += `<option value="${model.id}">${model.name}</option>`;
+                            });
+                            $('#modelCarList').html(options);
+                            $('#modelCarList').removeAttr('disabled');
+                        }
+                    });
+                }
             </script>
 @endsection
 

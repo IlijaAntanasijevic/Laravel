@@ -86,7 +86,7 @@
                             first-option-value="0"
                             name="driveType"
                             id="driveType"
-                            :selected="old('$driveType')"/>
+                            :selected="old('driveType')"/>
 
                         <x-text-field
                             parent-class="form-group col-md-3 mt-4"

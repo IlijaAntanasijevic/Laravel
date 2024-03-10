@@ -44,6 +44,7 @@
 @section('custom_scripts')
     <script type="text/javascript">
         $(document).ready(function () {
+
             $('.page_loader').remove();
             //loadCars(1);
             // ** Model Dropdown ** //
@@ -136,8 +137,6 @@
                 loadCars(nextPage);
                 $(this).data('page', nextPage);
             })
-
-
             // ** End View More ** //
 
 
@@ -161,6 +160,14 @@
             let queryString = `?page=${page}&brand=${brandId}&model=${modelId}&maxPrice=${maxPrice}&body=${bodyId}&yearFrom=${yearFrom}&yearTo=${yearTo}`;
 
             showSearchedTitle(brandId, modelId, bodyId, maxPrice, yearFrom, yearTo);
+            if(searched){
+                $('#brandHome').val(0);
+                $('#modelHome').val(0);
+                $('#bodyHome').val(0);
+                $('#maxPriceHome').val('');
+                $('#yearFromHome').val(0);
+                $('#yearToHome').val(0);
+            }
             $.ajax({
                 url: '/home' + queryString,
                 method: 'GET',
@@ -169,7 +176,6 @@
                     $('#showMoreHome').html('View more');
                     if (data.html == '') {
                         $('#showCars').html('');
-
                         $('#homeTitle').hide();
                         $('#titleError').show();
                         $('#titleError').html('No cars found');
@@ -191,7 +197,7 @@
                     }
                 },
                 error: function (xhr) {
-                    alert('Something went wrong')
+                    toastr.error('Something went wrong');
                     console.log(xhr)
                 }
             })

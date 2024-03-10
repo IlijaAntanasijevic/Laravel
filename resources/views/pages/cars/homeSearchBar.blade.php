@@ -11,17 +11,17 @@
                                 name="brandHome"
                                 id="brandHome"
                                 first-option-text="Brand"
-                                :options="$brands"
-                                :selected="old('brandHome')"/>
+                                first-option-value="0"
+                                :options="$brands"/>
                         </div>
                         <div class="col-6 col-lg-3 col-md-3">
                                 <x-drop-down
                                     name="model"
                                     id="modelHome"
                                     first-option-text="Model"
+                                    first-option-value="0"
                                     :options="[]"
-                                    disabled="true"
-                                    :selected="old('modelHome')"/>
+                                    disabled="true"/>
                         </div>
                         <div class="col-6 col-lg-3 col-md-3">
                             <x-text-field

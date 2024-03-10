@@ -6,10 +6,11 @@
     <select class="{{ $selectClass }}"  name="{{$name}}" id="{{$id}}"  {{$disabled ? 'disabled=disabled' : ''}}>
 
         @if($firstOptionText)
-            <option value="{{$firstOptionValue}}">{{$firstOptionText}}</option>
+            <option value="{{$firstOptionValue}}"  @selected($selected == $firstOptionValue)>{{$firstOptionText}}</option>
         @endif
 
         @foreach($options as $option)
+
             <option value="{{$option->$value}}" @selected($selected == $option->$value)>{{ucfirst($option->$text)}}</option>
         @endforeach
            {{-- @foreach($options as $option)

@@ -95,11 +95,32 @@
         $(document).ready(function () {
             $('.page_loader').remove();
 
+
+            let queryString = window.location.search;
+            let params = {};
+
+            if(queryString){
+                queryString = queryString.substring(1);
+                let keyValues = queryString.split('&');
+                keyValues.forEach(function (keyValue) {
+                    let value = keyValue.split('=');
+                    params[value[0]] = value[1];
+                });
+            }
+            else {
+                params = null;
+            }
+            if(params && params.sort){
+                $('#sort').val(params.sort);
+            }
+
             $('#sort').change(function () {
                 const url = new URL(window.location.href);
                 let searchParams = new URLSearchParams(url.search);
                 searchParams.set('sort', $(this).val());
+                searchParams.set('page', 1);
                 url.search = searchParams.toString();
+
                 window.location.href = url.toString();
             })
         });

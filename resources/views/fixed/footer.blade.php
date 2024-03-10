@@ -63,7 +63,6 @@
             </div>
             <div class="col-xl-4 col-lg-4 col-md-8 col-sm-6 text-center d-flex flex-column">
                 <a href="#" class="h1" style="font-size: 2rem">DOCUMENTATION</a>
-                <a href="#" class="mt-5" style="font-size: 1.5rem">Author</a>
             </div>
         </div>
 
