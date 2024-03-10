@@ -11,6 +11,7 @@ use App\Models\Doors;
 use App\Models\DriveType;
 use App\Models\Engine;
 use App\Models\Fuel;
+use App\Models\Models;
 use App\Models\Seats;
 use App\Models\Transmission;
 use App\Models\User;
@@ -66,7 +67,7 @@ class AdminController extends Controller
                     ->where('is_sold',0)
                     ->where('is_published',1)
                     ->get();
-        $models = CarModel::get();
+        $models = Models::with('carModel')->get();
         $brands = Brand::all();
         $bodies = Body::all();
         $seats = Seats::all();
@@ -75,10 +76,8 @@ class AdminController extends Controller
         $transmissions = Transmission::all();
         $fuels = Fuel::all();
         $driveTypes = DriveType::all();
-        $models = $models->map(function($model) use ($car){
-            $model->total_in_use = $car->where('model_id',$model->id)->first()->count ?? 0;
-            return $model;
-        });
+
+
 
 
         return view('admin.pages.edit',compact('models','brands','bodies','seats','doors','colors','driveTypes','transmissions','fuels'));

@@ -11,9 +11,11 @@ use App\Models\Doors;
 use App\Models\DriveType;
 use App\Models\Engine;
 use App\Models\Fuel;
+use App\Models\Models;
 use App\Models\Seats;
 use App\Models\Transmission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Mockery\Exception;
 
@@ -30,23 +32,30 @@ class CarPropertiesController extends Controller
         ]);
 
         try {
+            DB::beginTransaction();
             $name = $request->modelName;
             $brandId = $request->brandId;
             $bodyId = $request->bodyId;
             $seatsId = $request->seatsId;
             $doorsId = $request->doorsId;
+            $createModel = Models::create([
+               'name' => $name
+            ]);
+            $modelId = $createModel->id;
 
             CarModel::create([
-                'name' => $name,
+                'model_id' => $modelId,
                 'brand_id' => $brandId,
                 'body_id' => $bodyId,
                 'seat_id' => $seatsId,
                 'doors_id' => $doorsId
             ]);
 
+            DB::commit();
             return redirect()->back()->with('success', 'Model added successfully.');
 
         }catch (\Exception $e) {
+            DB::rollBack();
             Log::error($e->getMessage() . ' Line: ' . $e->getLine());
             return redirect()->back()->with('error', 'Something went wrong. Please try again later.');
         }
@@ -224,13 +233,15 @@ class CarPropertiesController extends Controller
 
         try {
             $model = CarModel::find($request->id);
-            $cars = Car::find($model->id);
-            if(!$cars){
+            $carsCount = Car::where('model_id', $model->id)->count();
+
+            if ($carsCount == 0) {
                 $model->delete();
                 return response()->json(['success' => 'Model deleted successfully!'], 200);
-
             }
-            return response()->json(['error' => 'Model is in use.'], 400);
+
+                return response()->json(['error' => 'Model is in use.'], 400);
+
 
 
         }catch (\Exception $e){

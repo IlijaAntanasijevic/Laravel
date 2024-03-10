@@ -122,23 +122,27 @@
                                                         <th>Body</th>
                                                         <th>Seats</th>
                                                         <th>Doors</th>
-                                                        <th>Total in use</th>
                                                         <th>Action</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
                                                     @foreach($models as $model)
-                                                        <tr class="text-center" id="model-{{$model->id}}">
-                                                            <td>{{$model->name}}</td>
-                                                            <td>{{$model->brand->name}}</td>
-                                                            <td>{{$model->body->name}}</td>
-                                                            <td>{{$model->seat->value}}</td>
-                                                            <td>{{$model->doors->name}}</td>
-                                                            <td>{{$model->total_in_use}}</td>
-                                                            <td>
-                                                                <a href="#" class="btn btn-danger btn-xs deleteModel" id="{{$model->id}}">Delete</a>
-                                                            </td>
-                                                        </tr>
+
+
+                                                            @foreach($model->carModel as $carModel)
+                                                                <tr class="text-center" id="model-{{$carModel->id}}">
+                                                                <td>{{$model->name}}</td>
+                                                                <td>{{$carModel->brand->name}}</td>
+                                                                <td>{{$carModel->body->name}}</td>
+                                                                <td>{{$carModel->seat->value}}</td>
+                                                                <td>{{$carModel->doors->name}}</td>
+                                                                <td>
+                                                                    <a href="#" class="btn btn-danger btn-xs deleteModel" id="{{$carModel->id}}">Delete</a>
+                                                                </td>
+                                                                </tr>
+                                                            @endforeach
+
+
                                                     @endforeach
                                                     </tbody>
                                                 </table>
