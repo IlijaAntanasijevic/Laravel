@@ -75,22 +75,23 @@ class CarController extends PrimaryController
         $data = $request->all();
 
 
-        $bodyId = $data['body'];
+        $modelId = $data['model'];
+        $bodyId =  $data['body'];
         $seatsId = $data['seats'];
         $doorsId = $data['doors'];
         $brandId = $data['brand'];
 
         $carModel = CarModel::where('body_id',$bodyId)
-            ->where('seat_id',$seatsId)
-            ->where('doors_id',$doorsId)
-            ->where('brand_id',$brandId)
-            ->first();
+                            ->where('model_id',$modelId)
+                            ->where('seat_id',$seatsId)
+                            ->where('doors_id',$doorsId)
+                            ->where('brand_id',$brandId)
+                            ->first();
 
 
         if(!$carModel){
-            $name = CarModel::find($data['model'])->name;
             $carModel = CarModel::create([
-                'name' => $name,
+                'model_id' => $modelId,
                 'body_id' => $bodyId,
                 'seat_id' => $seatsId,
                 'doors_id' => $doorsId,
@@ -111,7 +112,6 @@ class CarController extends PrimaryController
                 'fuel_id' => $data['fuel'],
                 'transmission_id' => $data['transmission']
             ])->id;
-
 
 
             $primaryImage = $data['images'][0];
@@ -170,7 +170,7 @@ class CarController extends PrimaryController
 
     public function show(string $id)
     {
-        $car = Car::with('model.year','engine','user', 'equipment','safeties','wishlist')->find($id);
+        $car = Car::with('model','engine','user', 'equipment','safeties','wishlist')->find($id);
 
         $totalCars = Car::all()->groupBy('user_id')
                                 ->map(function ($item){return count($item);})

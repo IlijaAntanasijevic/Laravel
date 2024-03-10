@@ -36,7 +36,7 @@
                 </div>
                 <div class="form-group col-md-2">
                     <p class="m-0 p-0">Model</p>
-                    <p class="paragraph-p">{{$car->model['name']}}</p>
+                    <p class="paragraph-p">{{$car->model->model->name}}</p>
                 </div>
                 <div class="form-group col-md-2">
                     <p class="m-0 p-0">Brand</p>

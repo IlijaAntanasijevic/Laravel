@@ -15,6 +15,7 @@ use App\Models\Engine;
 use App\Models\Equipment;
 use App\Models\Fuel;
 use App\Models\Images;
+use App\Models\Models;
 use App\Models\Safety;
 use App\Models\Seats;
 use App\Models\Transmission;
@@ -102,11 +103,22 @@ class UserController extends PrimaryController
         $doors = Doors::all();
         $seats = Seats::all();
         $colors = Color::all();
-        $models = CarModel::where('brand_id',$car->model->brand_id)->get();
+        $modelId = $car->model->brand_id;
         $driveTypes = DriveType::all();
         $equipments = Equipment::all();
         $safeties = Safety::all();
-        return view('pages.user.edit-car',compact('car','fuels','models','transmission','bodies','brands','doors','seats','colors','driveTypes','safeties','equipments','checkedEquipment','checkedSafety'));
+
+        $selectedModel = CarModel::where('brand_id',$car->model->brand_id)
+            ->where('body_id',$car->model->body_id)
+            ->where('seat_id',$car->model->seat_id)
+            ->where('doors_id',$car->model->doors_id)->first()->id;
+
+        $models = Models::select('id', 'name')
+                ->whereHas('carModel', function ($query) use ($modelId) {
+                    $query->where('brand_id', $modelId);})
+                ->get();
+
+        return view('pages.user.edit-car',compact('car','fuels','models','transmission','selectedModel','bodies','brands','doors','seats','colors','driveTypes','safeties','equipments','checkedEquipment','checkedSafety'));
 
     }
 
@@ -152,9 +164,8 @@ class UserController extends PrimaryController
                                 ->where('seat_id',$data['seats'])
                                 ->where('doors_id',$data['doors'])->first();
             if(!$carModelId){
-                $carModelName = CarModel::find($data['model'])->name;
                 $carModelId = CarModel::create([
-                    'name' => $carModelName,
+                    'model_id' => $data['model'],
                     'brand_id' => $data['brand'],
                     'body_id' => $data['body'],
                     'seat_id' => $data['seats'],

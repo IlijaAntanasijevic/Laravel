@@ -16,6 +16,10 @@ class Car extends Model
     {
         return $this->belongsTo(CarModel::class);
     }
+    public function models()
+    {
+        return $this->model->belongsTo(Models::class);
+    }
 
     public function engine()
     {
@@ -67,10 +71,13 @@ class Car extends Model
             $models = $models->where('brand_id',$brandId);
         }
 
+
         if($request->has('model') && $request->get('model') != 0){
             $modelId = $request->input('model');
             $models = $models->where('id',$modelId);
         }
+
+
         if($request->has('body') && $request->get('body') != 0){
 
             $bodyId = $request->input('body');

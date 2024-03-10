@@ -8,7 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class CarModel extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'brand_id', 'body_id', 'doors_id', 'seat_id'];
+    protected $fillable = ['model_id', 'brand_id', 'body_id', 'doors_id', 'seat_id'];
+
+    public function model()
+    {
+        return $this->belongsTo(Models::class,'model_id');
+    }
     public function seat()
     {
         return $this->belongsTo(Seats::class,'seat_id');
@@ -27,10 +32,6 @@ class CarModel extends Model
         return $this->belongsTo(Doors::class);
     }
 
-    public function year()
-    {
-        return $this->belongsToMany(Year::class, 'model_year', 'model_id', 'year_id');
-    }
 
     public function car()
     {

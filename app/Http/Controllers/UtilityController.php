@@ -11,6 +11,7 @@ use App\Models\Doors;
 use App\Models\DriveType;
 use App\Models\Equipment;
 use App\Models\Fuel;
+use App\Models\Models;
 use App\Models\Safety;
 use App\Models\Seats;
 use App\Models\Transmission;
@@ -84,7 +85,15 @@ class UtilityController extends PrimaryController
     public function getModelsById(Request $request)
     {
         $id = $request->get('id');
-        $models = CarModel::where('brand_id', $id)->get();
+
+        $models = Models::select('id', 'name')
+                        ->whereHas('carModel', function ($query) use ($id) {
+                            $query->where('brand_id', $id);})
+                        ->get();
+
+
+
+
         return response()->json($models);
     }
 

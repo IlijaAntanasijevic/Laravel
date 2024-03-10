@@ -10,15 +10,14 @@ class CarModelSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    private array $models = ['Q8', 'A6', 'A3', '320d', 'M5','X5'];
     public function run(): void
     {
         //        $faker = Faker::create();
         //        $faker->addProvider(new \Faker\Provider\FakeCar($faker));
         $faker = Faker::create();
-        foreach ($this->models as $model) {
+        for ($i = 1; $i <= 6; $i++) {
             DB::table('car_models')->insert([
-                'name' => $model,
+                'model_id' => rand(1, 6),
                 'brand_id' => rand(1, 20),
                 'body_id' => rand(1, 5),
                 'seat_id' => 4,

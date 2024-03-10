@@ -219,7 +219,7 @@
                                 </li>
                                 <li>
                                     <span>Model</span>
-                                    {{$car->model['name']}}
+                                    {{$car->model->model->name}}
                                 </li>
                                 <li>
                                     <span>Kilometers</span>

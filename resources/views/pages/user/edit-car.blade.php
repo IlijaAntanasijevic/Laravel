@@ -95,7 +95,7 @@
                     :options="$models"
                     name="model"
                     id="model"
-                    :selected="$car->model->id"
+                    :selected="$selectedModel"
                     :error="$modelError"/>
                 <x-dropdown
                     label="Body Type"
@@ -307,11 +307,11 @@
                 data: {
                     id: brandId
                 },
-                success: function (data){
+                success: function (response){
                     let options = '<option value="0">Select Model</option>';
-                    for(let model of data){
-                        options += `<option value='${model.id}'>${model.name}</option>`;
-                    }
+                    response.forEach(function (model) {
+                        options += `<option value="${model.id}">${model.name}</option>`;
+                    });
                     $('#model').html(options);
                     $('#model').removeAttr('disabled');
                 },

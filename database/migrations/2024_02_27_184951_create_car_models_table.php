@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('car_models', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->foreignId('model_id')->constrained('models');
             $table->foreignId('brand_id')->constrained('brands');
             $table->foreignId('body_id')->constrained('bodies');
             $table->foreignId('seat_id')->constrained('seats');
