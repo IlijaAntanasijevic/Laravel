@@ -49,12 +49,8 @@
                             id="password"
                             parent-class="form-group clearfix"
                             field-class="form-control"
-                            value="ilija12345"
+                            value=""
                             :error="$passwordError"/>
-
-                            {{--<div class="checkbox form-group clearfix">
-                                <a href="forgot-password.html" class="forgot-password">Forgot Password</a>
-                            </div>--}}
                             <div class="form-group">
                                 <button type="submit" class="btn-theme btn-md w-100">Login</button>
                             </div>

@@ -10,6 +10,8 @@
     $addressError = $errors->get('address')[0] ?? null;
     $phoneError = $errors->get('phone')[0] ?? null;
     $avatarError = $errors->get('avatar')[0] ?? null;
+    $oldPasswordError = $errors->get('oldPassword')[0] ?? null;
+    $newPasswordError = $errors->get('newPassword')[0] ?? null;
 
 
 @endphp
@@ -114,6 +116,30 @@
                     :value="old('address') ?? $user->address"
                     :error="$addressError"/>
             </div>
+                <div class="row">
+                    <x-text-field
+                        label="Old Password"
+                        type="password"
+                        name="oldPassword"
+                        id="oldPassword"
+                        parent-class="form-group col-6"
+                        field-class="form-control"
+                        :value="old('oldPassword')"
+                        :error="$oldPasswordError"/>
+                    <x-text-field
+                        label="New Password"
+                        type="password"
+                        name="newPassword"
+                        id="newPassword"
+                        parent-class="form-group col-6"
+                        field-class="form-control"
+                        :value="old('newPassword')"
+                        :error="$newPasswordError"/>
+                </div>
+                @if(session('passwordError'))
+                                <p class="text-danger alert alert-danger mb-4">{{session('passwordError')}}</p>
+                            @endif
+
             </div>
             <div class="w-25 mx-auto my-5">
                 <button class="btn btn-success w-100">Save</button>

@@ -2,7 +2,7 @@
     $inWishList = $car->wishlist->where('user_id',Auth::id())->first();
 
 @endphp
-<div class="col-lg-4 col-md-6 col-sm-6" >
+<div class="col-lg-4 col-md-6 col-sm-6" id="carBox-{{$car->id}}">
     <div class="car-box ">
         <!-- car img -->
         <div class="car-thumbnail">
@@ -58,12 +58,12 @@
                 </p>
             </div>
         </div>
-        @if($showSoldText)
-            @if($car->is_sold)
-                <div class="alert alert-danger">
+        @if($showSoldText && $car->is_sold)
+                <div class="alert alert-danger text-center">
                     <p>This car is sold</p>
+                    <a href="#" class="btn btn-danger wishlistRemove" id="{{$car->id}}">Remove</a>
+
                 </div>
-            @endif
         @endif
     </div>
 

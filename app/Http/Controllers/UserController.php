@@ -22,6 +22,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
+
 
 class UserController extends PrimaryController
 {
@@ -36,13 +38,24 @@ class UserController extends PrimaryController
     {
         $data = $request->all();
         try {
+            $oldPassword = $data['oldPassword'];
+            $newPassword = $data['newPassword'];
+            if($oldPassword && $newPassword){
+                if (!Hash::check($oldPassword, auth()->user()->password)) {
+                    return redirect()->back()->with('passwordError', 'Old password is incorrect');
+                }
+            }
+
             $user = User::find(auth()->user()->id);
             $user->name = $data['name'];
             $user->last_name = $data['lastName'];
             $user->email = $data['email'];
             $user->phone = $data['phone'];
+            $user->password = Hash::make($newPassword);
             $user->address = $data['address'];
             $user->city = $data['city'];
+
+
 
             if ($request->hasFile('avatar')) {
                 $imageName = time() . '.' . $request->avatar->extension();

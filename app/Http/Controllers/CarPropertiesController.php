@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Body;
 use App\Models\Brand;
+use App\Models\Car;
 use App\Models\CarModel;
 use App\Models\Color;
 use App\Models\Doors;
 use App\Models\DriveType;
+use App\Models\Engine;
 use App\Models\Fuel;
 use App\Models\Seats;
 use App\Models\Transmission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Mockery\Exception;
 
 class CarPropertiesController extends Controller
 {
@@ -210,6 +213,175 @@ class CarPropertiesController extends Controller
         }catch (\Exception $e) {
             Log::error($e->getMessage() . ' Line: ' . $e->getLine());
             return redirect()->back()->with('error', 'Something went wrong. Please try again later.');
+        }
+    }
+
+    public function deleteModel(Request $request)
+    {
+        $request->validate([
+           'id' => 'required|numeric|exists:car_models,id'
+        ]);
+
+        try {
+            $model = CarModel::find($request->id);
+            $cars = Car::find($model->id);
+            if(!$cars){
+                $model->delete();
+                return response()->json(['success' => 'Model deleted successfully!'], 200);
+
+            }
+            return response()->json(['error' => 'Model is in use.'], 400);
+
+
+        }catch (\Exception $e){
+            Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
+            return response()->json(['error' => 'Server error'], 500);
+        }
+
+    }
+
+    public function deleteBrand(Request $request)
+    {
+     /*   $request->validate([
+            'id' => 'required|numeric|exists:car_models,id'
+        ]);*/
+
+        try {
+            $brand = Brand::find($request->id);
+            $models = CarModel::where('brand_id', $brand->id)->get();
+            if(count($models) == 0){
+                $brand->delete();
+                return response()->json(['success' => 'Brand deleted successfully!'], 200);
+            }
+            return response()->json(['error' => 'Brand is in use.'], 400);
+
+
+
+        }catch (\Exception $e){
+            Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
+            return response()->json(['error' => 'Server error'], 500);
+        }
+    }
+
+    public function deleteColor(Request $request)
+    {
+    /*    $request->validate([
+            'id' => 'required|numeric|exists:colors,id'
+        ]);*/
+
+        try {
+            $color = Color::find($request->id);
+            $cars = Car::where('color_id', $color->id)->get();
+            if(count($cars) == 0){
+                $color->delete();
+                return response()->json(['success' => 'Color deleted successfully!'], 200);
+            }
+            return response()->json(['error' => 'Color is in use.'], 400);
+
+        }catch (\Exception $e){
+            Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
+            return response()->json(['error' => 'Server error'], 500);
+        }
+    }
+    public function deleteSeats(Request $request)
+    {
+       /* $request->validate([
+            'id' => 'required|numeric|exists:seats,id'
+        ]);*/
+
+        try {
+            $seats = Seats::find($request->id);
+            $models = CarModel::where('seat_id', $seats->id)->get();
+            if(count($models) == 0){
+                $seats->delete();
+                return response()->json(['success' => 'Seats deleted successfully!'], 200);
+            }
+            return response()->json(['error' => 'Seats is in use.'], 400);
+        }catch (\Exception $e){
+            Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
+            return response()->json(['error' => 'Server error'], 500);
+        }
+    }
+
+    public function deleteDoors(Request $request)
+    {
+        try {
+         $doors = Doors::find($request->id);
+            $models = CarModel::where('doors_id', $doors->id)->get();
+            if(count($models) == 0){
+                $doors->delete();
+                return response()->json(['success' => 'Doors deleted successfully!'], 200);
+            }
+            return response()->json(['error' => 'Doors is in use.'], 400);
+        }catch (\Exception $e){
+            Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
+            return response()->json(['error' => 'Server error'], 500);
+        }
+    }
+
+    public function deleteBody(Request $request)
+    {
+        try {
+            $body = Body::find($request->id);
+            $models = CarModel::where('body_id', $body->id)->get();
+            if(count($models) == 0){
+                $body->delete();
+                return response()->json(['success' => 'Body deleted successfully!'], 200);
+            }
+            return response()->json(['error' => 'Body is in use.'], 400);
+        }catch (\Exception $e){
+            Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
+            return response()->json(['error' => 'Server error'], 500);
+        }
+    }
+
+    public function deleteDriveType(Request $request)
+    {
+        try {
+            $driveType = DriveType::find($request->id);
+            $cars = Car::where('drive_type_id', $driveType->id)->get();
+            if(count($cars) == 0){
+                $driveType->delete();
+                return response()->json(['success' => 'Drive type deleted successfully!'], 200);
+            }
+            return response()->json(['error' => 'Drive type is in use.'], 400);
+        }catch (\Exception $e){
+            Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
+            return response()->json(['error' => 'Server error'], 500);
+        }
+    }
+
+    public function deleteTransmission(Request $request)
+    {
+        try {
+            $transmission = Transmission::find($request->id);
+            $engine = Engine::where('transmission_id', $transmission->id)->get();
+            if(count($engine) == 0){
+                $transmission->delete();
+                return response()->json(['success' => 'Transmission deleted successfully!'], 200);
+            }
+            return response()->json(['error' => 'Transmission is in use.'], 400);
+
+        }catch (Exception $e){
+            Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
+            return response()->json(['error' => 'Server error'], 500);
+        }
+    }
+
+    public function deleteFuel(Request $request)
+    {
+        try {
+            $fuel = Fuel::find($request->id);
+            $engine = Engine::where('fuel_id', $fuel->id)->get();
+            if(count($engine) == 0){
+                $fuel->delete();
+                return response()->json(['success' => 'Fuel deleted successfully!'], 200);
+            }
+            return response()->json(['error' => 'Fuel is in use.'], 400);
+
+        }catch (Exception $e){
+            Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
+            return response()->json(['error' => 'Server error'], 500);
         }
     }
 }

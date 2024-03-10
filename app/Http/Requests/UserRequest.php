@@ -41,7 +41,9 @@ class UserRequest extends FormRequest
                 'regex:/^[0-9]{7,15}$/',
                 Rule::unique('users', 'phone')->ignore(auth()->user()->id),
             ],
-            'avatar' => 'bail|nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'avatar' => 'bail|nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'oldPassword' => 'bail|nullable|required_with:newPassword|regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/',
+            'newPassword' => 'bail|nullable|required_with:oldPassword|regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/|different:oldPassword'
         ];
     }
 

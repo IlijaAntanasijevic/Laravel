@@ -175,7 +175,7 @@
             @else
                 <div class="row">
                     <div class="col-6 mt-5">
-                        <p class="btn btn-danger w-100">Delete</p>
+                        <p class="btn btn-danger w-100 deleteCar" id="{{$car->id}}">Delete</p>
                     </div>
                     <div class="col-6 mt-5">
                         <p class="btn btn-warning w-100 approveCar" id="{{$car->id}}">Approve</p>

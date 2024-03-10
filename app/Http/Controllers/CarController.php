@@ -185,8 +185,7 @@ class CarController extends PrimaryController
        $request->validate([
           'id' => 'required|numeric|exists:cars,id'
        ]);
-
-       try {
+      try {
               $car = Car::find($request->id);
                $car->safeties()->detach();
                $car->equipment()->detach();
@@ -203,8 +202,7 @@ class CarController extends PrimaryController
                $car->delete();
 
               return response()->json(['success' => 'Car deleted successfully!'], 200);
-       }catch (\Exception $e)
-       {
+       }catch (\Exception $e) {
            Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
            return response()->json(['error' => 'Server error'], 500);
        }

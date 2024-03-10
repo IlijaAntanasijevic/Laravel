@@ -18,6 +18,15 @@
                         <p class="text-center">{{session('success')}}</p>
                     </div>
                 @endif
+                @if($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                <li class="text-danger">{{$error}}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
             </div>
 
             <div class="full inner_elements">
@@ -119,7 +128,7 @@
                                                     </thead>
                                                     <tbody>
                                                     @foreach($models as $model)
-                                                        <tr class="text-center">
+                                                        <tr class="text-center" id="model-{{$model->id}}">
                                                             <td>{{$model->name}}</td>
                                                             <td>{{$model->brand->name}}</td>
                                                             <td>{{$model->body->name}}</td>
@@ -127,7 +136,7 @@
                                                             <td>{{$model->doors->name}}</td>
                                                             <td>{{$model->total_in_use}}</td>
                                                             <td>
-                                                                <a href="#" class="btn btn-danger btn-xs">Delete</a>
+                                                                <a href="#" class="btn btn-danger btn-xs deleteModel" id="{{$model->id}}">Delete</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -167,10 +176,10 @@
                                                     </thead>
                                                     <tbody>
                                                     @foreach($brands as $brand)
-                                                        <tr class="text-center">
+                                                        <tr class="text-center" id="brand-{{$brand->id}}">
                                                             <td>{{ucfirst($brand->name)}}</td>
                                                             <td>
-                                                                <a href="#" class="btn btn-danger btn-xs">Delete</a>
+                                                                <a href="#" class="btn btn-danger btn-xs deleteBrand" id="{{$brand->id}}" >Delete</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -212,10 +221,10 @@
                                                     </thead>
                                                     <tbody>
                                                     @foreach($colors as $color)
-                                                        <tr class="text-center">
+                                                        <tr class="text-center" id="color-{{$color->id}}">
                                                             <td>{{ucfirst($color->name)}}</td>
                                                             <td>
-                                                                <a href="#" class="btn btn-danger btn-xs">Delete</a>
+                                                                <a href="#" class="btn btn-danger btn-xs deleteColor" id="{{$color->id}}">Delete</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -257,10 +266,10 @@
                                                     </thead>
                                                     <tbody>
                                                     @foreach($seats as $seat)
-                                                        <tr class="text-center">
+                                                        <tr class="text-center" id="seats-{{$seat->id}}">
                                                             <td>{{$seat->value}}</td>
                                                             <td>
-                                                                <a href="#" class="btn btn-danger btn-xs">Delete</a>
+                                                                <a href="#" class="btn btn-danger btn-xs deleteSeats" id="{{$seat->id}}">Delete</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -301,10 +310,10 @@
                                                     </thead>
                                                     <tbody>
                                                     @foreach($doors as $door)
-                                                        <tr class="text-center">
+                                                        <tr class="text-center" id="doors-{{$door->id}}">
                                                             <td>{{$door->name}}</td>
                                                             <td>
-                                                                <a href="#" class="btn btn-danger btn-xs">Delete</a>
+                                                                <a href="#" class="btn btn-danger btn-xs deleteDoors" id="{{$door->id}}">Delete</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -346,10 +355,10 @@
                                                     </thead>
                                                     <tbody>
                                                     @foreach($bodies as $body)
-                                                        <tr class="text-center">
+                                                        <tr class="text-center" id="body-{{$body->id}}">
                                                             <td>{{$body->name}}</td>
                                                             <td>
-                                                                <a href="#" class="btn btn-danger btn-xs">Delete</a>
+                                                                <a href="#" class="btn btn-danger btn-xs deleteBody" id="{{$body->id}}">Delete</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -390,10 +399,10 @@
                                                     </thead>
                                                     <tbody>
                                                     @foreach($driveTypes as $type)
-                                                        <tr class="text-center">
+                                                        <tr class="text-center" id="driveType-{{$type->id}}">
                                                             <td>{{$type->name}}</td>
                                                             <td>
-                                                                <a href="#" class="btn btn-danger btn-xs">Delete</a>
+                                                                <a href="#" class="btn btn-danger btn-xs deleteDriveType" id="{{$type->id}}">Delete</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -433,10 +442,10 @@
                                                     </thead>
                                                     <tbody>
                                                     @foreach($transmissions as $transmission)
-                                                        <tr class="text-center">
+                                                        <tr class="text-center" id="transmission-{{$transmission->id}}">
                                                             <td>{{$transmission->name}}</td>
                                                             <td>
-                                                                <a href="#" class="btn btn-danger btn-xs">Delete</a>
+                                                                <a href="#" class="btn btn-danger btn-xs deleteTransmission" id="{{$transmission->id}}">Delete</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -477,10 +486,10 @@
                                                     </thead>
                                                     <tbody>
                                                     @foreach($fuels as $fuel)
-                                                        <tr class="text-center">
+                                                        <tr class="text-center" id="fuel-{{$fuel->id}}">
                                                             <td>{{$fuel->name}}</td>
                                                             <td>
-                                                                <a href="#" class="btn btn-danger btn-xs">Delete</a>
+                                                                <a href="#" class="btn btn-danger btn-xs deleteFuel" id="{{$fuel->id}}">Delete</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach

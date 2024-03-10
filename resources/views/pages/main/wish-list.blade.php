@@ -26,10 +26,36 @@
     </div>
 @endsection
 
+
 @section('custom_scripts')
     <script type="text/javascript">
         $(document).ready(function () {
             $('.page_loader').remove();
         });
+        $('.wishlistRemove').click(function (e){
+            e.preventDefault();
+            let userId = {{auth()->id()}};
+            let id = $(this).attr('id');
+
+            $.ajax({
+                url: "{{route('remove.wishlist')}}",
+                method: 'DELETE',
+                data: {
+                    _token: '{{csrf_token()}}',
+                    carId: id,
+                    userId: userId
+                },
+                success: function () {
+                    $('#carBox-' + id).remove();
+                    toastr.success('Car removed from wish list');
+
+                },
+                error: function (xhr) {
+                    console.log(xhr)
+                    toastr.error('Server error');
+                }
+            });
+        });
+
     </script>
 @endsection

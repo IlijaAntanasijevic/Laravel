@@ -88,7 +88,7 @@
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <div class="table-responsive-sm">
-                                                    <table class="table table-striped projects">
+                                                    <table class="table table-striped projects {{count($carsToApprove) == 0 ? 'd-none' : ''}}">
                                                         <thead class="thead-dark">
                                                         <tr class="text-center">
                                                             <th style="width: 2%">No</th>
@@ -115,33 +115,29 @@
                                                                 </td>
                                                                 {{--Popup to send email why is deleted--}}
                                                                 <td>
-                                                                    <a href="#" class="btn btn-danger btn-xs">Delete</a>
+                                                                    <a href="#" class="btn btn-danger btn-xs deleteCar" id="{{$car->id}}">Delete</a>
                                                                 </td>
                                                             </tr>
-
                                                         @endforeach
                                                         </tbody>
                                                     </table>
+                                                    @if(!count($carsToApprove))
+                                                        <div class="alert alert-danger">
+                                                            <p>No cars to approve</p>
+                                                        </div>
+                                                    @endif
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- end row -->
                         </div>
                     </div>
-                    <!-- end dashboard inner -->
                 </div>
 
-            </div>
 
-        </div>
-    </div>
+
 @endsection
 
-@section('custom_scripts')
-    <script>
-
-    </script>
-@endsection

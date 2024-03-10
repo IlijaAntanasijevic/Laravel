@@ -36,16 +36,15 @@ use App\Http\Controllers\CarPropertiesController;
 // ?* User Profile / Edit Profile, Edit Car -> Done
 // ?* Make partials folder -> Done
 // ?* Create a middleware that checks if the user is an admin -> Done
+// ?* Admin - Delete car -> Done
+// ?* Admin - Delete: model,brand,color,... -> Done
+// ?* Admin panel -> Done
+// ?* Change user password -> Done
+// ?* Add delete car -> Done
+// ?* Fix wishlist remove sold car -> Done
 // !* Fix edit car, check model (doors/seats,...)
 // !* Fix selected items in search
-// !* Fix wishlist remove sold car
-// !* Delete image from folder
-// !* Add delete car
-// !* Change user password
 
-// !* Admin panel
-// !* Admin - Delete car
-// !* Admin - Delete: model,brand,color,...
 // !* Contact - mail
 
 Route::get("/",[HomeController::class,'index'])->name('home');
@@ -86,7 +85,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/wishlist', [UtilityController::class, 'wishlist'])->name('wishlist');
     Route::delete('/wishlist', [UtilityController::class, 'wishlist_remove'])->name('remove.wishlist');
     Route::get('/wishlist', [UtilityController::class, 'wishlist_index'])->name('wishlist.index');
-    Route::resource('cars', CarController::class)->only(['create','store','edit','update','destroy']);
+    /*Resource route */
 
     Route::get('/profile', [UserController::class, 'userProfile'])->name('profile.index');
     Route::patch('/profile', [UserController::class, 'updateUser'])->name('profile.update');
@@ -95,6 +94,9 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/profile/cars/sold', [UserController::class, 'soldCar'])->name('profile.cars.sold');
     Route::put('/profile/cars/update',[UserController::class, 'updateCar'])->name('profile.cars.update');
     Route::delete('/profile/cars',[UserController::class, 'deleteCarImage'])->name('profile.cars.delete.image');
+
+    Route::resource('cars', CarController::class)->only(['create','store','edit','update','destroy']);
+
 });
 
 Route::middleware(['admin'])->group(function () {
@@ -103,7 +105,7 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/admin/user/profile/{id}', [AdminController::class,'profile'])->name('admin.user.profile');
     Route::get('/admin/cars', [AdminController::class,'cars'])->name('admin.cars');
     Route::get('admin/car/show/{id}', [AdminController::class,'showCar'])->name('admin.car.show');
-    Route::get('admin/edit', [AdminController::class,'carProperties'])->name('admin.edit');
+    Route::get('/admin/edit', [AdminController::class,'carProperties'])->name('admin.edit');
     Route::get('/admin/wishlist', [AdminController::class,'wishlist'])->name('admin.wishlist');
 
     Route::patch('admin/car/approve',[CarController::class,'approveCar'])->name('admin.car.approve');
@@ -119,6 +121,21 @@ Route::middleware(['admin'])->group(function () {
         Route::post('/transmission', [CarPropertiesController::class, 'addTransmission'])->name('admin.car.add.transmission');
         Route::post('/fuel', [CarPropertiesController::class, 'addFuel'])->name('admin.car.add.fuel');
     });
+
+    Route::prefix('admin/car/delete')->group(function () {
+        Route::delete('/model', [CarPropertiesController::class, 'deleteModel'])->name('admin.car.delete.model');
+        Route::delete('/brand', [CarPropertiesController::class, 'deleteBrand'])->name('admin.car.delete.brand');
+        Route::delete('/color', [CarPropertiesController::class, 'deleteColor'])->name('admin.car.delete.color');
+        Route::delete('/seats', [CarPropertiesController::class, 'deleteSeats'])->name('admin.car.delete.seats');
+        Route::delete('/doors', [CarPropertiesController::class, 'deleteDoors'])->name('admin.car.delete.doors');
+        Route::delete('/body', [CarPropertiesController::class, 'deleteBody'])->name('admin.car.delete.body');
+        Route::delete('/drive-type', [CarPropertiesController::class, 'deleteDriveType'])->name('admin.car.delete.drive-type');
+        Route::delete('/transmission', [CarPropertiesController::class, 'deleteTransmission'])->name('admin.car.delete.transmission');
+        Route::delete('/fuel', [CarPropertiesController::class, 'deleteFuel'])->name('admin.car.delete.fuel');
+
+    });
+    Route::delete('admin/car/delete', [AdminController::class,'deleteCar'])->name('admin.car.delete');
+
 });
 
 

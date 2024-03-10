@@ -16,6 +16,8 @@ use App\Models\Transmission;
 use App\Models\User;
 use App\Models\WishList;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -100,5 +102,35 @@ class AdminController extends Controller
 
         return view('admin.pages.wishlist',compact('cars','wishListCount'));
 
+    }
+
+    public function deleteCar(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|numeric|exists:cars,id'
+        ]);
+
+        try {
+            $car = Car::find($request->id);
+            $car->safeties()->detach();
+            $car->equipment()->detach();
+            $images = $car->images;
+            foreach ($images as $image)
+            {
+                if(File::exists(public_path('assets/img/' . $image->path)))
+                {
+                    File::delete(public_path('assets/img/' . $image->path));
+                }
+            }
+            $car->images()->delete();
+
+            $car->delete();
+
+            return response()->json(['success' => 'Car deleted successfully!'], 200);
+        }catch (\Exception $e)
+        {
+            Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
+            return response()->json(['error' => 'Server error'], 500);
+        }
     }
 }

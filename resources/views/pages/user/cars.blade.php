@@ -51,9 +51,10 @@
                         <th>Model</th>
                         <th>Year</th>
                         <th>Price</th>
-                        <th>Actions</th>
-                        <th>Actions</th>
-                        <th>Actions</th>
+                        <th>Action</th>
+                        <th>Action</th>
+                        <th>Action</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,6 +72,9 @@
                             </td>
                             <td>
                                 <a href="#" class="btn btn-success sold" id="{{$car->id}}">Sold</a>
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-danger deleteCar" id="{{$car->id}}">Delete</a>
                             </td>
                         </tr>
                     @endforeach
@@ -125,6 +129,44 @@
                }
            })
        }
+
+       $('.deleteCar').click(function (e){
+           e.preventDefault();
+           let id = $(this).attr('id');
+           Swal.fire({
+               title: "Are you sure?",
+               text: "You won't be able to revert this!",
+               icon: "warning",
+               showCancelButton: true,
+               confirmButtonColor: "#3085d6",
+               cancelButtonColor: "#d33",
+               confirmButtonText: "Yes, delete it!"
+           }).then((result) => {
+               if (result.isConfirmed) {
+                   $.ajax({
+                       url: `{{route('cars.destroy', ':id')}}`.replace(':id', '${id}'),
+                       method: 'DELETE',
+                       data: {
+                           "_token": "{{ csrf_token() }}",
+                           "id": id
+                       },
+                       success: function () {
+                           $('#carBlock-' + id).remove();
+                           Swal.fire({
+                               title: "Success!",
+                               text: "Car is deleted.",
+                               icon: "success"
+                           });
+                       },
+                       error: function (xhr) {
+                           Swal.fire("Server error", "Changes are not saved", "error");
+                           console.log(xhr)
+                       }
+                   })
+               }
+           });
+
+       })
 
     </script>
 
