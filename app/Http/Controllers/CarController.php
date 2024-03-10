@@ -74,12 +74,32 @@ class CarController extends PrimaryController
 
         $data = $request->all();
 
-        $carModel = CarModel::find($data['model']);
 
-        $years = $carModel->year()->pluck('year');
-        if ( $data['year'] <= date('Y')  && $data['year'] >= 1980 && !$years->contains($data['year'])) {
-            $year = Year::firstOrCreate(['year' => $data['year']]);
-            $carModel->year()->attach($year);
+        $bodyId = $data['body'];
+        $seatsId = $data['seats'];
+        $doorsId = $data['doors'];
+        $brandId = $data['brand'];
+
+        $carModel = CarModel::where('body_id',$bodyId)
+            ->where('seat_id',$seatsId)
+            ->where('doors_id',$doorsId)
+            ->where('brand_id',$brandId)
+            ->first();
+
+
+        if(!$carModel){
+            $name = CarModel::find($data['model'])->name;
+            $carModel = CarModel::create([
+                'name' => $name,
+                'body_id' => $bodyId,
+                'seat_id' => $seatsId,
+                'doors_id' => $doorsId,
+                'brand_id' => $brandId
+            ]);
+            $carModelID = $carModel->id;
+        }
+        else {
+            $carModelID = $carModel->id;
         }
 
         \DB::beginTransaction();
@@ -107,7 +127,7 @@ class CarController extends PrimaryController
                 'year' => $data['year'],
                 'description' => $data['description'],
                 'registration' => $data['registration'],
-                'model_id' => $data['model'],
+                'model_id' => $carModelID,
                 'engine_id' => $engineId,
                 'color_id' => $data['color'],
                 'drive_type_id' => $data['driveType'],

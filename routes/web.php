@@ -42,10 +42,10 @@ use App\Http\Controllers\CarPropertiesController;
 // ?* Change user password -> Done
 // ?* Add delete car -> Done
 // ?* Fix wishlist remove sold car -> Done
-// !* Fix edit car, check model (doors/seats,...)
+// ?* Fix edit car, check model (doors/seats,...)
+// !* Contact - mail
 // !* Fix selected items in search
 
-// !* Contact - mail
 
 Route::get("/",[HomeController::class,'index'])->name('home');
 Route::get("/home",[HomeController::class,'index'])->name('home');
