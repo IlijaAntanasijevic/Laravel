@@ -44,9 +44,10 @@ use App\Http\Controllers\CarPropertiesController;
 // ?* Fix wishlist remove sold car -> Done
 // ?* Fix Admin panel - models,brands,colors,...
 // ?* Fix search !!!
-// ?* Fix selected items in search
+// ?* Contact - mail
+// ?* Validation contact
 
-// !* Contact - mail
+// !* Fix selected items in search !!!! -> view more
 // * Fix edit car, check model (doors/seats,...)
 
 
@@ -60,6 +61,8 @@ Route::get('/cars/{car}', [CarController::class, 'show'])->middleware(IsSold::cl
                                                              ->name('cars.show');
 
 Route::view('/404','pages.main.404')->name('404');
+
+Route::post('/send-mail',[ContactController::class,'sendMail'])->name('send.mail');
 
 Route::get('/search-index', [HomeController::class, 'search_index'])->name('search.index');
 Route::get('/search', [HomeController::class, 'search'])->name('search');

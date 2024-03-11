@@ -1,7 +1,12 @@
 @extends('layouts.layout')
 
 @section('title') Contact @endsection
-
+@php
+    $nameError = $errors->get('name')[0] ?? null;
+    $emailError = $errors->get('email')[0] ?? null;
+    $subjectError = $errors->get('subject')[0] ?? null;
+    $messageError = $errors->get('message')[0] ?? null;
+@endphp
 @section('content')
     <div class="page_loader"></div>
     <div class="contact-1 content-area-7">
@@ -12,46 +17,73 @@
 
             <div class="row">
                 <div class="col-lg-7 col-md-7 col-md-7">
-                    <form action="#" method="GET" enctype="multipart/form-data">
+                    <form action="{{route('send.mail')}}" method="POST">
                         <div class="row">
+                            <form action="" method="POST">
+                            @csrf
                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                                 <x-text-field
                                     parent-class="form-group"
-                                    field-class="form-control"
+                                    field-class="form-control text-dark"
                                     placeholder="Name"
                                     id="contactName"
                                     type="text"
-                                    name="contactName"/>
+                                    name="name"
+                                    :error="$nameError"
+                                    :value="old('name')"/>
                             </div>
                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                                 <x-text-field
                                     parent-class="form-group"
-                                    field-class="form-control"
+                                    field-class="form-control text-dark"
                                     placeholder="Email"
                                     id="contactEmail"
                                     type="email"
-                                    name="contactEmail"/>
+                                    name="email"
+                                    :error="$emailError"
+                                    :value="old('email')"/>
                             </div>
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <x-text-field
                                     parent-class="form-group"
-                                    field-class="form-control"
-                                    placeholder="Email"
+                                    field-class="form-control text-dark"
+                                    placeholder="Subject"
                                     id="contactSubject"
                                     type="text"
-                                    name="contactSubject"/>
+                                    name="subject"
+                                    :error="$subjectError"
+                                    :value="old('subject')"/>
                             </div>
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group message">
-                                    <textarea class="form-control" name="contactMessage" placeholder="Write message"></textarea>
+                                    <textarea class="form-control text-dark" name="message" placeholder="Write message">{{old('message')}}</textarea>
+                                    @if($messageError)
+                                        <span class="text-danger">{{$messageError}}</span>
+                                    @endif
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                                 <div class="send-btn">
                                     <button type="submit" class="btn btn-color btn-md btn-message">Send Message</button>
                                 </div>
+                                @if(session('success'))
+                                    <div class="alert alert-success mt-2">
+                                        <p>{{session('success')}}</p>
+                                    </div>
+                                @endif
+                                @if(session('error'))
+                                    <div class="alert alert-danger mt-2">
+                                        <p>{{session('error')}}</p>
+                                    </div>
+                                @endif
+
                             </div>
+
+
+                            </form>
+
                         </div>
+
                     </form>
                 </div>
 
