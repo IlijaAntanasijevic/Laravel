@@ -48,7 +48,7 @@ class AdminController extends Controller
     }
     public function cars()
     {
-        $cars = Car::where('is_sold',0)->get();
+        $cars = Car::where('is_sold',0)->orderByDesc()->paginate(9);
         return view('admin.pages.cars',['cars'=>$cars]);
     }
     public function showCar($id)
@@ -59,8 +59,9 @@ class AdminController extends Controller
         return view('admin.pages.showCar',['car'=>$car , 'totalSaved'=>$totalSaved]);
     }
 
-    public function carProperties()
+    public function carProperties(Request $request)
     {
+
         $car = Car::groupBy('model_id')
                     ->select('model_id')
                     ->selectRaw('count(*) as count')
@@ -131,5 +132,11 @@ class AdminController extends Controller
             Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
             return response()->json(['error' => 'Server error'], 500);
         }
+    }
+
+    public function soldCars()
+    {
+        $cars = Car::where('is_sold',1)->get();
+        return view('admin.pages.soldCars',['cars'=>$cars]);
     }
 }

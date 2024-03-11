@@ -31,9 +31,9 @@ class RegisterRequest extends FormRequest
                 'min:8',
                 'regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/'
             ],
-            'city' => 'bail|required|string|min:3|max:50|alpha',
+            'city' => 'bail|required|string|min:3|max:50',
             'address' => 'bail|required|string|min:3|max:75',
-            'phone' => 'bail|required|string|max:15|unique:users,phone|regex:/^[0-9]{7,15}$/',
+            'phone' => 'bail|required|string|max:15|unique:users,phone|regex:/^[0-9]{6,15}$/',
             'avatar' => 'bail|image|mimes:jpeg,png,jpg|max:2048'
         ];
     }

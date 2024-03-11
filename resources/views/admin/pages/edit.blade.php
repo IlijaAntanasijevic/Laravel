@@ -106,7 +106,6 @@
                                                 </div>
                                             </div>
                                             <button class="btn btn-success float-right w-25 mt-4 ">Save</button>
-
                                         </form>
 
                                         <div class="heading1 margin_0 mt-5">
@@ -127,8 +126,6 @@
                                                     </thead>
                                                     <tbody>
                                                     @foreach($models as $model)
-
-
                                                             @foreach($model->carModel as $carModel)
                                                                 <tr class="text-center" id="model-{{$carModel->id}}">
                                                                 <td>{{$model->name}}</td>
@@ -141,8 +138,6 @@
                                                                 </td>
                                                                 </tr>
                                                             @endforeach
-
-
                                                     @endforeach
                                                     </tbody>
                                                 </table>
@@ -511,3 +506,4 @@
         </div>
     </div>
 @endsection
+

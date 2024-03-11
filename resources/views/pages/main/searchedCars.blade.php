@@ -89,6 +89,11 @@
 
 @endsection
 
+@php
+    $userId = Auth::id() ? Auth::id() : null;
+
+@endphp
+
 
 @section('custom_scripts')
     <script>
@@ -122,6 +127,73 @@
                 url.search = searchParams.toString();
 
                 window.location.href = url.toString();
+            })
+
+            // ** Wishlist ** //
+            $(document).on('click', '.wishList', function () {
+                let carId = $(this).data('id');
+                let userId = @json($userId);
+
+
+                if ($(this).hasClass('checked')) {
+                    $.ajax({
+                        url: '{{route('remove.wishlist')}}',
+                        method: 'DELETE',
+                        data: {
+                            carId: carId,
+                            userId: userId,
+                            _token: '{{csrf_token()}}'
+                        },
+                        success: function (data) {
+                            $('#carWish-' + carId).removeClass('checked');
+                            $('#carWish-' + carId).html('<i class="fa fa-heart-o" aria-hidden="true"></i>')
+                            toastr.warning(data.message);
+                        },
+                        error: function (xhr) {
+                            if (xhr.status === 401) {
+                                toastr.error('You must be logged in to add to wishlist');
+                            }
+                            else if(xhr.status === 400){
+                                toastr.error("You can't add your own car to wishlist.");
+                            }
+                            else {
+                                toastr.error(xhr.responseJSON.message);
+
+                            }
+                            //toastr.error(xhr.responseJSON.message);
+                        }
+                    })
+                } else {
+                    $.ajax({
+                        url: '{{route('wishlist')}}',
+                        method: 'POST',
+                        data: {
+                            carId: carId,
+                            userId: userId,
+                            _token: '{{csrf_token()}}'
+                        },
+                        success: function (data) {
+                            let message = data.message;
+                            $('#carWish-' + carId).addClass('checked');
+                            $('#carWish-' + carId).html('<i class="fa fa-heart" aria-hidden="true"></i>')
+                            toastr.success(message)
+                        },
+                        error: function (xhr) {
+                            console.log(xhr)
+                            if (xhr.status === 401) {
+                                toastr.error('You must be logged in to add to wishlist');
+                            }
+                            else if(xhr.status === 400){
+                                toastr.error("You can't add your own car to wishlist.");
+                            }
+                            else {
+                                toastr.error(xhr.responseJSON.message);
+
+                            }
+                        }
+
+                    })
+                }
             })
         });
     </script>

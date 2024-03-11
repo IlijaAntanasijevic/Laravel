@@ -37,12 +37,11 @@ class UtilityController extends PrimaryController
             $userId = $request->get("userId");
             $carId = $request->get("carId");
 
-            /*  TESTIRANJE - ODKOMENTARISATI, RADI ✔
              $car_userId = Car::find($carId)->user_id;
             if($car_userId == $userId){
                 return response()->json(["message" => "You can't add your own car to wishlist."],400);
             }
-             */
+
             $carExistsInWishlist = WishList::where("user_id", $userId)
                 ->where('car_id',$carId)
                 ->first();

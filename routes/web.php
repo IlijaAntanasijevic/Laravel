@@ -48,6 +48,9 @@ use App\Http\Controllers\CarPropertiesController;
 // ?* Validation contact
 // ?* Fix selected items in search !!!! -> view more
 // ? Fix edit car, check model (doors/seats,...)
+// ?* Pagination admin - cars
+// ?* Admin sold cars
+
 
 
 
@@ -111,10 +114,12 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/admin/user/profile/{id}', [AdminController::class,'profile'])->name('admin.user.profile');
     Route::get('/admin/cars', [AdminController::class,'cars'])->name('admin.cars');
     Route::get('admin/car/show/{id}', [AdminController::class,'showCar'])->name('admin.car.show');
-    Route::get('/admin/edit', [AdminController::class,'carProperties'])->name('admin.edit');
+    Route::get('/admin/edit/{search?}', [AdminController::class,'carProperties'])->name('admin.edit');
     Route::get('/admin/wishlist', [AdminController::class,'wishlist'])->name('admin.wishlist');
+    Route::get('admin/cars/sold',[AdminController::class,'soldCars'])->name('admin.cars.sold');
 
     Route::patch('admin/car/approve',[CarController::class,'approveCar'])->name('admin.car.approve');
+   //Route::get('/admin/search', [AdminController::class, 'search'])->name('search.models');
 
     Route::prefix('/admin/car/update')->group(function () {
         Route::post('/model', [CarPropertiesController::class, 'addModel'])->name('admin.car.add.model');

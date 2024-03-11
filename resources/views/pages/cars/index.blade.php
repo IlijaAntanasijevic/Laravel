@@ -215,8 +215,13 @@
                                 error: function (xhr) {
                                     if (xhr.status === 401) {
                                         toastr.error('You must be logged in to add to wishlist');
-                                    } else {
-                                        toastr.error('Something went wrong');
+                                    }
+                                    else if(xhr.status === 400){
+                                        toastr.error("You can't add your own car to wishlist.");
+                                    }
+                                    else {
+                                        toastr.error(xhr.responseJSON.message);
+
                                     }
                                 }
 

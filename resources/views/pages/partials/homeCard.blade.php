@@ -10,7 +10,7 @@
                 <img src="{{asset('assets/img/' . $car->primary_image)}}" alt="{{$car->name}}" class="img-fluid">
             </a>
             <div class="car-overlay {{$showOverlay ? '' : 'd-none'}}">
-                <a href="{{route('cars.show', ['car' => $car->id])}}" class="overlay-link">
+                <a href="{{route('cars.show', ['car' => $car->id])}}" class="overlay-link" target="_blank">
                     <i class="fa fa-info"></i>
                 </a>
                 <span class="overlay-link wishList {{$inWishList ? 'checked' : ''}}" data-id="{{$car->id}}" id="carWish-{{$car->id}}">

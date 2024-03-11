@@ -45,8 +45,7 @@
                             parent-class="form-group col-md-6"
                             field-class="form-control"
                             id="name"
-                            name="name"
-                            value="Test"/>
+                            name="name"/>
                         <x-dropdown
                             label="Brand"
                             parent-class="form-group col-md-6"
@@ -74,8 +73,7 @@
                             first-option-text="Select Body"
                             first-option-value="0"
                             name="body"
-                            id="body"
-                            selected="2"/>
+                            id="body"/>
                         <x-text-field
                             label="Year"
                             parent-class="form-group col-md-3"
@@ -83,8 +81,7 @@
                             type="number"
                             placeholder="2024"
                             id="year"
-                            name="year"
-                            value="2023"/>
+                            name="year"/>
                         <x-text-field
                             label="Kilometers"
                             parent-class="form-group col-md-3"
@@ -92,8 +89,7 @@
                             type="number"
                             placeholder="22000"
                             id="kilometers"
-                            name="kilometers"
-                            value="15000"/>
+                            name="kilometers"/>
                         <x-dropdown
                             parent-class="form-group col-md-3 my-4"
                             select-class="selectpicker search-fields form-control"
@@ -101,8 +97,7 @@
                             first-option-text=" Doors"
                             first-option-value="0"
                             name="doors"
-                            id="doors"
-                            selected="2"/>
+                            id="doors"/>
                         <x-dropdown
                             parent-class="form-group col-md-3 my-4"
                             select-class="selectpicker search-fields form-control"
@@ -111,8 +106,7 @@
                             text="value"
                             first-option-value="0"
                             name="seats"
-                            id="seats"
-                            selected="4"/>
+                            id="seats"/>
                         <x-dropdown
                             parent-class="form-group col-md-3 my-4"
                             select-class="selectpicker search-fields form-control"
@@ -120,8 +114,7 @@
                             first-option-text="Color"
                             first-option-value="0"
                             name="color"
-                            id="color"
-                            selected="2"/>
+                            id="color"/>
                         <x-dropdown
                             parent-class="form-group col-md-3 my-4"
                             select-class="selectpicker search-fields form-control"
@@ -129,8 +122,7 @@
                             first-option-text="Drive Type"
                             first-option-value="0"
                             name="driveType"
-                            id="driveType"
-                            selected="1"/>
+                            id="driveType"/>
                         <x-text-field
                             label="Engine Value"
                             parent-class="form-group col-md-3"
@@ -138,16 +130,14 @@
                             type="number"
                             placeholder="1789"
                             id="engine"
-                            name="engine"
-                            value="1900"/>
+                            name="engine"/>
                         <x-text-field
                             label="Horse Power"
                             parent-class="form-group col-md-3"
                             placeholder="150"
                             field-class="form-control"
                             id="horsepower"
-                            name="horsepower"
-                            value="150"/>
+                            name="horsepower"/>
                         <x-dropdown
                             label="Fuel"
                             parent-class="form-group col-md-3"
@@ -184,8 +174,7 @@
                             field-class="form-control"
                             id="price"
                             type="number"
-                            name="price"
-                            value="2999"/>
+                            name="price"/>
 
                        <div class="container my-5">
                            <div class="row justify-content-around">
@@ -194,7 +183,8 @@
                                    <p class="text-danger error-message" id="safetiesError"></p>
                                    <x-check-box
                                        name="safety[]"
-                                       :options="$safeties"/>
+                                       :options="$safeties"
+                                        :checked="old('safety') ?? []"/>
                                </div>
 
                                <div class="">
@@ -202,13 +192,14 @@
                                    <p class="text-danger error-message" id="equipmentsError"></p>
                                    <x-check-box
                                        name="equipments[]"
-                                       :options="$equipments"/>
+                                       :options="$equipments"
+                                        :checked="old('equipments') ?? []"/>
                                </div>
                            </div>
                        </div>
                         <div class="form-group  w-100 mb-5 ">
                             <label for="description">Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="5">{{old('description')}}Test bla bla</textarea>
+                            <textarea class="form-control" id="description" name="description" rows="5">{{old('description')}}</textarea>
                         </div>
                     </div>
                     <h3 class="mt-5">Images</h3>

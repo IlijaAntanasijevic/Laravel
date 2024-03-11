@@ -31,7 +31,7 @@ class UserRequest extends FormRequest
                 'email',
                 Rule::unique('users', 'email')->ignore(auth()->user()->id),
             ],
-            'city' => 'bail|required|string|min:3|max:50|alpha',
+            'city' => 'bail|required|string|min:3|max:50',
             'address' => 'bail|required|string|min:3|max:75',
             'phone' => [
                 'bail',

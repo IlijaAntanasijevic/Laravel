@@ -26,7 +26,7 @@ class InsertCarRequest extends FormRequest
         return [
             'name' => 'bail|required|string|max:75',
             'brand' => 'bail|required|exists:brands,id',
-            'model' => 'bail|required|exists:car_models,id',
+            'model' => 'bail|required|exists:models,id',
             'body' => 'bail|required|exists:bodies,id',
             'year' => 'bail|required|digits:4|integer|min:1980|max:2024',
             'kilometers' => 'bail|required|numeric|min:0|max:9999999',

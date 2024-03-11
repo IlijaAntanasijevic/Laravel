@@ -7,7 +7,6 @@
             <div class="ml-3">
                 <h4>{{$car->name}}</h4>
                 <p>{{$car->model['name']}}</p>
-                <p>Developer</p>
             </div>
 
         </div>

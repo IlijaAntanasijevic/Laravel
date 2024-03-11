@@ -50,6 +50,12 @@
                     <span>Update</span>
                 </a>
             </li>
+            <li>
+                <a href="{{route('admin.cars.sold')}}">
+                    <i class="fa fa-rocket " style="color: #0ea432"></i>
+                    <span>Sold Cars</span>
+                </a>
+            </li>
         </ul>
     </div>
 </nav>

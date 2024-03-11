@@ -57,10 +57,10 @@
                                                     @foreach($cars as $car)
                                                         <tr>
                                                             <td>{{$car->name}}</td>
-                                                            <td>{{$car->model->name}}</td>
+                                                            <td>{{$car->model->model->name}}</td>
                                                             <td>{{$car->created_at}}</td>
                                                             <td>
-                                                                <a href="#" class="btn btn-info">View</a>
+                                                                <a href="{{route('admin.car.show',[$car->id])}}" class="btn btn-info">View</a>
                                                                {{-- <a href="{{route('admin.car.show',[$car->id])}}" class="btn btn-info">View</a>--}}
                                                             </td>
                                                         </tr>

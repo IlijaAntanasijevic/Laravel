@@ -20,7 +20,7 @@
                         <tr class="text-center">
                             <td>{{$car->id}}</td>
                             <td>{{$car->name}}</td>
-                            <td>{{$car->model['name']}}</td>
+                            <td>{{$car->model->model->name}}</td>
                             <td>{{$car->model['brand']->name}}</td>
                             <td>{{$car->total_saved}}</td>
                             <td>
