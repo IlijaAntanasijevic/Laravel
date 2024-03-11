@@ -172,11 +172,10 @@ class CarController extends PrimaryController
     {
         $car = Car::with('model','engine','user', 'equipment','safeties','wishlist')->find($id);
 
-        $totalCars = Car::all()->groupBy('user_id')
-                                ->map(function ($item){return count($item);})
-                                ->first();
-        $car->totalCars = $totalCars;
-
+        $totalUsersWithCars = Car::where('user_id', $car->user_id)
+            ->groupBy('user_id')
+            ->count();
+        $car->totalCars = $totalUsersWithCars;
         return view('pages.cars.show', ['car' => $car]);
     }
 

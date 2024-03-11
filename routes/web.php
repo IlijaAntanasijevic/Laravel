@@ -46,9 +46,9 @@ use App\Http\Controllers\CarPropertiesController;
 // ?* Fix search !!!
 // ?* Contact - mail
 // ?* Validation contact
+// ?* Fix selected items in search !!!! -> view more
+// ? Fix edit car, check model (doors/seats,...)
 
-// !* Fix selected items in search !!!! -> view more
-// * Fix edit car, check model (doors/seats,...)
 
 
 Route::get("/",[HomeController::class,'index'])->name('home');

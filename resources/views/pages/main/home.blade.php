@@ -23,10 +23,10 @@
                 <h1 id="titleError" class="text-danger">No cars found</h1>
             </div>
             <div class="row" id="showCars">
-                @foreach($data as $car)
+             @foreach($data as $car)
                     @component('pages.partials.homeCard', ['car' => $car , 'showOverlay' => true,'showSoldText' => false])
                     @endcomponent
-                @endforeach
+             @endforeach
 
             </div>
             <div class="row justify-content-center h1 my-5">
@@ -43,10 +43,17 @@
 
 @section('custom_scripts')
     <script type="text/javascript">
+        window.navigation.addEventListener("navigate", (event) => {
+            $('#brandHome').val(0);
+            $('#modelHome').val(0);
+            $('#bodyHome').val(0);
+            $('#maxPriceHome').val('');
+            $('#yearFromHome').val(0);
+            $('#yearToHome').val(0);
+        })
         $(document).ready(function () {
-
             $('.page_loader').remove();
-            //loadCars(1);
+
             // ** Model Dropdown ** //
             $('#brandHome').change(function () {
                 let brandId = $(this).val();
@@ -97,7 +104,7 @@
                             if (xhr.status === 401) {
                                 toastr.error('You must be logged in to add to wishlist');
                             }
-                            toastr.error(xhr.responseJSON.message);
+                            //toastr.error(xhr.responseJSON.message);
                         }
                     })
                 } else {
@@ -120,7 +127,7 @@
                             if (xhr.status === 401) {
                                 toastr.error('You must be logged in to add to wishlist');
                             }
-                            toastr.error(xhr.responseJSON.message);
+                            //toastr.error(xhr.responseJSON.message);
                         }
 
                     })
@@ -160,14 +167,14 @@
             let queryString = `?page=${page}&brand=${brandId}&model=${modelId}&maxPrice=${maxPrice}&body=${bodyId}&yearFrom=${yearFrom}&yearTo=${yearTo}`;
 
             showSearchedTitle(brandId, modelId, bodyId, maxPrice, yearFrom, yearTo);
-            if(searched){
+          /*  if(searched){
                 $('#brandHome').val(0);
                 $('#modelHome').val(0);
                 $('#bodyHome').val(0);
                 $('#maxPriceHome').val('');
                 $('#yearFromHome').val(0);
                 $('#yearToHome').val(0);
-            }
+            }*/
             $.ajax({
                 url: '/home' + queryString,
                 method: 'GET',

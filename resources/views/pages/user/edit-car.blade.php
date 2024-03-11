@@ -268,9 +268,9 @@
                     <a href="#" class="btn btn-danger mt-2 removeImage" data-path="{{$car->primary_image}}" id="{{$car->id}}">Remove</a>
                 </div>
                 @foreach($car->images as $img)
-                    <div class="col-4 w-25 my-5" id="imgBlock-{{$car->id}}">
+                    <div class="col-4 w-25 my-5" id="imgBlock-{{$img->id}}">
                         <img src="{{asset('assets/img/'.$img->path)}}" alt="{{$car->name}}" class="w-100"/>
-                        <a href="#" class="btn btn-danger mt-2 removeImage" data-path="{{$img->path}}" id="{{$car->id}}">Remove</a>
+                        <a href="#" class="btn btn-danger mt-2 removeImage" data-path="{{$img->path}}" id="{{$img->id}}">Remove</a>
                     </div>
                 @endforeach
             </div>
@@ -285,7 +285,7 @@
             <div class="w-50 mx-auto my-5">
                 <button id="submitButton"  class="btn btn-success my-5 w-100 mx-auto text-light">Save</button>
             </div>
-
+            <input type="hidden" name="id" value="{{$car->id}}">
 
         </form>
     </div>
@@ -349,12 +349,13 @@
         })
 
         function deleteImage(id,path){
+            let carId = {{$car->id}};
             $.ajax({
                 url: "{{route('profile.cars.delete.image')}}",
                 method: 'DELETE',
                 data: {
                     _token: '{{csrf_token()}}',
-                    id: id,
+                    id: carId,
                     path: path
                 },
                 success: function (data){

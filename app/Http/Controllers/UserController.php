@@ -22,6 +22,7 @@ use App\Models\Transmission;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 
@@ -193,8 +194,10 @@ class UserController extends PrimaryController
                 $car->equipment()->detach();
             }
             $images = [];
+
             if(isset($data['images'])){
-                for ($i = 1; $i < count($data['images']); $i++) {
+                $countImages = count($data['images']);
+                for ($i = 0; $i < $countImages; $i++) {
                     $imageName = time() . rand(1,10000000) . '.' . $data['images'][$i]->extension();
                     $data['images'][$i]->move(public_path('assets/img'), $imageName);
                     $images[] = [
@@ -254,6 +257,10 @@ class UserController extends PrimaryController
         if($image){
             try {
                 $image->delete();
+                if(File::exists(public_path('assets/img/' . $image->path)))
+                {
+                    File::delete(public_path('assets/img/' . $image->path));
+                }
                 return response()->json(['message' => 'Image deleted'], 202);
             } catch (\Exception $e) {
                 Log::error($e->getMessage() . "Stack Trace: " . $e->getTraceAsString());
@@ -270,14 +277,12 @@ class UserController extends PrimaryController
             if($primaryImage == $path){
                 $findNewPrimaryImage = Images::where('car_id',$id)->first();
 
-
                 $car = Car::find($id);
                 $car->primary_image = $findNewPrimaryImage->path;
                 $car->save();
 
                 $findNewPrimaryImage->delete();
                 return response()->json(['message' => 'Image deleted'], 202);
-
 
             }
             return response()->json(['message' => 'Server error'], 500);
