@@ -62,7 +62,7 @@
                 @endif
             </div>
             <div class="col-xl-4 col-lg-4 col-md-8 col-sm-6 text-center d-flex flex-column">
-                <a href="#" class="h1" style="font-size: 2rem">DOCUMENTATION</a>
+                <a target="_blank" href="{{asset('DOKUMENTACIJA.pdf')}}" class="h1" style="font-size: 2rem">DOCUMENTATION</a>
             </div>
         </div>
 
