@@ -18,7 +18,7 @@ class HomeController extends PrimaryController
 {
     public function index(Request $request)
     {
-        $perPage = 2;
+        $perPage = 3;
         $brands = Brand::all()->sortBy('name');
         $bodies = Body::all();
 

@@ -8,7 +8,7 @@
         {{--CARCARD PARTIALS FOLDER --}}
 
         @foreach($cars as $car)
-            @component('admin.partials.carCard', ['car' => $car])@endcomponent
+            @component('admin.partials.carCard', ['car' => $car, 'showActions' => true])@endcomponent
         @endforeach
 
 

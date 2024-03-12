@@ -12,7 +12,7 @@ class DropDown extends Component
      * Create a new component instance.
      */
     public $options, $name,$id ,$error,$text, $value, $selected,$disabled, $firstOptionValue,$firstOptionText ,$addOtherOption, $selectClass, $parentClass, $label;
-    public function __construct($options, $name,$id = null, $error = null,$text = 'name', $value = 'id', $selected = false, $disabled = false, $firstOptionValue = 0 ,$firstOptionText = null,  $addOtherOption = false, $selectClass = 'selectpicker search-fields', $parentClass = 'form-group', $label = null)
+    public function __construct($options, $name,$id = null, $error = null,$text = 'name', $value = 'id', $selected = false, $disabled = false, $firstOptionValue = 0 ,$firstOptionText = null,  $addOtherOption = false, $selectClass = 'selectpicker search-fields text-dark', $parentClass = 'form-group', $label = null)
     {
         $this->options = $options;
         $this->name = $name;

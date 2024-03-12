@@ -263,7 +263,7 @@
                 @endif
             </div>
             <div class="row">
-                <div class="col-4 w-25" id="imgBlock-{{$car->id}}">
+                <div class="col-4 w-25 my-5" id="imgBlock-{{$car->id}}">
                     <img src="{{asset('assets/img/'.$car->primary_image)}}" alt="{{$car->name}}" class="w-100"/>
                     <a href="#" class="btn btn-danger mt-2 removeImage" data-path="{{$car->primary_image}}" id="{{$car->id}}">Remove</a>
                 </div>

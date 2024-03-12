@@ -18,9 +18,7 @@
                 <div class="col-lg-6 bg-color-15 pad-0 none-992 bg-img">
                     <div class="info clearfix">
                         <h1>Welcome to <a href="{{route('home')}}">Car Shop</a></h1>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type</p>
+                        <p>Where every journey begins with a smile! Step into our world of automotive excellence, where we strive to match your dreams with the perfect vehicle. Whether you're seeking sleek sophistication, rugged reliability, or something in between, we're here to guide you every step of the way. From browsing to test driving, financing to driving off the lot, your satisfaction is our top priority. Let's embark on this exciting adventure together!</p>
                     </div>
                 </div>
 

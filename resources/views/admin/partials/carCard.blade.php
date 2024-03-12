@@ -11,12 +11,15 @@
 
         </div>
         <div class="d-flex justify-content-around pb-4 mt-4">
-            <a href="{{route('admin.car.show',[$car->id])}}" class="btn btn-primary">View</a>
-            @if($car->is_published)
-                <p class="btn btn-success m-0">Published</p>
-            @else
-                <a href="#" class="btn btn-warning approveCar" id="{{$car->id}}">Approval</a>
+            @if($showActions)
+                <a href="{{route('admin.car.show',[$car->id])}}" class="btn btn-primary">View</a>
+                @if($car->is_published)
+                    <p class="btn btn-success m-0">Published</p>
+                @else
+                    <a href="#" class="btn btn-warning approveCar" id="{{$car->id}}">Approval</a>
+                @endif
             @endif
+
         </div>
     </div>
 </div>

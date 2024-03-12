@@ -36,24 +36,24 @@ class UserController extends PrimaryController
         return view('pages.user.user-index', ['user' => $user]);
     }
 
-    public function updateUser(UserRequest $request)
+    public function updateUser(Request $request)
     {
         $data = $request->all();
         try {
             $oldPassword = $data['oldPassword'];
             $newPassword = $data['newPassword'];
+            $user = User::find(auth()->user()->id);
             if($oldPassword && $newPassword){
                 if (!Hash::check($oldPassword, auth()->user()->password)) {
                     return redirect()->back()->with('passwordError', 'Old password is incorrect');
                 }
+                $user->password = Hash::make($newPassword);
             }
 
-            $user = User::find(auth()->user()->id);
             $user->name = $data['name'];
             $user->last_name = $data['lastName'];
             $user->email = $data['email'];
             $user->phone = $data['phone'];
-            $user->password = Hash::make($newPassword);
             $user->address = $data['address'];
             $user->city = $data['city'];
 

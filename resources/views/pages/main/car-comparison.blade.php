@@ -133,7 +133,7 @@ $attributesValues = ['name','engine_value','name'];
 
                                 <div class="card-header">
                                     <a class="card-title collapsed" data-toggle="collapse" data-parent="#faq" href="#collapse3">
-                                        Extra feature
+                                        Equipments
                                     </a>
                                 </div>
                                 <div id="collapse3" class="card-block collapse">

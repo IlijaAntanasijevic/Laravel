@@ -264,7 +264,7 @@
                                 <i class="fa fa-mobile"></i>
                                 <div class="media-body  align-self-center">
                                     <h5 class="mt-0">Contact Seller</h5>
-                                    <h4><a href="{{$car->user['phone']}}">{{$car->user['phone']}}</a></h4>
+                                    <h4 class="text-light">{{$car->user['phone']}}</h4>
                                 </div>
                             </div>
                         </div>
@@ -339,11 +339,17 @@
                             toastr.success(message)
                         },
                         error: function (xhr){
-                            console.log()
-                            if(xhr.status === 401){
+                            if (xhr.status === 401) {
                                 toastr.error('You must be logged in to add to wishlist');
                             }
-                            toastr.error(xhr.responseJSON.message);
+                            else if(xhr.status === 400){
+                                toastr.error("You can't add your own car to wishlist.");
+                            }
+                            else {
+                                toastr.error(xhr.responseJSON.message);
+
+                            }
+                            //toastr.error(xhr.responseJSON.message);
                         }
 
                     })

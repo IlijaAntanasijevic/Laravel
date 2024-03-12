@@ -60,7 +60,7 @@ class AuthController extends PrimaryController
             return redirect()->back()->with("error", "Server error. Please try again later.");
         }
     }
-    public function login(LoginRequest $request)
+    public function login(Request $request)
     {
         $email = $request->email;
         $password = $request->password;

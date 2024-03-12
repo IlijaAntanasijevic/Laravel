@@ -43,14 +43,7 @@
 
 @section('custom_scripts')
     <script type="text/javascript">
-        window.navigation.addEventListener("navigate", (event) => {
-            $('#brandHome').val(0);
-            $('#modelHome').val(0);
-            $('#bodyHome').val(0);
-            $('#maxPriceHome').val('');
-            $('#yearFromHome').val(0);
-            $('#yearToHome').val(0);
-        })
+
         $(document).ready(function () {
             $('.page_loader').remove();
 

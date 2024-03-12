@@ -48,7 +48,7 @@ class AdminController extends Controller
     }
     public function cars()
     {
-        $cars = Car::where('is_sold',0)->orderByDesc()->paginate(9);
+        $cars = Car::where('is_sold',0)->orderByDesc('created_at')->paginate(9);
         return view('admin.pages.cars',['cars'=>$cars]);
     }
     public function showCar($id)
