@@ -1,5 +1,7 @@
 # CONFIGURATION
 --------------
+# 1. CLONE REPO
+--------------
 # 1. FIND DATABASE IN ROOT DIR
 --------------
 # 2. IMPORT DATABASE IN MySQL 
