@@ -24,7 +24,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     <!-- Favicon icon -->
-    <link rel="shortcut icon" href="{{asset('assets/img/favicon.ico')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{asset('assets/favicon.ico')}}" type="image/x-icon">
 
     <!-- Google fonts -->
     <link rel="stylesheet" type="text/css"

@@ -67,9 +67,9 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-6 col-lg-3 col-md-3 text-center mt-2">
-                            <a class="text-warning h5" href="{{route('search.index')}}" id="searchMore">Search more...</a>
-                        </div>
+{{--                        <div class="col-6 col-lg-3 col-md-3 text-center mt-2">--}}
+{{--                            <a class="text-warning h5" href="{{route('search.index')}}" id="searchMore">Search more...</a>--}}
+{{--                        </div>--}}
                     </div>
                 </form>
             </div>

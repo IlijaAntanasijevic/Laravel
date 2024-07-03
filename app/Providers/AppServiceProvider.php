@@ -8,6 +8,7 @@ use App\Models\Menu;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,6 +29,8 @@ class AppServiceProvider extends ServiceProvider
         $menu = Menu::all();
         Paginator::useBootstrap();
         View::share("menu",$menu);
-
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
     }
 }

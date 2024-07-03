@@ -37,7 +37,7 @@
                                 id="email"
                                 parent-class="form-group clearfix"
                                 field-class="form-control"
-                                value="ilija0125@gmail.com"
+                                value=""
                                 :error="$emailError"/>
 
                             <x-text-field

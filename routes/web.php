@@ -22,37 +22,6 @@ use App\Http\Controllers\CarPropertiesController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-// TODO:
-// ?* Cars page -> Done
-// ?* Insert Car / Sell Car -> Done
-// ?* Fix Register - Login -> Done, probably
-// ?* View More - Home page -> Done
-// ?* Pagination - Car page -> Done
-// ?* Footer -> Done
-// ?* Search more page -> Done
-// ?* Filter, Sort -> Done
-// ?* Search more -> Done
-// ?* Contact custom components -> Done
-// ?* User Profile / Edit Profile, Edit Car -> Done
-// ?* Make partials folder -> Done
-// ?* Create a middleware that checks if the user is an admin -> Done
-// ?* Admin - Delete car -> Done
-// ?* Admin - Delete: model,brand,color,... -> Done
-// ?* Admin panel -> Done
-// ?* Change user password -> Done
-// ?* Add delete car -> Done
-// ?* Fix wishlist remove sold car -> Done
-// ?* Fix Admin panel - models,brands,colors,...
-// ?* Fix search !!!
-// ?* Contact - mail
-// ?* Validation contact
-// ?* Fix selected items in search !!!! -> view more
-// ? Fix edit car, check model (doors/seats,...)
-// ?* Pagination admin - cars
-// ?* Admin sold cars
-
-
-
 
 Route::get("/",[HomeController::class,'index'])->name('home');
 Route::get("/home",[HomeController::class,'index'])->name('home');
