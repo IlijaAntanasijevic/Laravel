@@ -1,6 +1,6 @@
 # CAR SHOP
 
-Online vehicle sales application using Laravel. Anyone registered may post a vehicle up to a particular level of detail. Ads must be allowed by the admin before they become active. Authorized users can mark their cars as sold, add cars to their wish lists, and set, modify, and remove cars. Administrators get access to a list of every car, including the ones that have been sold and other details about cars.
+Online vehicle sales application using Laravel. Anyone registered may post a vehicle up to a particular level of detail. Ads must be allowed by the admin before they become active. Authorized users can mark their cars as sold, add cars to their wish lists, and set, modify, and remove cars. Administrators get access to a list of every car, including the ones that have been sold and other details about cars
 
 At this link: 
 https://github.com/IlijaAntanasijevic/Laravel/blob/master/public/DOKUMENTACIJA.pdf, 
